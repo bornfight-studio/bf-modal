@@ -9,9 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WPBFApiHelper {
 	//ROUTE EXAMPLE
-//	const LOAD_ARTICLE = 'load-article';
+	const POPULATE_MODAL = 'populate-modal';
 
-	const BASE_PATH = 'api/v1/';
+	const BASE_PATH = 'api/v1';
 
 	const BASE_API_URL = '%s/wp-json/%s%s/';
 
@@ -20,8 +20,7 @@ class WPBFApiHelper {
 	 *
 	 * @return string
 	 */
-	public static function toRoute(string $routeKey): string
-	{
-		return sprintf(self::BASE_API_URL, get_site_url(), self::BASE_PATH, $routeKey);
+	public static function toRoute( string $routeKey ): string {
+		return sprintf( self::BASE_API_URL, get_site_url(), self::BASE_PATH, $routeKey );
 	}
 }

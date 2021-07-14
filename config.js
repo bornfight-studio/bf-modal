@@ -4,14 +4,14 @@ export const gulpConfig = {
     host: "localhost",
     paths: {
         styles: {
-            main: "static/admin/scss/style.scss",
-            src: "static/admin/scss/**/*.scss",
-            dest: "static/admin/dist/",
+            main: "static/public/scss/style.scss",
+            src: "static/public/scss/**/*.scss",
+            dest: "static/public/dist/",
         },
         scripts: {
-            main: "static/admin/js/index.js",
-            src: "static/admin/js/**/*.js",
-            dest: "static/admin/dist/",
+            main: "static/public/js/index.js",
+            src: "static/public/js/**/*.js",
+            dest: "static/public/dist/",
         },
         markup: {
             src: "**/*.{html,php}",
@@ -20,7 +20,7 @@ export const gulpConfig = {
             node_modules: ["./node_modules"],
         },
         cleanPatterns: {
-            patterns: ["static/admin/dist"]
+            patterns: ["static/public/dist"]
         }
     }
 }

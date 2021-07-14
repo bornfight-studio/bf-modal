@@ -21,8 +21,12 @@
  */
 
 use Symfony\Component\Dotenv\Dotenv;
+use wpModalPlugin\api\WPBFApiHelper;
 use wpModalPlugin\api\WPBFRestApiCustomRoutes;
 use wpModalPlugin\core\WPBFDashboardSetup;
+use wpModalPlugin\core\WPBFFrontend;
+use wpModalPlugin\core\WPBFRewriteRules;
+use wpModalPlugin\helpers\WPBFPluginPartialHelper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -52,6 +56,7 @@ if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/app/global-helper-functions.php';
 
 // Load environment variables
 if ( file_exists( plugin_dir_path( __FILE__ ) . '.env' ) ) {
@@ -69,6 +74,12 @@ add_action( 'admin_enqueue_scripts', function () {
 add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( $_ENV['PLUGIN_PREFIX'] . 'public-css', plugin_dir_url( __FILE__ ) . 'static/public/dist/style.css' );
 	wp_enqueue_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', plugin_dir_url( __FILE__ ) . 'static/public/dist/bundle.js', null, '1.0.0', true );
+
+	wp_localize_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', 'wpbf_frontend_ajax_object', array(
+		'ajax_url'       => get_home_url() . '/wp-json/api/v1',
+		'populate_modal' => WPBFApiHelper::POPULATE_MODAL,
+		'ajax_nonce'     => wp_create_nonce( 'wp_rest' )
+	) );
 } );
 
 $wpbf_dashboard_setup = new WPBFDashboardSetup();
@@ -76,3 +87,9 @@ $wpbf_dashboard_setup->init();
 
 $wpbf_rest_api_custom_routes = new WPBFRestApiCustomRoutes();
 $wpbf_rest_api_custom_routes->register();
+
+$wpbf_frontend = new WPBFFrontend();
+$wpbf_frontend->init();
+
+$wpbf_rewrite_rules = new WPBFRewriteRules();
+$wpbf_rewrite_rules->register();

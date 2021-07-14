@@ -1,4 +1,4 @@
-import Dummy from "./components/Dummy";
+import ModalController from "./components/ModalController";
 
 const ready = (callbackFunc) => {
     if (document.readyState !== "loading") {
@@ -28,7 +28,7 @@ const ready = (callbackFunc) => {
  */
 
 ready(() => {
-    const dummy = new Dummy()
+    const modalController = new ModalController();
 
-    dummy.init();
+    modalController.init();
 });

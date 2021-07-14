@@ -3,8 +3,6 @@
 
 namespace wpModalPlugin\core;
 
-use wpModalPlugin\helpers\WPBFPluginPartialHelper;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -43,6 +41,6 @@ class WPBFDashboardSetup {
 			exit;
 		}
 
-		WPBFPluginPartialHelper::get_partial( 'admin/main', array() );
+		get_wpbf_partial( 'admin/main', array() );
 	}
 }
