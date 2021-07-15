@@ -34,8 +34,19 @@ class WPBFPopulateModalFilter extends WPBFBaseFilter {
 	}
 
 	public function get_modal( int $page_id ): string {
-		return get_wpbf_partial( 'layout/modal-inner', array(
+		ob_start();
+		ob_implicit_flush( 0 );
+
+		$located = locate_template( 'templates/wp-modal-plugin/layout/modal-inner.php', true, false, array(
 			'page_id' => $page_id,
-		), true );
+		) );
+
+		if ( empty( $located ) ) {
+			get_wpbf_template('layout/modal-inner', array(
+				'page_id' => $page_id,
+			));
+		}
+
+		return ob_get_clean();
 	}
 }

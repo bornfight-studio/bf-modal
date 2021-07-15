@@ -26,7 +26,6 @@ use wpModalPlugin\api\WPBFRestApiCustomRoutes;
 use wpModalPlugin\core\WPBFDashboardSetup;
 use wpModalPlugin\core\WPBFFrontend;
 use wpModalPlugin\core\WPBFRewriteRules;
-use wpModalPlugin\helpers\WPBFPluginPartialHelper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

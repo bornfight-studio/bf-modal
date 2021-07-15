@@ -27,7 +27,7 @@ class WPBFDashboardSetup {
 	 *
 	 */
 	public function register_options_page(): void {
-		add_menu_page( 'WP Modal Plugin Options', 'WP Modal Plugin Options', $this->capability, 'wp-modal-plugin-options', array(
+		add_menu_page( 'WP Modal Plugin Options', 'WP Modal Plugin Options', $this->capability, WPBFMP_PLUGIN_SLUG, array(
 			$this,
 			'get_options_menu_page_html'
 		) );
@@ -41,6 +41,10 @@ class WPBFDashboardSetup {
 			exit;
 		}
 
-		get_wpbf_partial( 'admin/main', array() );
+//		var_dump(WPBFMP_LOCAL_PLUGIN_PATH);
+
+		load_template(WPBFMP_LOCAL_PLUGIN_PATH . 'templates/admin/main.php');
+
+//		get_wpbf_partial( 'admin/main', array() );
 	}
 }

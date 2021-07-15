@@ -1,11 +1,9 @@
 <?php
 
-use wpModalPlugin\helpers\WPBFPluginPartialHelperBase;
-
-function get_wpbf_partial( $partial, $data = null, $return = false, $folder = WPBFPluginPartialHelperBase::PARTIAL_FOLDER ) {
-	return WPBFPluginPartialHelperBase::get_instance()->get_partial( $partial, $data, $return, $folder );
+function get_wpbf_icon( $name ) {
+	load_template( WPBFMP_LOCAL_PLUGIN_PATH . '/static/icons/icon-' . $name . '.php' );
 }
 
-function get_wpbf_icon( $name ) {
-	return get_wpbf_partial( 'icons/icon-' . $name, [], true, 'static' );
+function get_wpbf_template( string $template_name, array $data = array(), bool $require_once = false ) {
+	load_template( WPBFMP_LOCAL_PLUGIN_PATH . '/templates/' . $template_name . '.php', $require_once, $data );
 }

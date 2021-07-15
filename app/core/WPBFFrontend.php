@@ -13,6 +13,7 @@ class WPBFFrontend {
 	}
 
 	public function add_popup_to_footer(): void {
-		get_wpbf_partial( 'layout/modal', array() );
+		load_template(WPBFMP_LOCAL_PLUGIN_PATH . '/templates/layout/modal.php');
+//		get_wpbf_partial( 'layout/modal', array() );
 	}
 }
