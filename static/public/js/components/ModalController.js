@@ -7,8 +7,6 @@ export default class ModalController {
         this.DOM = {
             modal: ".js-modal",
             modalTrigger: ".js-modal-trigger",
-            ajaxModalTrigger: ".js-ajax-modal-trigger",
-            ajaxModalClose: ".js-ajax-modal-close",
             modalClose: ".js-modal-close",
 
             states: {
@@ -86,12 +84,10 @@ export default class ModalController {
         if (this.modalClose !== null) {
             this.modalClose.addEventListener("click", () => {
 
-                if (this.modalClose.classList.contains('js-ajax-modal-close')) {
-                    let url = this.modalClose.dataset.returnUrl;
+                let url = this.modalClose.dataset.returnUrl;
 
-                    if (url) {
-                        history.pushState(null, document.title, url);
-                    }
+                if (url) {
+                    history.pushState(null, document.title, url);
                 }
 
                 this.closeModal();

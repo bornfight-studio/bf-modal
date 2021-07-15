@@ -1,6 +1,8 @@
 <?php
 
 use wpModalPlugin\controller\ModalFormController;
+use wpModalPlugin\core\WPBFConstants;
+use wpModalPlugin\helpers\WPBFModalFormHelper;
 use wpModalPlugin\providers\WPBFPostDataProvider;
 
 $wpbf_post_data_provider = new WPBFPostDataProvider();
@@ -10,12 +12,8 @@ $pages                   = $wpbf_post_data_provider->get_all_option_pages();
 $modal_form_controller = new ModalFormController();
 $modal_form_controller->save_modal_form_options( $_POST );
 
-$chosen_post_type    = get_option( 'wpbfml_post_type' );
-$chosen_archive_page = get_option( 'wpbfml_archive_page' );
-
-var_dump( $chosen_post_type );
-var_dump( $chosen_archive_page );
-
+$chosen_post_type    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
+$chosen_archive_page = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
 ?>
 <form action="" method="post">
     <div class="wrap">
@@ -36,7 +34,7 @@ var_dump( $chosen_archive_page );
                         <option value="none">Choose</option>
 						<?php if ( ! empty( $post_types ) ) {
 							foreach ( $post_types as $post_type ) { ?>
-                                <option value="<?= $post_type ?>"><?= $post_type; ?></option>
+                                <option value="<?= $post_type ?>" <?= WPBFModalFormHelper::get_selected( $chosen_post_type, $post_type ); ?>><?= $post_type; ?></option>
 							<?php }
 						} ?>
                     </select>
@@ -54,7 +52,7 @@ var_dump( $chosen_archive_page );
                         <option value="none">Choose</option>
 						<?php if ( ! empty( $pages ) ) {
 							foreach ( $pages as $page ) { ?>
-                                <option value="<?= $page->ID; ?>"><?= $page->post_title; ?></option>
+                                <option value="<?= $page->ID; ?>" <?= WPBFModalFormHelper::get_selected( $chosen_archive_page, $page->ID ); ?>><?= $page->post_title; ?></option>
 							<?php }
 						} ?>
                     </select>

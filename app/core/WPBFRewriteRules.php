@@ -20,14 +20,14 @@ class WPBFRewriteRules {
 	}
 
 	public function add_custom_rewrite(): void {
-		$post_type = get_option('wpbfml_post_type');
-		$archive_page = get_option('wpbfml_archive_page');
-		$rewrite_slug = get_option('wpbfml_post_type_rewrite_slug');
+		$post_type    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
+		$archive_page = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
+		$rewrite_slug = get_option( WPBFConstants::WPBFML_POST_TYPE_REWRITE_SLUG_OPTION );
 
-		if(!empty($archive_page) && 'archive' === $archive_page) {
-			$query = 'index.php?post_type='. $post_type .'&post-slug=$matches[1]';
+		if ( ! empty( $archive_page ) && 'archive' === $archive_page ) {
+			$query = 'index.php?post_type=' . $post_type . '&post-slug=$matches[1]';
 		} else {
-			$query = 'index.php?page_id='. $archive_page .'&post-slug=$matches[1]';
+			$query = 'index.php?page_id=' . $archive_page . '&post-slug=$matches[1]';
 		}
 
 		$regex = $rewrite_slug . '/(.+)/?$';

@@ -38,13 +38,13 @@ class WPBFPopulateModalFilter extends WPBFBaseFilter {
 		ob_implicit_flush( 0 );
 
 		$located = locate_template( 'templates/wp-modal-plugin/layout/modal-inner.php', true, false, array(
-			'page_id' => $page_id,
+			'post_data_id' => $page_id,
 		) );
 
 		if ( empty( $located ) ) {
-			get_wpbf_template('layout/modal-inner', array(
-				'page_id' => $page_id,
-			));
+			get_wpbf_template( 'layout/modal-inner', array(
+				'post_data_id' => $page_id,
+			) );
 		}
 
 		return ob_get_clean();
