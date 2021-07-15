@@ -7,6 +7,7 @@ export default class ModalController {
         this.DOM = {
             modal: ".js-modal",
             modalTrigger: ".js-modal-trigger",
+            postTypeModalTrigger: ".js-post-type-trigger",
             modalClose: ".js-modal-close",
 
             states: {
@@ -38,7 +39,10 @@ export default class ModalController {
         if (typeof window.openPopupID !== "undefined" && window.openPopupID !== 0) {
             if (!this.modal.classList.contains('is-active')) {
                 let populateModalFilter = new PopulateModalFilter();
-                populateModalFilter.populateModal(window.openPopupID);
+                populateModalFilter.populateModal({
+                    postDataId: window.openPopupID,
+                    returnUrl: '',
+                });
             }
         }
     }
@@ -60,12 +64,20 @@ export default class ModalController {
 
                     this.baseFilter.disableFilter();
 
-                    if (ev.currentTarget.classList.contains('js-ajax-modal-trigger')) {
-                        let popupModalFilter = new PopulateModalFilter();
-                        popupModalFilter.populateModal(ev.currentTarget);
-                    } else {
-                        this.openModal();
-                    }
+                    console.log(ev.currentTarget.dataset.postDataId);
+                    let popupModalFilter = new PopulateModalFilter();
+                    popupModalFilter.populateModal({
+                        postDataId: ev.currentTarget.dataset.postDataId,
+                        returnUrl: ev.currentTarget.dataset.returnUrl,
+                    });
+
+                    // if (ev.currentTarget.classList.contains('js-post-type-trigger')) {
+                    //     console.log(ev.currentTarget.href);
+                    //     let popupModalFilter = new PopulateModalFilter();
+                    //     popupModalFilter.populateModal(ev.currentTarget);
+                    // } else {
+                    //     this.openModal();
+                    // }
                 });
             });
         }
