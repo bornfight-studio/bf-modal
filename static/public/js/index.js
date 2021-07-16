@@ -21,6 +21,18 @@ const ready = (callbackFunc) => {
             }
         });
     }
+
+    window.addEventListener("popstate", (ev) => {
+        let currentState = history.state;
+
+        if (currentState) {
+            if (currentState.url) {
+                // console.log(currentState.url);
+
+                location.reload();
+            }
+        }
+    });
 };
 
 /**

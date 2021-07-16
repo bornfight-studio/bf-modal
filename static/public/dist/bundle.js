@@ -1,1 +1,2097 @@
-!function n(o,i,s){function a(t,e){if(!i[t]){if(!o[t]){var r="function"==typeof require&&require;if(!e&&r)return r(t,!0);if(u)return u(t,!0);throw(r=new Error("Cannot find module '"+t+"'")).code="MODULE_NOT_FOUND",r}r=i[t]={exports:{}},o[t][0].call(r.exports,function(e){return a(o[t][1][e]||e)},r,r.exports,n,o,i,s)}return i[t].exports}for(var u="function"==typeof require&&require,e=0;e<s.length;e++)a(s[e]);return a}({1:[function(e,t,r){"use strict";t.exports=e("./lib/axios")},{"./lib/axios":3}],2:[function(u,e,t){"use strict";var c=u("./../utils"),l=u("./../core/settle"),f=u("./../helpers/buildURL"),d=u("../core/buildFullPath"),p=u("./../helpers/parseHeaders"),h=u("./../helpers/isURLSameOrigin"),m=u("../core/createError");e.exports=function(a){return new Promise(function(t,r){var n=a.data,o=a.headers;c.isFormData(n)&&delete o["Content-Type"];var i=new XMLHttpRequest;a.auth&&(s=a.auth.username||"",e=a.auth.password||"",o.Authorization="Basic "+btoa(s+":"+e));var e,s=d(a.baseURL,a.url);if(i.open(a.method.toUpperCase(),f(s,a.params,a.paramsSerializer),!0),i.timeout=a.timeout,i.onreadystatechange=function(){var e;i&&4===i.readyState&&(0!==i.status||i.responseURL&&0===i.responseURL.indexOf("file:"))&&(e="getAllResponseHeaders"in i?p(i.getAllResponseHeaders()):null,e={data:a.responseType&&"text"!==a.responseType?i.response:i.responseText,status:i.status,statusText:i.statusText,headers:e,config:a,request:i},l(t,r,e),i=null)},i.onabort=function(){i&&(r(m("Request aborted",a,"ECONNABORTED",i)),i=null)},i.onerror=function(){r(m("Network Error",a,null,i)),i=null},i.ontimeout=function(){var e="timeout of "+a.timeout+"ms exceeded";a.timeoutErrorMessage&&(e=a.timeoutErrorMessage),r(m(e,a,"ECONNABORTED",i)),i=null},c.isStandardBrowserEnv()&&(e=u("./../helpers/cookies"),(e=(a.withCredentials||h(s))&&a.xsrfCookieName?e.read(a.xsrfCookieName):void 0)&&(o[a.xsrfHeaderName]=e)),"setRequestHeader"in i&&c.forEach(o,function(e,t){void 0===n&&"content-type"===t.toLowerCase()?delete o[t]:i.setRequestHeader(t,e)}),c.isUndefined(a.withCredentials)||(i.withCredentials=!!a.withCredentials),a.responseType)try{i.responseType=a.responseType}catch(e){if("json"!==a.responseType)throw e}"function"==typeof a.onDownloadProgress&&i.addEventListener("progress",a.onDownloadProgress),"function"==typeof a.onUploadProgress&&i.upload&&i.upload.addEventListener("progress",a.onUploadProgress),a.cancelToken&&a.cancelToken.promise.then(function(e){i&&(i.abort(),r(e),i=null)}),void 0===n&&(n=null),i.send(n)})}},{"../core/buildFullPath":9,"../core/createError":10,"./../core/settle":14,"./../helpers/buildURL":18,"./../helpers/cookies":20,"./../helpers/isURLSameOrigin":22,"./../helpers/parseHeaders":24,"./../utils":26}],3:[function(e,t,r){"use strict";var n=e("./utils"),o=e("./helpers/bind"),i=e("./core/Axios"),s=e("./core/mergeConfig");function a(e){var t=new i(e),e=o(i.prototype.request,t);return n.extend(e,i.prototype,t),n.extend(e,t),e}var u=a(e("./defaults"));u.Axios=i,u.create=function(e){return a(s(u.defaults,e))},u.Cancel=e("./cancel/Cancel"),u.CancelToken=e("./cancel/CancelToken"),u.isCancel=e("./cancel/isCancel"),u.all=function(e){return Promise.all(e)},u.spread=e("./helpers/spread"),t.exports=u,t.exports.default=u},{"./cancel/Cancel":4,"./cancel/CancelToken":5,"./cancel/isCancel":6,"./core/Axios":7,"./core/mergeConfig":13,"./defaults":16,"./helpers/bind":17,"./helpers/spread":25,"./utils":26}],4:[function(e,t,r){"use strict";function n(e){this.message=e}n.prototype.toString=function(){return"Cancel"+(this.message?": "+this.message:"")},n.prototype.__CANCEL__=!0,t.exports=n},{}],5:[function(e,t,r){"use strict";var n=e("./Cancel");function o(e){if("function"!=typeof e)throw new TypeError("executor must be a function.");var t;this.promise=new Promise(function(e){t=e});var r=this;e(function(e){r.reason||(r.reason=new n(e),t(r.reason))})}o.prototype.throwIfRequested=function(){if(this.reason)throw this.reason},o.source=function(){var t;return{token:new o(function(e){t=e}),cancel:t}},t.exports=o},{"./Cancel":4}],6:[function(e,t,r){"use strict";t.exports=function(e){return!(!e||!e.__CANCEL__)}},{}],7:[function(e,t,r){"use strict";var o=e("./../utils"),n=e("../helpers/buildURL"),i=e("./InterceptorManager"),s=e("./dispatchRequest"),a=e("./mergeConfig");function u(e){this.defaults=e,this.interceptors={request:new i,response:new i}}u.prototype.request=function(e){"string"==typeof e?(e=arguments[1]||{}).url=arguments[0]:e=e||{},(e=a(this.defaults,e)).method?e.method=e.method.toLowerCase():this.defaults.method?e.method=this.defaults.method.toLowerCase():e.method="get";var t=[s,void 0],r=Promise.resolve(e);for(this.interceptors.request.forEach(function(e){t.unshift(e.fulfilled,e.rejected)}),this.interceptors.response.forEach(function(e){t.push(e.fulfilled,e.rejected)});t.length;)r=r.then(t.shift(),t.shift());return r},u.prototype.getUri=function(e){return e=a(this.defaults,e),n(e.url,e.params,e.paramsSerializer).replace(/^\?/,"")},o.forEach(["delete","get","head","options"],function(r){u.prototype[r]=function(e,t){return this.request(o.merge(t||{},{method:r,url:e}))}}),o.forEach(["post","put","patch"],function(n){u.prototype[n]=function(e,t,r){return this.request(o.merge(r||{},{method:n,url:e,data:t}))}}),t.exports=u},{"../helpers/buildURL":18,"./../utils":26,"./InterceptorManager":8,"./dispatchRequest":11,"./mergeConfig":13}],8:[function(e,t,r){"use strict";var n=e("./../utils");function o(){this.handlers=[]}o.prototype.use=function(e,t){return this.handlers.push({fulfilled:e,rejected:t}),this.handlers.length-1},o.prototype.eject=function(e){this.handlers[e]&&(this.handlers[e]=null)},o.prototype.forEach=function(t){n.forEach(this.handlers,function(e){null!==e&&t(e)})},t.exports=o},{"./../utils":26}],9:[function(e,t,r){"use strict";var n=e("../helpers/isAbsoluteURL"),o=e("../helpers/combineURLs");t.exports=function(e,t){return e&&!n(t)?o(e,t):t}},{"../helpers/combineURLs":19,"../helpers/isAbsoluteURL":21}],10:[function(e,t,r){"use strict";var i=e("./enhanceError");t.exports=function(e,t,r,n,o){e=new Error(e);return i(e,t,r,n,o)}},{"./enhanceError":12}],11:[function(e,t,r){"use strict";var n=e("./../utils"),o=e("./transformData"),i=e("../cancel/isCancel"),s=e("../defaults");function a(e){e.cancelToken&&e.cancelToken.throwIfRequested()}t.exports=function(t){return a(t),t.headers=t.headers||{},t.data=o(t.data,t.headers,t.transformRequest),t.headers=n.merge(t.headers.common||{},t.headers[t.method]||{},t.headers),n.forEach(["delete","get","head","post","put","patch","common"],function(e){delete t.headers[e]}),(t.adapter||s.adapter)(t).then(function(e){return a(t),e.data=o(e.data,e.headers,t.transformResponse),e},function(e){return i(e)||(a(t),e&&e.response&&(e.response.data=o(e.response.data,e.response.headers,t.transformResponse))),Promise.reject(e)})}},{"../cancel/isCancel":6,"../defaults":16,"./../utils":26,"./transformData":15}],12:[function(e,t,r){"use strict";t.exports=function(e,t,r,n,o){return e.config=t,r&&(e.code=r),e.request=n,e.response=o,e.isAxiosError=!0,e.toJSON=function(){return{message:this.message,name:this.name,description:this.description,number:this.number,fileName:this.fileName,lineNumber:this.lineNumber,columnNumber:this.columnNumber,stack:this.stack,config:this.config,code:this.code}},e}},{}],13:[function(e,t,r){"use strict";var a=e("../utils");t.exports=function(t,r){r=r||{};var n={},e=["url","method","params","data"],o=["headers","auth","proxy"],i=["baseURL","url","transformRequest","transformResponse","paramsSerializer","timeout","withCredentials","adapter","responseType","xsrfCookieName","xsrfHeaderName","onUploadProgress","onDownloadProgress","maxContentLength","validateStatus","maxRedirects","httpAgent","httpsAgent","cancelToken","socketPath"];a.forEach(e,function(e){void 0!==r[e]&&(n[e]=r[e])}),a.forEach(o,function(e){a.isObject(r[e])?n[e]=a.deepMerge(t[e],r[e]):void 0!==r[e]?n[e]=r[e]:a.isObject(t[e])?n[e]=a.deepMerge(t[e]):void 0!==t[e]&&(n[e]=t[e])}),a.forEach(i,function(e){void 0!==r[e]?n[e]=r[e]:void 0!==t[e]&&(n[e]=t[e])});var s=e.concat(o).concat(i),i=Object.keys(r).filter(function(e){return-1===s.indexOf(e)});return a.forEach(i,function(e){void 0!==r[e]?n[e]=r[e]:void 0!==t[e]&&(n[e]=t[e])}),n}},{"../utils":26}],14:[function(e,t,r){"use strict";var o=e("./createError");t.exports=function(e,t,r){var n=r.config.validateStatus;!n||n(r.status)?e(r):t(o("Request failed with status code "+r.status,r.config,null,r.request,r))}},{"./createError":10}],15:[function(e,t,r){"use strict";var n=e("./../utils");t.exports=function(t,r,e){return n.forEach(e,function(e){t=e(t,r)}),t}},{"./../utils":26}],16:[function(a,u,e){!function(s){!function(){"use strict";var r=a("./utils"),n=a("./helpers/normalizeHeaderName"),t={"Content-Type":"application/x-www-form-urlencoded"};function o(e,t){!r.isUndefined(e)&&r.isUndefined(e["Content-Type"])&&(e["Content-Type"]=t)}var e,i={adapter:("undefined"!=typeof XMLHttpRequest?e=a("./adapters/xhr"):void 0!==s&&"[object process]"===Object.prototype.toString.call(s)&&(e=a("./adapters/http")),e),transformRequest:[function(e,t){return n(t,"Accept"),n(t,"Content-Type"),r.isFormData(e)||r.isArrayBuffer(e)||r.isBuffer(e)||r.isStream(e)||r.isFile(e)||r.isBlob(e)?e:r.isArrayBufferView(e)?e.buffer:r.isURLSearchParams(e)?(o(t,"application/x-www-form-urlencoded;charset=utf-8"),e.toString()):r.isObject(e)?(o(t,"application/json;charset=utf-8"),JSON.stringify(e)):e}],transformResponse:[function(e){if("string"==typeof e)try{e=JSON.parse(e)}catch(e){}return e}],timeout:0,xsrfCookieName:"XSRF-TOKEN",xsrfHeaderName:"X-XSRF-TOKEN",maxContentLength:-1,validateStatus:function(e){return 200<=e&&e<300},headers:{common:{Accept:"application/json, text/plain, */*"}}};r.forEach(["delete","get","head"],function(e){i.headers[e]={}}),r.forEach(["post","put","patch"],function(e){i.headers[e]=r.merge(t)}),u.exports=i}.call(this)}.call(this,a("_process"))},{"./adapters/http":2,"./adapters/xhr":2,"./helpers/normalizeHeaderName":23,"./utils":26,_process:27}],17:[function(e,t,r){"use strict";t.exports=function(r,n){return function(){for(var e=new Array(arguments.length),t=0;t<e.length;t++)e[t]=arguments[t];return r.apply(n,e)}}},{}],18:[function(e,t,r){"use strict";var o=e("./../utils");function i(e){return encodeURIComponent(e).replace(/%40/gi,"@").replace(/%3A/gi,":").replace(/%24/g,"$").replace(/%2C/gi,",").replace(/%20/g,"+").replace(/%5B/gi,"[").replace(/%5D/gi,"]")}t.exports=function(e,t,r){if(!t)return e;var n,r=r?r(t):o.isURLSearchParams(t)?t.toString():(n=[],o.forEach(t,function(e,t){null!=e&&(o.isArray(e)?t+="[]":e=[e],o.forEach(e,function(e){o.isDate(e)?e=e.toISOString():o.isObject(e)&&(e=JSON.stringify(e)),n.push(i(t)+"="+i(e))}))}),n.join("&"));return r&&(-1!==(t=e.indexOf("#"))&&(e=e.slice(0,t)),e+=(-1===e.indexOf("?")?"?":"&")+r),e}},{"./../utils":26}],19:[function(e,t,r){"use strict";t.exports=function(e,t){return t?e.replace(/\/+$/,"")+"/"+t.replace(/^\/+/,""):e}},{}],20:[function(e,t,r){"use strict";var a=e("./../utils");t.exports=a.isStandardBrowserEnv()?{write:function(e,t,r,n,o,i){var s=[];s.push(e+"="+encodeURIComponent(t)),a.isNumber(r)&&s.push("expires="+new Date(r).toGMTString()),a.isString(n)&&s.push("path="+n),a.isString(o)&&s.push("domain="+o),!0===i&&s.push("secure"),document.cookie=s.join("; ")},read:function(e){e=document.cookie.match(new RegExp("(^|;\\s*)("+e+")=([^;]*)"));return e?decodeURIComponent(e[3]):null},remove:function(e){this.write(e,"",Date.now()-864e5)}}:{write:function(){},read:function(){return null},remove:function(){}}},{"./../utils":26}],21:[function(e,t,r){"use strict";t.exports=function(e){return/^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(e)}},{}],22:[function(e,t,r){"use strict";var n,o,i,s=e("./../utils");function a(e){return o&&(i.setAttribute("href",e),e=i.href),i.setAttribute("href",e),{href:i.href,protocol:i.protocol?i.protocol.replace(/:$/,""):"",host:i.host,search:i.search?i.search.replace(/^\?/,""):"",hash:i.hash?i.hash.replace(/^#/,""):"",hostname:i.hostname,port:i.port,pathname:"/"===i.pathname.charAt(0)?i.pathname:"/"+i.pathname}}t.exports=s.isStandardBrowserEnv()?(o=/(msie|trident)/i.test(navigator.userAgent),i=document.createElement("a"),n=a(window.location.href),function(e){e=s.isString(e)?a(e):e;return e.protocol===n.protocol&&e.host===n.host}):function(){return!0}},{"./../utils":26}],23:[function(e,t,r){"use strict";var o=e("../utils");t.exports=function(r,n){o.forEach(r,function(e,t){t!==n&&t.toUpperCase()===n.toUpperCase()&&(r[n]=e,delete r[t])})}},{"../utils":26}],24:[function(e,t,r){"use strict";var o=e("./../utils"),i=["age","authorization","content-length","content-type","etag","expires","from","host","if-modified-since","if-unmodified-since","last-modified","location","max-forwards","proxy-authorization","referer","retry-after","user-agent"];t.exports=function(e){var t,r,n={};return e&&o.forEach(e.split("\n"),function(e){r=e.indexOf(":"),t=o.trim(e.substr(0,r)).toLowerCase(),r=o.trim(e.substr(r+1)),t&&(n[t]&&0<=i.indexOf(t)||(n[t]="set-cookie"===t?(n[t]||[]).concat([r]):n[t]?n[t]+", "+r:r))}),n}},{"./../utils":26}],25:[function(e,t,r){"use strict";t.exports=function(t){return function(e){return t.apply(null,e)}}},{}],26:[function(e,t,r){"use strict";function i(e){return(i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}var o=e("./helpers/bind"),n=Object.prototype.toString;function s(e){return"[object Array]"===n.call(e)}function a(e){return void 0===e}function u(e){return null!==e&&"object"===i(e)}function c(e){return"[object Function]"===n.call(e)}function l(e,t){if(null!=e)if(s(e="object"!==i(e)?[e]:e))for(var r=0,n=e.length;r<n;r++)t.call(null,e[r],r,e);else for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&t.call(null,e[o],o,e)}t.exports={isArray:s,isArrayBuffer:function(e){return"[object ArrayBuffer]"===n.call(e)},isBuffer:function(e){return null!==e&&!a(e)&&null!==e.constructor&&!a(e.constructor)&&"function"==typeof e.constructor.isBuffer&&e.constructor.isBuffer(e)},isFormData:function(e){return"undefined"!=typeof FormData&&e instanceof FormData},isArrayBufferView:function(e){return e="undefined"!=typeof ArrayBuffer&&ArrayBuffer.isView?ArrayBuffer.isView(e):e&&e.buffer&&e.buffer instanceof ArrayBuffer},isString:function(e){return"string"==typeof e},isNumber:function(e){return"number"==typeof e},isObject:u,isUndefined:a,isDate:function(e){return"[object Date]"===n.call(e)},isFile:function(e){return"[object File]"===n.call(e)},isBlob:function(e){return"[object Blob]"===n.call(e)},isFunction:c,isStream:function(e){return u(e)&&c(e.pipe)},isURLSearchParams:function(e){return"undefined"!=typeof URLSearchParams&&e instanceof URLSearchParams},isStandardBrowserEnv:function(){return("undefined"==typeof navigator||"ReactNative"!==navigator.product&&"NativeScript"!==navigator.product&&"NS"!==navigator.product)&&("undefined"!=typeof window&&"undefined"!=typeof document)},forEach:l,merge:function r(){var n={};function e(e,t){"object"===i(n[t])&&"object"===i(e)?n[t]=r(n[t],e):n[t]=e}for(var t=0,o=arguments.length;t<o;t++)l(arguments[t],e);return n},deepMerge:function r(){var n={};function e(e,t){"object"===i(n[t])&&"object"===i(e)?n[t]=r(n[t],e):"object"===i(e)?n[t]=r({},e):n[t]=e}for(var t=0,o=arguments.length;t<o;t++)l(arguments[t],e);return n},extend:function(r,e,n){return l(e,function(e,t){r[t]=n&&"function"==typeof e?o(e,n):e}),r},trim:function(e){return e.replace(/^\s*/,"").replace(/\s*$/,"")}}},{"./helpers/bind":17}],27:[function(e,t,r){"use strict";var n,o,t=t.exports={};function i(){throw new Error("setTimeout has not been defined")}function s(){throw new Error("clearTimeout has not been defined")}function a(t){if(n===setTimeout)return setTimeout(t,0);if((n===i||!n)&&setTimeout)return n=setTimeout,setTimeout(t,0);try{return n(t,0)}catch(e){try{return n.call(null,t,0)}catch(e){return n.call(this,t,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:i}catch(e){n=i}try{o="function"==typeof clearTimeout?clearTimeout:s}catch(e){o=s}}();var u,c=[],l=!1,f=-1;function d(){l&&u&&(l=!1,u.length?c=u.concat(c):f=-1,c.length&&p())}function p(){if(!l){var e=a(d);l=!0;for(var t=c.length;t;){for(u=c,c=[];++f<t;)u&&u[f].run();f=-1,t=c.length}u=null,l=!1,function(t){if(o===clearTimeout)return clearTimeout(t);if((o===s||!o)&&clearTimeout)return o=clearTimeout,clearTimeout(t);try{o(t)}catch(e){try{return o.call(null,t)}catch(e){return o.call(this,t)}}}(e)}}function h(e,t){this.fun=e,this.array=t}function m(){}t.nextTick=function(e){var t=new Array(arguments.length-1);if(1<arguments.length)for(var r=1;r<arguments.length;r++)t[r-1]=arguments[r];c.push(new h(e,t)),1!==c.length||l||a(p)},h.prototype.run=function(){this.fun.apply(null,this.array)},t.title="browser",t.browser=!0,t.env={},t.argv=[],t.version="",t.versions={},t.on=m,t.addListener=m,t.once=m,t.off=m,t.removeListener=m,t.removeAllListeners=m,t.emit=m,t.prependListener=m,t.prependOnceListener=m,t.listeners=function(e){return[]},t.binding=function(e){throw new Error("process.binding is not supported")},t.cwd=function(){return"/"},t.chdir=function(e){throw new Error("process.chdir is not supported")},t.umask=function(){return 0}},{}],28:[function(e,t,r){"use strict";Object.defineProperty(r,"__esModule",{value:!0}),r.default=void 0;var o=n(e("../filters/BaseFilter")),i=n(e("../filters/PopulateModalFilter"));function n(e){return e&&e.__esModule?e:{default:e}}function s(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}e=function(){function e(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),this.DOM={modal:".js-modal",modalTrigger:".js-modal-trigger",postTypeModalTrigger:".js-post-type-trigger",modalClose:".js-modal-close",states:{isActive:"is-active"}},this.modal=document.querySelector(this.DOM.modal),this.modalTriggers=document.querySelectorAll(this.DOM.modalTrigger),this.modalClose=document.querySelector(this.DOM.modalClose),this.baseFilter=new o.default}var t,r,n;return t=e,(r=[{key:"init",value:function(){null!==this.modal&&(!0!==(0<arguments.length&&void 0!==arguments[0]&&arguments[0])&&this.hiddenModalEvent(),this.setEventListeners())}},{key:"hiddenModalEvent",value:function(){void 0!==window.openPopupID&&0!==window.openPopupID&&(this.modal.classList.contains("is-active")||(new i.default).populateModal({postDataId:window.openPopupID,returnUrl:""}))}},{key:"setEventListeners",value:function(){var t=this;0<this.modalTriggers.length&&this.modalTriggers.forEach(function(e){e.addEventListener("click",function(e){e.preventDefault(),e.stopPropagation(),t.openModal(),t.baseFilter.isFilterInProgress()||(t.baseFilter.disableFilter(),e.currentTarget.dataset.postDataId,(new i.default).populateModal({postDataId:e.currentTarget.dataset.postDataId,returnUrl:e.currentTarget.dataset.returnUrl}))})})}},{key:"openModal",value:function(){this.modal.classList.add(this.DOM.states.isActive),this.setCloseEventListeners(),setTimeout(function(){},300),this.baseFilter.enableFilter()}},{key:"setCloseEventListeners",value:function(){var t=this;null!==this.modalClose&&this.modalClose.addEventListener("click",function(){var e=t.modalClose.dataset.returnUrl;e&&history.pushState(null,document.title,e),t.closeModal()}),window.addEventListener("keydown",function(e){"Escape"===e.key&&t.closeModal()})}},{key:"closeModal",value:function(){this.modal.classList.remove(this.DOM.states.isActive)}}])&&s(t.prototype,r),n&&s(t,n),e}();r.default=e},{"../filters/BaseFilter":29,"../filters/PopulateModalFilter":30}],29:[function(e,t,r){"use strict";function o(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}Object.defineProperty(r,"__esModule",{value:!0}),r.default=void 0,r.default=function(){function e(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),this.Base={body:"body"}}var t,r,n;return t=e,(r=[{key:"getBodyElement",value:function(){return document.querySelector(this.Base.body)}},{key:"disableFilter",value:function(){this.getBodyElement().classList.add("is-filter-disabled")}},{key:"enableFilter",value:function(){this.getBodyElement().classList.remove("is-filter-disabled")}},{key:"isFilterInProgress",value:function(){return this.getBodyElement().classList.contains("is-filter-disabled")}},{key:"updateUrls",value:function(e,t){history.pushState(e,document.title,t)}}])&&o(t.prototype,r),n&&o(t,n),e}()},{}],30:[function(e,t,r){"use strict";function o(e){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}Object.defineProperty(r,"__esModule",{value:!0}),r.default=void 0;var i=n(e("./BaseFilter")),s=n(e("axios")),a=n(e("../components/ModalController"));function n(e){return e&&e.__esModule?e:{default:e}}function u(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function c(e,t){return(c=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function l(r){var n=function(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){})),!0}catch(e){return!1}}();return function(){var e,t=f(r);return e=n?(e=f(this).constructor,Reflect.construct(t,arguments,e)):t.apply(this,arguments),t=this,!(e=e)||"object"!==o(e)&&"function"!=typeof e?function(e){if(void 0!==e)return e;throw new ReferenceError("this hasn't been initialised - super() hasn't been called")}(t):e}}function f(e){return(f=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}e=function(){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&c(e,t)}(o,i.default);var e,t,r,n=l(o);function o(){return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,o),n.apply(this,arguments)}return e=o,(t=[{key:"populateModal",value:function(e){var t=this,r=!(1<arguments.length&&void 0!==arguments[1])||arguments[1],n="?page_id="+e.postDataId;e.returnUrl&&(n+="&return_url="+encodeURIComponent(e.returnUrl)),s.default.get(wpbf_frontend_ajax_object.ajax_url+"/"+wpbf_frontend_ajax_object.populate_modal+n).then(function(e){t.afterPopulateModal(e.data,r)})}},{key:"afterPopulateModal",value:function(e,t){var r=document.querySelector(".js-modal");e.html&&r&&(r.innerHTML=e.html),e.url&&t&&this.updateUrls({url:e.url},e.url);e=new a.default;e.init(!0),e.openModal()}}])&&u(e.prototype,t),r&&u(e,r),o}();r.default=e},{"../components/ModalController":28,"./BaseFilter":29,axios:1}],31:[function(e,t,r){"use strict";var n,o=(n=e("./components/ModalController"))&&n.__esModule?n:{default:n};var i;i=function(){(new o.default).init()},"loading"!==document.readyState?i():document.addEventListener?document.addEventListener("DOMContentLoaded",i):document.attachEvent("onreadystatechange",function(){"complete"===document.readyState&&i()})},{"./components/ModalController":28}]},{},[31]);
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+"use strict";
+
+module.exports = require('./lib/axios');
+
+},{"./lib/axios":3}],2:[function(require,module,exports){
+'use strict';
+
+var utils = require('./../utils');
+
+var settle = require('./../core/settle');
+
+var buildURL = require('./../helpers/buildURL');
+
+var buildFullPath = require('../core/buildFullPath');
+
+var parseHeaders = require('./../helpers/parseHeaders');
+
+var isURLSameOrigin = require('./../helpers/isURLSameOrigin');
+
+var createError = require('../core/createError');
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest(); // HTTP basic authentication
+
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    var fullPath = buildFullPath(config.baseURL, config.url);
+    request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), true); // Set the request timeout in MS
+
+    request.timeout = config.timeout; // Listen for ready state
+
+    request.onreadystatechange = function handleLoad() {
+      if (!request || request.readyState !== 4) {
+        return;
+      } // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+
+
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      } // Prepare the response
+
+
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        status: request.status,
+        statusText: request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+      settle(resolve, reject, response); // Clean up request
+
+      request = null;
+    }; // Handle browser request cancellation (as opposed to a manual cancellation)
+
+
+    request.onabort = function handleAbort() {
+      if (!request) {
+        return;
+      }
+
+      reject(createError('Request aborted', config, 'ECONNABORTED', request)); // Clean up request
+
+      request = null;
+    }; // Handle low level network errors
+
+
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request)); // Clean up request
+
+      request = null;
+    }; // Handle timeout
+
+
+    request.ontimeout = function handleTimeout() {
+      var timeoutErrorMessage = 'timeout of ' + config.timeout + 'ms exceeded';
+
+      if (config.timeoutErrorMessage) {
+        timeoutErrorMessage = config.timeoutErrorMessage;
+      }
+
+      reject(createError(timeoutErrorMessage, config, 'ECONNABORTED', request)); // Clean up request
+
+      request = null;
+    }; // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+
+
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = require('./../helpers/cookies'); // Add xsrf header
+
+
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(fullPath)) && config.xsrfCookieName ? cookies.read(config.xsrfCookieName) : undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    } // Add headers to the request
+
+
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    } // Add withCredentials to request if needed
+
+
+    if (!utils.isUndefined(config.withCredentials)) {
+      request.withCredentials = !!config.withCredentials;
+    } // Add responseType to request if needed
+
+
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    } // Handle progress if needed
+
+
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    } // Not all browsers support upload events
+
+
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel); // Clean up request
+
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    } // Send the request
+
+
+    request.send(requestData);
+  });
+};
+
+},{"../core/buildFullPath":9,"../core/createError":10,"./../core/settle":14,"./../helpers/buildURL":18,"./../helpers/cookies":20,"./../helpers/isURLSameOrigin":22,"./../helpers/parseHeaders":24,"./../utils":26}],3:[function(require,module,exports){
+'use strict';
+
+var utils = require('./utils');
+
+var bind = require('./helpers/bind');
+
+var Axios = require('./core/Axios');
+
+var mergeConfig = require('./core/mergeConfig');
+
+var defaults = require('./defaults');
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+
+
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context); // Copy axios.prototype to instance
+
+  utils.extend(instance, Axios.prototype, context); // Copy context to instance
+
+  utils.extend(instance, context);
+  return instance;
+} // Create the default instance to be exported
+
+
+var axios = createInstance(defaults); // Expose Axios class to allow class inheritance
+
+axios.Axios = Axios; // Factory for creating new instances
+
+axios.create = function create(instanceConfig) {
+  return createInstance(mergeConfig(axios.defaults, instanceConfig));
+}; // Expose Cancel & CancelToken
+
+
+axios.Cancel = require('./cancel/Cancel');
+axios.CancelToken = require('./cancel/CancelToken');
+axios.isCancel = require('./cancel/isCancel'); // Expose all/spread
+
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+
+axios.spread = require('./helpers/spread');
+module.exports = axios; // Allow use of default import syntax in TypeScript
+
+module.exports.default = axios;
+
+},{"./cancel/Cancel":4,"./cancel/CancelToken":5,"./cancel/isCancel":6,"./core/Axios":7,"./core/mergeConfig":13,"./defaults":16,"./helpers/bind":17,"./helpers/spread":25,"./utils":26}],4:[function(require,module,exports){
+'use strict';
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+module.exports = Cancel;
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+var Cancel = require('./Cancel');
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+
+
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+
+
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+
+
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+},{"./Cancel":4}],6:[function(require,module,exports){
+'use strict';
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+},{}],7:[function(require,module,exports){
+'use strict';
+
+var utils = require('./../utils');
+
+var buildURL = require('../helpers/buildURL');
+
+var InterceptorManager = require('./InterceptorManager');
+
+var dispatchRequest = require('./dispatchRequest');
+
+var mergeConfig = require('./mergeConfig');
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+
+
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+
+
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = arguments[1] || {};
+    config.url = arguments[0];
+  } else {
+    config = config || {};
+  }
+
+  config = mergeConfig(this.defaults, config); // Set config.method
+
+  if (config.method) {
+    config.method = config.method.toLowerCase();
+  } else if (this.defaults.method) {
+    config.method = this.defaults.method.toLowerCase();
+  } else {
+    config.method = 'get';
+  } // Hook up interceptors middleware
+
+
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+Axios.prototype.getUri = function getUri(config) {
+  config = mergeConfig(this.defaults, config);
+  return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
+}; // Provide aliases for supported request methods
+
+
+utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function (url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function (url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+module.exports = Axios;
+
+},{"../helpers/buildURL":18,"./../utils":26,"./InterceptorManager":8,"./dispatchRequest":11,"./mergeConfig":13}],8:[function(require,module,exports){
+'use strict';
+
+var utils = require('./../utils');
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+
+
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+
+
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+
+
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+},{"./../utils":26}],9:[function(require,module,exports){
+'use strict';
+
+var isAbsoluteURL = require('../helpers/isAbsoluteURL');
+
+var combineURLs = require('../helpers/combineURLs');
+/**
+ * Creates a new URL by combining the baseURL with the requestedURL,
+ * only when the requestedURL is not already an absolute URL.
+ * If the requestURL is absolute, this function returns the requestedURL untouched.
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} requestedURL Absolute or relative URL to combine
+ * @returns {string} The combined full path
+ */
+
+
+module.exports = function buildFullPath(baseURL, requestedURL) {
+  if (baseURL && !isAbsoluteURL(requestedURL)) {
+    return combineURLs(baseURL, requestedURL);
+  }
+
+  return requestedURL;
+};
+
+},{"../helpers/combineURLs":19,"../helpers/isAbsoluteURL":21}],10:[function(require,module,exports){
+'use strict';
+
+var enhanceError = require('./enhanceError');
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+
+
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
+
+},{"./enhanceError":12}],11:[function(require,module,exports){
+'use strict';
+
+var utils = require('./../utils');
+
+var transformData = require('./transformData');
+
+var isCancel = require('../cancel/isCancel');
+
+var defaults = require('../defaults');
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+
+
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+
+
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config); // Ensure headers exist
+
+  config.headers = config.headers || {}; // Transform request data
+
+  config.data = transformData(config.data, config.headers, config.transformRequest); // Flatten headers
+
+  config.headers = utils.merge(config.headers.common || {}, config.headers[config.method] || {}, config.headers);
+  utils.forEach(['delete', 'get', 'head', 'post', 'put', 'patch', 'common'], function cleanHeaderConfig(method) {
+    delete config.headers[method];
+  });
+  var adapter = config.adapter || defaults.adapter;
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config); // Transform response data
+
+    response.data = transformData(response.data, response.headers, config.transformResponse);
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config); // Transform response data
+
+      if (reason && reason.response) {
+        reason.response.data = transformData(reason.response.data, reason.response.headers, config.transformResponse);
+      }
+    }
+
+    return Promise.reject(reason);
+  });
+};
+
+},{"../cancel/isCancel":6,"../defaults":16,"./../utils":26,"./transformData":15}],12:[function(require,module,exports){
+'use strict';
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+
+module.exports = function enhanceError(error, config, code, request, response) {
+  error.config = config;
+
+  if (code) {
+    error.code = code;
+  }
+
+  error.request = request;
+  error.response = response;
+  error.isAxiosError = true;
+
+  error.toJSON = function () {
+    return {
+      // Standard
+      message: this.message,
+      name: this.name,
+      // Microsoft
+      description: this.description,
+      number: this.number,
+      // Mozilla
+      fileName: this.fileName,
+      lineNumber: this.lineNumber,
+      columnNumber: this.columnNumber,
+      stack: this.stack,
+      // Axios
+      config: this.config,
+      code: this.code
+    };
+  };
+
+  return error;
+};
+
+},{}],13:[function(require,module,exports){
+'use strict';
+
+var utils = require('../utils');
+/**
+ * Config-specific merge-function which creates a new config-object
+ * by merging two configuration objects together.
+ *
+ * @param {Object} config1
+ * @param {Object} config2
+ * @returns {Object} New object resulting from merging config2 to config1
+ */
+
+
+module.exports = function mergeConfig(config1, config2) {
+  // eslint-disable-next-line no-param-reassign
+  config2 = config2 || {};
+  var config = {};
+  var valueFromConfig2Keys = ['url', 'method', 'params', 'data'];
+  var mergeDeepPropertiesKeys = ['headers', 'auth', 'proxy'];
+  var defaultToConfig2Keys = ['baseURL', 'url', 'transformRequest', 'transformResponse', 'paramsSerializer', 'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName', 'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength', 'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken', 'socketPath'];
+  utils.forEach(valueFromConfig2Keys, function valueFromConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    }
+  });
+  utils.forEach(mergeDeepPropertiesKeys, function mergeDeepProperties(prop) {
+    if (utils.isObject(config2[prop])) {
+      config[prop] = utils.deepMerge(config1[prop], config2[prop]);
+    } else if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (utils.isObject(config1[prop])) {
+      config[prop] = utils.deepMerge(config1[prop]);
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+  utils.forEach(defaultToConfig2Keys, function defaultToConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+  var axiosKeys = valueFromConfig2Keys.concat(mergeDeepPropertiesKeys).concat(defaultToConfig2Keys);
+  var otherKeys = Object.keys(config2).filter(function filterAxiosKeys(key) {
+    return axiosKeys.indexOf(key) === -1;
+  });
+  utils.forEach(otherKeys, function otherKeysDefaultToConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+  return config;
+};
+
+},{"../utils":26}],14:[function(require,module,exports){
+'use strict';
+
+var createError = require('./createError');
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+
+
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+
+  if (!validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError('Request failed with status code ' + response.status, response.config, null, response.request, response));
+  }
+};
+
+},{"./createError":10}],15:[function(require,module,exports){
+'use strict';
+
+var utils = require('./../utils');
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+
+
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+  return data;
+};
+
+},{"./../utils":26}],16:[function(require,module,exports){
+(function (process){(function (){
+'use strict';
+
+var utils = require('./utils');
+
+var normalizeHeaderName = require('./helpers/normalizeHeaderName');
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = require('./adapters/xhr');
+  } else if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
+    // For node use HTTP adapter
+    adapter = require('./adapters/http');
+  }
+
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Accept');
+    normalizeHeaderName(headers, 'Content-Type');
+
+    if (utils.isFormData(data) || utils.isArrayBuffer(data) || utils.isBuffer(data) || utils.isStream(data) || utils.isFile(data) || utils.isBlob(data)) {
+      return data;
+    }
+
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+
+    return data;
+  }],
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) {
+        /* Ignore */
+      }
+    }
+
+    return data;
+  }],
+
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
+  timeout: 0,
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+  maxContentLength: -1,
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+module.exports = defaults;
+
+}).call(this)}).call(this,require('_process'))
+},{"./adapters/http":2,"./adapters/xhr":2,"./helpers/normalizeHeaderName":23,"./utils":26,"_process":27}],17:[function(require,module,exports){
+'use strict';
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+
+    return fn.apply(thisArg, args);
+  };
+};
+
+},{}],18:[function(require,module,exports){
+'use strict';
+
+var utils = require('./../utils');
+
+function encode(val) {
+  return encodeURIComponent(val).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
+}
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+
+
+module.exports = function buildURL(url, params, paramsSerializer) {
+  /*eslint no-param-reassign:0*/
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      } else {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+    serializedParams = parts.join('&');
+  }
+
+  if (serializedParams) {
+    var hashmarkIndex = url.indexOf('#');
+
+    if (hashmarkIndex !== -1) {
+      url = url.slice(0, hashmarkIndex);
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+
+  return url;
+};
+
+},{"./../utils":26}],19:[function(require,module,exports){
+'use strict';
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL;
+};
+
+},{}],20:[function(require,module,exports){
+'use strict';
+
+var utils = require('./../utils');
+
+module.exports = utils.isStandardBrowserEnv() ? // Standard browser envs support document.cookie
+function standardBrowserEnv() {
+  return {
+    write: function write(name, value, expires, path, domain, secure) {
+      var cookie = [];
+      cookie.push(name + '=' + encodeURIComponent(value));
+
+      if (utils.isNumber(expires)) {
+        cookie.push('expires=' + new Date(expires).toGMTString());
+      }
+
+      if (utils.isString(path)) {
+        cookie.push('path=' + path);
+      }
+
+      if (utils.isString(domain)) {
+        cookie.push('domain=' + domain);
+      }
+
+      if (secure === true) {
+        cookie.push('secure');
+      }
+
+      document.cookie = cookie.join('; ');
+    },
+    read: function read(name) {
+      var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+      return match ? decodeURIComponent(match[3]) : null;
+    },
+    remove: function remove(name) {
+      this.write(name, '', Date.now() - 86400000);
+    }
+  };
+}() : // Non standard browser env (web workers, react-native) lack needed support.
+function nonStandardBrowserEnv() {
+  return {
+    write: function write() {},
+    read: function read() {
+      return null;
+    },
+    remove: function remove() {}
+  };
+}();
+
+},{"./../utils":26}],21:[function(require,module,exports){
+'use strict';
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+},{}],22:[function(require,module,exports){
+'use strict';
+
+var utils = require('./../utils');
+
+module.exports = utils.isStandardBrowserEnv() ? // Standard browser envs have full support of the APIs needed to test
+// whether the request URL is of the same origin as current location.
+function standardBrowserEnv() {
+  var msie = /(msie|trident)/i.test(navigator.userAgent);
+  var urlParsingNode = document.createElement('a');
+  var originURL;
+  /**
+  * Parse a URL to discover it's components
+  *
+  * @param {String} url The URL to be parsed
+  * @returns {Object}
+  */
+
+  function resolveURL(url) {
+    var href = url;
+
+    if (msie) {
+      // IE needs attribute set twice to normalize properties
+      urlParsingNode.setAttribute('href', href);
+      href = urlParsingNode.href;
+    }
+
+    urlParsingNode.setAttribute('href', href); // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+
+    return {
+      href: urlParsingNode.href,
+      protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+      host: urlParsingNode.host,
+      search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+      hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+      hostname: urlParsingNode.hostname,
+      port: urlParsingNode.port,
+      pathname: urlParsingNode.pathname.charAt(0) === '/' ? urlParsingNode.pathname : '/' + urlParsingNode.pathname
+    };
+  }
+
+  originURL = resolveURL(window.location.href);
+  /**
+  * Determine if a URL shares the same origin as the current location
+  *
+  * @param {String} requestURL The URL to test
+  * @returns {boolean} True if URL shares the same origin, otherwise false
+  */
+
+  return function isURLSameOrigin(requestURL) {
+    var parsed = utils.isString(requestURL) ? resolveURL(requestURL) : requestURL;
+    return parsed.protocol === originURL.protocol && parsed.host === originURL.host;
+  };
+}() : // Non standard browser envs (web workers, react-native) lack needed support.
+function nonStandardBrowserEnv() {
+  return function isURLSameOrigin() {
+    return true;
+  };
+}();
+
+},{"./../utils":26}],23:[function(require,module,exports){
+'use strict';
+
+var utils = require('../utils');
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+},{"../utils":26}],24:[function(require,module,exports){
+'use strict';
+
+var utils = require('./../utils'); // Headers whose duplicates are ignored by node
+// c.f. https://nodejs.org/api/http.html#http_message_headers
+
+
+var ignoreDuplicateOf = ['age', 'authorization', 'content-length', 'content-type', 'etag', 'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since', 'last-modified', 'location', 'max-forwards', 'proxy-authorization', 'referer', 'retry-after', 'user-agent'];
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) {
+    return parsed;
+  }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
+        return;
+      }
+
+      if (key === 'set-cookie') {
+        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+      } else {
+        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      }
+    }
+  });
+  return parsed;
+};
+
+},{"./../utils":26}],25:[function(require,module,exports){
+'use strict';
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+},{}],26:[function(require,module,exports){
+'use strict';
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var bind = require('./helpers/bind');
+/*global toString:true*/
+// utils is a library of generic helper functions non-specific to axios
+
+
+var toString = Object.prototype.toString;
+/**
+ * Determine if a value is an Array
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Array, otherwise false
+ */
+
+function isArray(val) {
+  return toString.call(val) === '[object Array]';
+}
+/**
+ * Determine if a value is undefined
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if the value is undefined, otherwise false
+ */
+
+
+function isUndefined(val) {
+  return typeof val === 'undefined';
+}
+/**
+ * Determine if a value is a Buffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Buffer, otherwise false
+ */
+
+
+function isBuffer(val) {
+  return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor) && typeof val.constructor.isBuffer === 'function' && val.constructor.isBuffer(val);
+}
+/**
+ * Determine if a value is an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an ArrayBuffer, otherwise false
+ */
+
+
+function isArrayBuffer(val) {
+  return toString.call(val) === '[object ArrayBuffer]';
+}
+/**
+ * Determine if a value is a FormData
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an FormData, otherwise false
+ */
+
+
+function isFormData(val) {
+  return typeof FormData !== 'undefined' && val instanceof FormData;
+}
+/**
+ * Determine if a value is a view on an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
+ */
+
+
+function isArrayBufferView(val) {
+  var result;
+
+  if (typeof ArrayBuffer !== 'undefined' && ArrayBuffer.isView) {
+    result = ArrayBuffer.isView(val);
+  } else {
+    result = val && val.buffer && val.buffer instanceof ArrayBuffer;
+  }
+
+  return result;
+}
+/**
+ * Determine if a value is a String
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a String, otherwise false
+ */
+
+
+function isString(val) {
+  return typeof val === 'string';
+}
+/**
+ * Determine if a value is a Number
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Number, otherwise false
+ */
+
+
+function isNumber(val) {
+  return typeof val === 'number';
+}
+/**
+ * Determine if a value is an Object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Object, otherwise false
+ */
+
+
+function isObject(val) {
+  return val !== null && _typeof(val) === 'object';
+}
+/**
+ * Determine if a value is a Date
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Date, otherwise false
+ */
+
+
+function isDate(val) {
+  return toString.call(val) === '[object Date]';
+}
+/**
+ * Determine if a value is a File
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a File, otherwise false
+ */
+
+
+function isFile(val) {
+  return toString.call(val) === '[object File]';
+}
+/**
+ * Determine if a value is a Blob
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Blob, otherwise false
+ */
+
+
+function isBlob(val) {
+  return toString.call(val) === '[object Blob]';
+}
+/**
+ * Determine if a value is a Function
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Function, otherwise false
+ */
+
+
+function isFunction(val) {
+  return toString.call(val) === '[object Function]';
+}
+/**
+ * Determine if a value is a Stream
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Stream, otherwise false
+ */
+
+
+function isStream(val) {
+  return isObject(val) && isFunction(val.pipe);
+}
+/**
+ * Determine if a value is a URLSearchParams object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+ */
+
+
+function isURLSearchParams(val) {
+  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+}
+/**
+ * Trim excess whitespace off the beginning and end of a string
+ *
+ * @param {String} str The String to trim
+ * @returns {String} The String freed of excess whitespace
+ */
+
+
+function trim(str) {
+  return str.replace(/^\s*/, '').replace(/\s*$/, '');
+}
+/**
+ * Determine if we're running in a standard browser environment
+ *
+ * This allows axios to run in a web worker, and react-native.
+ * Both environments support XMLHttpRequest, but not fully standard globals.
+ *
+ * web workers:
+ *  typeof window -> undefined
+ *  typeof document -> undefined
+ *
+ * react-native:
+ *  navigator.product -> 'ReactNative'
+ * nativescript
+ *  navigator.product -> 'NativeScript' or 'NS'
+ */
+
+
+function isStandardBrowserEnv() {
+  if (typeof navigator !== 'undefined' && (navigator.product === 'ReactNative' || navigator.product === 'NativeScript' || navigator.product === 'NS')) {
+    return false;
+  }
+
+  return typeof window !== 'undefined' && typeof document !== 'undefined';
+}
+/**
+ * Iterate over an Array or an Object invoking a function for each item.
+ *
+ * If `obj` is an Array callback will be called passing
+ * the value, index, and complete array for each item.
+ *
+ * If 'obj' is an Object callback will be called passing
+ * the value, key, and complete object for each property.
+ *
+ * @param {Object|Array} obj The object to iterate
+ * @param {Function} fn The callback to invoke for each item
+ */
+
+
+function forEach(obj, fn) {
+  // Don't bother if no value provided
+  if (obj === null || typeof obj === 'undefined') {
+    return;
+  } // Force an array if not already something iterable
+
+
+  if (_typeof(obj) !== 'object') {
+    /*eslint no-param-reassign:0*/
+    obj = [obj];
+  }
+
+  if (isArray(obj)) {
+    // Iterate over array values
+    for (var i = 0, l = obj.length; i < l; i++) {
+      fn.call(null, obj[i], i, obj);
+    }
+  } else {
+    // Iterate over object keys
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        fn.call(null, obj[key], key, obj);
+      }
+    }
+  }
+}
+/**
+ * Accepts varargs expecting each argument to be an object, then
+ * immutably merges the properties of each object and returns result.
+ *
+ * When multiple objects contain the same key the later object in
+ * the arguments list will take precedence.
+ *
+ * Example:
+ *
+ * ```js
+ * var result = merge({foo: 123}, {foo: 456});
+ * console.log(result.foo); // outputs 456
+ * ```
+ *
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+
+
+function merge()
+/* obj1, obj2, obj3, ... */
+{
+  var result = {};
+
+  function assignValue(val, key) {
+    if (_typeof(result[key]) === 'object' && _typeof(val) === 'object') {
+      result[key] = merge(result[key], val);
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+
+  return result;
+}
+/**
+ * Function equal to merge with the difference being that no reference
+ * to original objects is kept.
+ *
+ * @see merge
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+
+
+function deepMerge()
+/* obj1, obj2, obj3, ... */
+{
+  var result = {};
+
+  function assignValue(val, key) {
+    if (_typeof(result[key]) === 'object' && _typeof(val) === 'object') {
+      result[key] = deepMerge(result[key], val);
+    } else if (_typeof(val) === 'object') {
+      result[key] = deepMerge({}, val);
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+
+  return result;
+}
+/**
+ * Extends object a by mutably adding to it the properties of object b.
+ *
+ * @param {Object} a The object to be extended
+ * @param {Object} b The object to copy properties from
+ * @param {Object} thisArg The object to bind function to
+ * @return {Object} The resulting value of object a
+ */
+
+
+function extend(a, b, thisArg) {
+  forEach(b, function assignValue(val, key) {
+    if (thisArg && typeof val === 'function') {
+      a[key] = bind(val, thisArg);
+    } else {
+      a[key] = val;
+    }
+  });
+  return a;
+}
+
+module.exports = {
+  isArray: isArray,
+  isArrayBuffer: isArrayBuffer,
+  isBuffer: isBuffer,
+  isFormData: isFormData,
+  isArrayBufferView: isArrayBufferView,
+  isString: isString,
+  isNumber: isNumber,
+  isObject: isObject,
+  isUndefined: isUndefined,
+  isDate: isDate,
+  isFile: isFile,
+  isBlob: isBlob,
+  isFunction: isFunction,
+  isStream: isStream,
+  isURLSearchParams: isURLSearchParams,
+  isStandardBrowserEnv: isStandardBrowserEnv,
+  forEach: forEach,
+  merge: merge,
+  deepMerge: deepMerge,
+  extend: extend,
+  trim: trim
+};
+
+},{"./helpers/bind":17}],27:[function(require,module,exports){
+"use strict";
+
+// shim for using process in browser
+var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+  throw new Error('setTimeout has not been defined');
+}
+
+function defaultClearTimeout() {
+  throw new Error('clearTimeout has not been defined');
+}
+
+(function () {
+  try {
+    if (typeof setTimeout === 'function') {
+      cachedSetTimeout = setTimeout;
+    } else {
+      cachedSetTimeout = defaultSetTimout;
+    }
+  } catch (e) {
+    cachedSetTimeout = defaultSetTimout;
+  }
+
+  try {
+    if (typeof clearTimeout === 'function') {
+      cachedClearTimeout = clearTimeout;
+    } else {
+      cachedClearTimeout = defaultClearTimeout;
+    }
+  } catch (e) {
+    cachedClearTimeout = defaultClearTimeout;
+  }
+})();
+
+function runTimeout(fun) {
+  if (cachedSetTimeout === setTimeout) {
+    //normal enviroments in sane situations
+    return setTimeout(fun, 0);
+  } // if setTimeout wasn't available but was latter defined
+
+
+  if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+    cachedSetTimeout = setTimeout;
+    return setTimeout(fun, 0);
+  }
+
+  try {
+    // when when somebody has screwed with setTimeout but no I.E. maddness
+    return cachedSetTimeout(fun, 0);
+  } catch (e) {
+    try {
+      // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+      return cachedSetTimeout.call(null, fun, 0);
+    } catch (e) {
+      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+      return cachedSetTimeout.call(this, fun, 0);
+    }
+  }
+}
+
+function runClearTimeout(marker) {
+  if (cachedClearTimeout === clearTimeout) {
+    //normal enviroments in sane situations
+    return clearTimeout(marker);
+  } // if clearTimeout wasn't available but was latter defined
+
+
+  if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+    cachedClearTimeout = clearTimeout;
+    return clearTimeout(marker);
+  }
+
+  try {
+    // when when somebody has screwed with setTimeout but no I.E. maddness
+    return cachedClearTimeout(marker);
+  } catch (e) {
+    try {
+      // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+      return cachedClearTimeout.call(null, marker);
+    } catch (e) {
+      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+      // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+      return cachedClearTimeout.call(this, marker);
+    }
+  }
+}
+
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+  if (!draining || !currentQueue) {
+    return;
+  }
+
+  draining = false;
+
+  if (currentQueue.length) {
+    queue = currentQueue.concat(queue);
+  } else {
+    queueIndex = -1;
+  }
+
+  if (queue.length) {
+    drainQueue();
+  }
+}
+
+function drainQueue() {
+  if (draining) {
+    return;
+  }
+
+  var timeout = runTimeout(cleanUpNextTick);
+  draining = true;
+  var len = queue.length;
+
+  while (len) {
+    currentQueue = queue;
+    queue = [];
+
+    while (++queueIndex < len) {
+      if (currentQueue) {
+        currentQueue[queueIndex].run();
+      }
+    }
+
+    queueIndex = -1;
+    len = queue.length;
+  }
+
+  currentQueue = null;
+  draining = false;
+  runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+  var args = new Array(arguments.length - 1);
+
+  if (arguments.length > 1) {
+    for (var i = 1; i < arguments.length; i++) {
+      args[i - 1] = arguments[i];
+    }
+  }
+
+  queue.push(new Item(fun, args));
+
+  if (queue.length === 1 && !draining) {
+    runTimeout(drainQueue);
+  }
+}; // v8 likes predictible objects
+
+
+function Item(fun, array) {
+  this.fun = fun;
+  this.array = array;
+}
+
+Item.prototype.run = function () {
+  this.fun.apply(null, this.array);
+};
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) {
+  return [];
+};
+
+process.binding = function (name) {
+  throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () {
+  return '/';
+};
+
+process.chdir = function (dir) {
+  throw new Error('process.chdir is not supported');
+};
+
+process.umask = function () {
+  return 0;
+};
+
+},{}],28:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BaseFilter = _interopRequireDefault(require("../filters/BaseFilter"));
+
+var _PopulateModalFilter = _interopRequireDefault(require("../filters/PopulateModalFilter"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ModalController = /*#__PURE__*/function () {
+  function ModalController() {
+    _classCallCheck(this, ModalController);
+
+    this.DOM = {
+      modal: ".js-modal",
+      modalTrigger: ".js-modal-trigger",
+      postTypeModalTrigger: ".js-post-type-trigger",
+      modalClose: ".js-modal-close",
+      states: {
+        isActive: "is-active"
+      }
+    };
+    this.modal = document.querySelector(this.DOM.modal);
+    this.modalTriggers = document.querySelectorAll(this.DOM.modalTrigger);
+    this.modalClose = document.querySelector(this.DOM.modalClose);
+    this.baseFilter = new _BaseFilter.default();
+  }
+  /**
+   * Init
+   */
+
+
+  _createClass(ModalController, [{
+    key: "init",
+    value: function init() {
+      var onlyTriggers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+      if (this.modal === null) {
+        return;
+      }
+
+      if (onlyTriggers !== true) {
+        this.hiddenModalEvent();
+      }
+
+      this.setEventListeners();
+    }
+  }, {
+    key: "hiddenModalEvent",
+    value: function hiddenModalEvent() {
+      if (typeof window.openPopupID !== "undefined" && window.openPopupID !== 0) {
+        if (!this.modal.classList.contains('is-active')) {
+          var populateModalFilter = new _PopulateModalFilter.default();
+          populateModalFilter.populateModal({
+            postDataId: window.openPopupID,
+            returnUrl: ''
+          });
+        }
+      }
+    }
+  }, {
+    key: "setEventListeners",
+    value: function setEventListeners() {
+      var _this = this;
+
+      if (this.modalTriggers.length > 0) {
+        this.modalTriggers.forEach(function (trigger) {
+          trigger.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            _this.openModal();
+
+            if (_this.baseFilter.isFilterInProgress()) {
+              return;
+            }
+
+            _this.baseFilter.disableFilter();
+
+            console.log(ev.currentTarget.dataset.postDataId);
+            var popupModalFilter = new _PopulateModalFilter.default();
+            popupModalFilter.populateModal({
+              postDataId: ev.currentTarget.dataset.postDataId,
+              returnUrl: ev.currentTarget.dataset.returnUrl
+            }); // if (ev.currentTarget.classList.contains('js-post-type-trigger')) {
+            //     console.log(ev.currentTarget.href);
+            //     let popupModalFilter = new PopulateModalFilter();
+            //     popupModalFilter.populateModal(ev.currentTarget);
+            // } else {
+            //     this.openModal();
+            // }
+          });
+        });
+      }
+    }
+  }, {
+    key: "openModal",
+    value: function openModal() {
+      this.modal.classList.add(this.DOM.states.isActive);
+      this.setCloseEventListeners();
+      setTimeout(function () {}, 300);
+      this.baseFilter.enableFilter();
+    }
+  }, {
+    key: "setCloseEventListeners",
+    value: function setCloseEventListeners() {
+      var _this2 = this;
+
+      if (this.modalClose !== null) {
+        this.modalClose.addEventListener("click", function () {
+          _this2.closeModal();
+        });
+      }
+
+      window.addEventListener("keydown", function (ev) {
+        if (ev.key === "Escape") {
+          _this2.closeModal();
+        }
+      });
+    }
+  }, {
+    key: "closeModal",
+    value: function closeModal() {
+      var url = this.modalClose.dataset.returnUrl;
+
+      if (url) {
+        history.pushState(null, document.title, url);
+      }
+
+      this.modal.classList.remove(this.DOM.states.isActive);
+    }
+  }]);
+
+  return ModalController;
+}();
+
+exports.default = ModalController;
+
+},{"../filters/BaseFilter":29,"../filters/PopulateModalFilter":30}],29:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var BaseFilter = /*#__PURE__*/function () {
+  function BaseFilter() {
+    _classCallCheck(this, BaseFilter);
+
+    this.Base = {
+      body: "body"
+    };
+  }
+
+  _createClass(BaseFilter, [{
+    key: "getBodyElement",
+    value: function getBodyElement() {
+      return document.querySelector(this.Base.body);
+    }
+  }, {
+    key: "disableFilter",
+    value: function disableFilter() {
+      this.getBodyElement().classList.add("is-filter-disabled");
+    }
+  }, {
+    key: "enableFilter",
+    value: function enableFilter() {
+      this.getBodyElement().classList.remove("is-filter-disabled");
+    }
+  }, {
+    key: "isFilterInProgress",
+    value: function isFilterInProgress() {
+      return this.getBodyElement().classList.contains("is-filter-disabled");
+    }
+  }, {
+    key: "updateUrls",
+    value: function updateUrls(stateData, url) {
+      history.pushState(stateData, document.title, url);
+    }
+  }]);
+
+  return BaseFilter;
+}();
+
+exports.default = BaseFilter;
+
+},{}],30:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BaseFilter2 = _interopRequireDefault(require("./BaseFilter"));
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _ModalController = _interopRequireDefault(require("../components/ModalController"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var PopulateModalFilter = /*#__PURE__*/function (_BaseFilter) {
+  _inherits(PopulateModalFilter, _BaseFilter);
+
+  var _super = _createSuper(PopulateModalFilter);
+
+  function PopulateModalFilter() {
+    _classCallCheck(this, PopulateModalFilter);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(PopulateModalFilter, [{
+    key: "populateModal",
+    value: // getParams(element) {
+    //     let params = "";
+    //
+    //     let pageId = element.dataset.pageId;
+    //     let moduleIndex = element.dataset.moduleIndex;
+    //     let modalType = element.dataset.modalType;
+    //
+    //     params += "?page_id=" + pageId + "&module_index=" + moduleIndex + "&modal_type=" + modalType;
+    //
+    //
+    //     return params;
+    // }
+
+    /**
+     *
+     * @param data (object)
+     * @param stateHistory
+     */
+    function populateModal(data) {
+      var _this = this;
+
+      var stateHistory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      // let url = element.dataset.apiUrl;
+      var params = '?page_id=' + data.postDataId;
+
+      if (data.returnUrl) {
+        params += '&return_url=' + encodeURIComponent(data.returnUrl);
+      }
+
+      _axios.default.get(wpbf_frontend_ajax_object.ajax_url + "/" + wpbf_frontend_ajax_object.populate_modal + params).then(function (response) {
+        _this.afterPopulateModal(response.data, stateHistory);
+      });
+    }
+  }, {
+    key: "afterPopulateModal",
+    value: function afterPopulateModal(data, stateHistory) {
+      var modal = document.querySelector(".js-modal");
+
+      if (data.html && modal) {
+        modal.innerHTML = data.html;
+      }
+
+      if (data.url && stateHistory) {
+        this.updateUrls({
+          url: data.url
+        }, data.url);
+      }
+
+      var modalController = new _ModalController.default();
+      modalController.init(true);
+      modalController.openModal();
+    }
+  }]);
+
+  return PopulateModalFilter;
+}(_BaseFilter2.default);
+
+exports.default = PopulateModalFilter;
+
+},{"../components/ModalController":28,"./BaseFilter":29,"axios":1}],31:[function(require,module,exports){
+"use strict";
+
+var _ModalController = _interopRequireDefault(require("./components/ModalController"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ready = function ready(callbackFunc) {
+  if (document.readyState !== "loading") {
+    /**
+     * Document is already ready, call the callback directly
+     */
+    callbackFunc();
+  } else if (document.addEventListener) {
+    /**
+     * All modern browsers to register DOMContentLoaded
+     */
+    document.addEventListener("DOMContentLoaded", callbackFunc);
+  } else {
+    /**
+     * Old IE browsers
+     */
+    document.attachEvent("onreadystatechange", function () {
+      if (document.readyState === "complete") {
+        callbackFunc();
+      }
+    });
+  }
+
+  window.addEventListener("popstate", function (ev) {
+    var currentState = history.state;
+
+    if (currentState) {
+      if (currentState.url) {
+        // console.log(currentState.url);
+        location.reload();
+      }
+    }
+  });
+};
+/**
+ * Document ready callback
+ */
+
+
+ready(function () {
+  var modalController = new _ModalController.default();
+  modalController.init();
+});
+
+},{"./components/ModalController":28}]},{},[31]);
+
+//# sourceMappingURL=bundle.js.map

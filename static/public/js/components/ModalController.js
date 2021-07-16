@@ -95,13 +95,6 @@ export default class ModalController {
     setCloseEventListeners() {
         if (this.modalClose !== null) {
             this.modalClose.addEventListener("click", () => {
-
-                let url = this.modalClose.dataset.returnUrl;
-
-                if (url) {
-                    history.pushState(null, document.title, url);
-                }
-
                 this.closeModal();
             });
         }
@@ -114,6 +107,12 @@ export default class ModalController {
     }
 
     closeModal() {
+        let url = this.modalClose.dataset.returnUrl;
+
+        if (url) {
+            history.pushState(null, document.title, url);
+        }
+
         this.modal.classList.remove(this.DOM.states.isActive);
     }
 }
