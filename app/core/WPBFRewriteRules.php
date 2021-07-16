@@ -72,7 +72,9 @@ class WPBFRewriteRules {
 
 		if ( ! empty( $all_posts ) ) {
 			foreach ( $all_posts as $all_post ) {
-				$archive_page_id = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
+				$archive_page_option = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
+				$archive_page_id     = ! empty( $archive_page_option[0] ) ? $archive_page_option[0] : '';
+
 
 				if ( empty( $archive_page_id ) || 'archive' === $archive_page_id ) {
 					$archive_page_id = get_option( 'page_on_front' );

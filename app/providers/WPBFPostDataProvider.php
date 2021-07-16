@@ -23,7 +23,7 @@ class WPBFPostDataProvider {
 		$custom = $this->get_custom_post_types();
 
 		return array_merge( $custom, array(
-			'post'
+			'post' => 'post',
 		) );
 	}
 

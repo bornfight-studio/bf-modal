@@ -21,25 +21,15 @@ $is_modal             = ! empty( $is_modal_option[0] ) ? $is_modal_option[0] : '
 $archive_modal_option = ! empty( $archive_page_modal_option[0] ) ? $archive_page_modal_option[0] : '';
 ?>
 <div class="c-meta-box">
-    <div>
-        <label for="wpbfml_is_modal">
-			<?= __( 'Is modal?', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?>
-            <div class="c-switcher-box js-switcher">
-                <input type="checkbox" name="wpbfml_is_modal"
-                       id="wpbfml_is_modal" <?= ! empty( $is_modal ) ? 'checked' : ''; ?>>
-
-                <div class="c-switcher">
-                    <span class="c-switcher__on">
-                        <?= __( 'Yes', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?>
-                    </span>
-                    <span class="c-switcher__off">
-                        <?= __( 'No', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?>
-                    </span>
-                    <div class="c-switcher__slider"></div>
-                </div>
-            </div>
-        </label>
-    </div>
+	<?php
+	get_wpbf_template( 'admin/component/switcher', array(
+		'label'       => __( 'Is modal?', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ),
+		'checkbox_id' => 'wpbfml_is_modal',
+		'is_checked'  => ! empty( $is_modal ) ? 'checked' : '',
+		'text_on'     => __( 'Yes', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ),
+		'text_off'    => __( 'No', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ),
+	) );
+	?>
 
     <div>
         <label for="wpbf_modal_archive_page" class="c-switcher__select-label">
