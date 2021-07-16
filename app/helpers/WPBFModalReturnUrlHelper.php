@@ -36,7 +36,7 @@ class WPBFModalReturnUrlHelper {
 	}
 
 	public function get_page_return_url( int $post_id ): string {
-		$archive_url = get_post_meta( $post_id, '_wpbfml_archive_page' );
+		$archive_url = get_post_meta( $post_id, WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION );
 
 		if ( empty( $archive_url ) ) {
 			return get_home_url();

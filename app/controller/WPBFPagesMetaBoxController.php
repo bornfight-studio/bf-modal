@@ -22,8 +22,8 @@ class WPBFPagesMetaBoxController {
 		$is_modal           = ! empty( $_POST['is_modal'] );
 		$modal_archive_page = ! empty( $_POST['modal_archive_page'] ) ? sanitize_text_field( $_POST['modal_archive_page'] ) : '';
 
-		update_post_meta( $post_id, '_wpbfml_is_modal', $is_modal );
-		update_post_meta( $post_id, '_wpbfml_modal_archive_page', $modal_archive_page );
+		update_post_meta( $post_id, WPBFConstants::WPBFML_PAGE_IS_MODAL_OPTION, $is_modal );
+		update_post_meta( $post_id, WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION, $modal_archive_page );
 	}
 
 	public function add_meta_box_to_pages(): void {

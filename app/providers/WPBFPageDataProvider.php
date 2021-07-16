@@ -4,6 +4,8 @@
 namespace wpModalPlugin\providers;
 
 
+use wpModalPlugin\core\WPBFConstants;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -16,7 +18,7 @@ class WPBFPageDataProvider {
 			'post_status'    => 'publish',
 			'meta_query'     => array(
 				array(
-					'key'     => '_wpbfml_is_modal',
+					'key'     => WPBFConstants::WPBFML_PAGE_IS_MODAL_OPTION,
 					'value'   => true,
 					'compare' => '==='
 				)
