@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class ModalFormController {
+class WPBFModalFormController {
 	public function save_modal_form_options( array $params ): void {
 		if ( ! empty( $params['post_type'] ) ) {
 			$post_type_object = get_post_type_object( $params['post_type'] );

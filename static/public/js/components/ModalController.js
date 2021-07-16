@@ -54,10 +54,6 @@ export default class ModalController {
                     ev.preventDefault();
                     ev.stopPropagation();
 
-
-                    this.openModal();
-
-
                     if (this.baseFilter.isFilterInProgress()) {
                         return;
                     }

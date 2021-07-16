@@ -3,6 +3,8 @@
 
 namespace wpModalPlugin\core;
 
+use wpModalPlugin\providers\WPBFPageDataProvider;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -11,6 +13,13 @@ class WPBFRewriteRules {
 	public function register(): void {
 		add_action( 'init', array( $this, 'add_custom_rewrite' ) );
 		add_action( 'query_vars', array( $this, 'add_custom_query_vars' ) );
+		add_action( 'template_redirect', array( $this, 'remove_canonical_redirect' ), 0 );
+	}
+
+	public function remove_canonical_redirect(): void {
+		if ( is_front_page() ) {
+			remove_action( 'template_redirect', 'redirect_canonical' );
+		}
 	}
 
 	public function add_custom_query_vars( array $vars ): array {
@@ -32,6 +41,32 @@ class WPBFRewriteRules {
 
 		$regex = $rewrite_slug . '/(.+)/?$';
 
-		add_rewrite_rule( $regex, $query, 'top' );
+		$this->add_rewrite_rule( $regex, $query );
+
+		$this->add_custom_rewrite_rules_for_modal_pages();
+	}
+
+	public function add_custom_rewrite_rules_for_modal_pages(): void {
+		$wpbf_page_data_provider = new WPBFPageDataProvider();
+		$pages                   = $wpbf_page_data_provider->get_all_is_modal_pages();
+
+		if ( ! empty( $pages ) ) {
+			foreach ( $pages as $page ) {
+				$redirect_page_id = get_post_meta( $page->ID, '_wpbfml_archive_page' );
+
+				if ( empty( $redirect_page_id ) ) {
+					$redirect_page_id = get_option( 'page_on_front' );
+				}
+
+				$regex = $page->post_name . '/?$';
+				$query = 'index.php?page_id=' . $redirect_page_id . '&post-slug=' . $page->post_name;
+
+				add_rewrite_rule( $regex, $query, 'top' );
+			}
+		}
+	}
+
+	public function add_rewrite_rule( string $regex, string $query, $after = 'top' ): void {
+		add_rewrite_rule( $regex, $query, $after );
 	}
 }

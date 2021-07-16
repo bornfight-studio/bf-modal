@@ -49,6 +49,8 @@ export default class PopulateModalFilter extends BaseFilter {
             }, data.url);
         }
 
+        this.enableFilter();
+
         const modalController = new ModalController();
         modalController.init(true);
         modalController.openModal();

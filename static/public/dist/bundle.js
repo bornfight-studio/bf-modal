@@ -1810,8 +1810,6 @@ var ModalController = /*#__PURE__*/function () {
             ev.preventDefault();
             ev.stopPropagation();
 
-            _this.openModal();
-
             if (_this.baseFilter.isFilterInProgress()) {
               return;
             }
@@ -2031,6 +2029,7 @@ var PopulateModalFilter = /*#__PURE__*/function (_BaseFilter) {
         }, data.url);
       }
 
+      this.enableFilter();
       var modalController = new _ModalController.default();
       modalController.init(true);
       modalController.openModal();

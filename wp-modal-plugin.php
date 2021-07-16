@@ -23,6 +23,7 @@
 use Symfony\Component\Dotenv\Dotenv;
 use wpModalPlugin\api\WPBFApiHelper;
 use wpModalPlugin\api\WPBFRestApiCustomRoutes;
+use wpModalPlugin\controller\WPBFPagesMetaBoxController;
 use wpModalPlugin\core\WPBFDashboardSetup;
 use wpModalPlugin\core\WPBFFrontend;
 use wpModalPlugin\core\WPBFRewriteRules;
@@ -92,3 +93,6 @@ $wpbf_frontend->init();
 
 $wpbf_rewrite_rules = new WPBFRewriteRules();
 $wpbf_rewrite_rules->register();
+
+$wpbf_pages_meta_box_controller = new WPBFPagesMetaBoxController();
+$wpbf_pages_meta_box_controller->init();

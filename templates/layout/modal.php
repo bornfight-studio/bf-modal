@@ -9,8 +9,14 @@
 use wpModalPlugin\core\WPBFConstants;
 use wpModalPlugin\helpers\WPBFModalHelper;
 
+$trigger_popup = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
+if ( is_page() ) {
+	$trigger_popup = 'page';
+}
+
+
 $wpbf_modal_helper = new WPBFModalHelper();
-$wpbf_modal_helper->trigger_popup( get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION ) );
+$wpbf_modal_helper->trigger_popup( $trigger_popup );
 echo $wpbf_modal_helper->get_open_popup();
 ?>
 <section class="c-modal <?= ! empty( $modifier ) ? $modifier : ''; ?> js-modal">

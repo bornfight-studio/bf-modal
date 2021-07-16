@@ -41,7 +41,7 @@ class WPBFPopulateModalFilter extends WPBFBaseFilter {
 
 		if ( empty( $return_url ) ) {
 			$wpbf_modal_return_url_helper = new WPBFModalReturnUrlHelper();
-			$return_url                   = $wpbf_modal_return_url_helper->get_post_type_return_url( $post_data_id );
+			$return_url                   = $wpbf_modal_return_url_helper->get_return_url( $post_data_id );
 		}
 
 		$located = locate_template( 'templates/wp-modal-plugin/layout/modal-inner.php', true, false, array(

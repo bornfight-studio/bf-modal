@@ -1,15 +1,18 @@
 <?php
 
-use wpModalPlugin\controller\ModalFormController;
+use wpModalPlugin\controller\WPBFModalFormController;
 use wpModalPlugin\core\WPBFConstants;
 use wpModalPlugin\helpers\WPBFModalFormHelper;
+use wpModalPlugin\providers\WPBFPageDataProvider;
 use wpModalPlugin\providers\WPBFPostDataProvider;
 
 $wpbf_post_data_provider = new WPBFPostDataProvider();
-$post_types              = $wpbf_post_data_provider->get_post_types();
-$pages                   = $wpbf_post_data_provider->get_all_option_pages();
+$wpbf_page_data_provider = new WPBFPageDataProvider();
 
-$modal_form_controller = new ModalFormController();
+$post_types = $wpbf_post_data_provider->get_post_types();
+$pages      = $wpbf_page_data_provider->get_all_option_pages();
+
+$modal_form_controller = new WPBFModalFormController();
 $modal_form_controller->save_modal_form_options( $_POST );
 
 $chosen_post_type    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
