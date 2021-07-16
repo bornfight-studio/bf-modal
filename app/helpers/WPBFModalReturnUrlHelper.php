@@ -14,11 +14,11 @@ class WPBFModalReturnUrlHelper {
 	public function get_post_type_return_url( WP_Post $post_data ): string {
 		$page_archive_option = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
 
-		if ( 'archive' === $page_archive_option ) {
+		if ( 'archive' === $page_archive_option[ $post_data->post_type ] ) {
 			return get_post_type_archive_link( $post_data->post_type );
 		}
 
-		return get_permalink( $page_archive_option );
+		return get_permalink( $page_archive_option[ $post_data->post_type ] );
 	}
 
 	public function get_return_url( int $post_id ): string {

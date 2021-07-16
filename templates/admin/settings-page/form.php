@@ -2,7 +2,6 @@
 
 use wpModalPlugin\controller\WPBFModalFormController;
 use wpModalPlugin\core\WPBFConstants;
-use wpModalPlugin\helpers\WPBFModalFormHelper;
 use wpModalPlugin\providers\WPBFPageDataProvider;
 use wpModalPlugin\providers\WPBFPostDataProvider;
 
@@ -15,10 +14,9 @@ $pages      = $wpbf_page_data_provider->get_all_option_pages();
 $modal_form_controller = new WPBFModalFormController();
 $modal_form_controller->save_modal_form_options( $_POST );
 
-$selected_post_type       = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
-$selected_archive_page    = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
-$selected_archive_page_id = ! empty( $selected_archive_page[0] ) ? $selected_archive_page[0] : '';
-
+$selected_post_type     = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
+$selected_archive_page  = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
+$selected_archive_pages = array_values( $selected_archive_page );
 ?>
 <form action="" method="post">
     <div class="wrap">
@@ -34,7 +32,8 @@ $selected_archive_page_id = ! empty( $selected_archive_page[0] ) ? $selected_arc
                         <td><?= $i; ?></td>
                         <td>
                             <label for="<?= $key; ?>">
-                                <input type="checkbox" name="wpbf_modal_post_types[<?= $key; ?>]" id="<?= $key; ?>">
+                                <input type="checkbox" name="wpbf_modal_post_types[<?= $key; ?>]"
+                                       id="<?= $key; ?>" <?= ! empty( $selected_post_type[ $key ] ) ? 'checked' : ''; ?>>
 
 								<?= $post_type; ?>
                             </label>
@@ -45,7 +44,7 @@ $selected_archive_page_id = ! empty( $selected_archive_page[0] ) ? $selected_arc
                                 <option value="none"><?= __( 'Choose', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?></option>
 								<?php if ( ! empty( $pages ) ) {
 									foreach ( $pages as $page ) { ?>
-                                        <option value="<?= $page->ID; ?>" <?= WPBFModalFormHelper::get_selected( (string) $selected_archive_page_id, (string) $page->ID ); ?>><?= $page->post_title; ?></option>
+                                        <option value="<?= $page->ID; ?>" <?= $selected_archive_pages[ $i - 1 ] === (string) $page->ID ? 'selected' : ''; ?>><?= $page->post_title; ?></option>
 									<?php }
 								} ?>
                             </select>
@@ -57,19 +56,6 @@ $selected_archive_page_id = ! empty( $selected_archive_page[0] ) ? $selected_arc
 			} ?>
             </tbody>
         </table>
-
-		<?php
-		//		get_wpbf_template( 'admin/component/repeater', array(
-		//			'select_options_1'          => $post_types,
-		//			'select_options_1_title'    => __( 'Choose Post Type', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ),
-		//			'select_options_1_selected' => $selected_post_type,
-		//			'select_options_2'          => $pages,
-		//			'select_options_2_title'    => __( 'Choose Archive Page', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ),
-		//			'select_options_2_selected' => $selected_archive_page,
-		//
-		//		) );
-		?>
-
 
         <input type="submit" value="Update" name="submit" class="button button-primary button-large">
     </div>

@@ -30,14 +30,17 @@ class WPBFRewriteRules {
 	}
 
 	public function add_custom_rewrite(): void {
-		$post_type = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
+		$post_types    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
+		$archive_pages = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
+		$rewrite_slugs = get_option( WPBFConstants::WPBFML_POST_TYPE_REWRITE_SLUG_OPTION );
 
-		if ( ! empty( $post_type ) ) {
-
-			if ( 'post' === $post_type ) {
-				$this->add_custom_rewrite_for_defaults_post_type();
-			} else {
-				$this->add_custom_rewrite_for_custom_post_types( $post_type );
+		if ( ! empty( $post_types ) ) {
+			foreach ( $post_types as $post_type => $value ) {
+				if ( 'post' === $post_type ) {
+					$this->add_custom_rewrite_for_defaults_post_type( $archive_pages[ $post_type ] );
+				} else {
+					$this->add_custom_rewrite_for_custom_post_types( $post_type, $archive_pages[ $post_type ], $rewrite_slugs[$post_type] );
+				}
 			}
 		}
 
@@ -45,11 +48,8 @@ class WPBFRewriteRules {
 		$this->add_custom_rewrite_rules_for_modal_pages();
 	}
 
-	public function add_custom_rewrite_for_custom_post_types( string $post_type ): void {
-		$archive_page = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
-		$rewrite_slug = get_option( WPBFConstants::WPBFML_POST_TYPE_REWRITE_SLUG_OPTION );
-
-		if ( ! empty( $archive_page ) && 'archive' === $archive_page ) {
+	public function add_custom_rewrite_for_custom_post_types( string $post_type, string $archive_page, string $rewrite_slug ): void {
+		if ( 'archive' === $archive_page ) {
 			$query = 'index.php?post_type=' . $post_type . '&post-slug=$matches[1]';
 		} else {
 			$query = 'index.php?page_id=' . $archive_page . '&post-slug=$matches[1]';
@@ -60,7 +60,7 @@ class WPBFRewriteRules {
 		$this->add_rewrite_rule( $regex, $query );
 	}
 
-	public function add_custom_rewrite_for_defaults_post_type(): void {
+	public function add_custom_rewrite_for_defaults_post_type(string $archive_page_id): void {
 		$args = array(
 			'post_type'      => 'post',
 			'posts_per_page' => - 1,
@@ -72,9 +72,6 @@ class WPBFRewriteRules {
 
 		if ( ! empty( $all_posts ) ) {
 			foreach ( $all_posts as $all_post ) {
-				$archive_page_option = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
-				$archive_page_id     = ! empty( $archive_page_option[0] ) ? $archive_page_option[0] : '';
-
 
 				if ( empty( $archive_page_id ) || 'archive' === $archive_page_id ) {
 					$archive_page_id = get_option( 'page_on_front' );
