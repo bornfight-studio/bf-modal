@@ -20,7 +20,11 @@ class WPBFPostDataProvider {
 	}
 
 	public function get_post_types(): array {
-		return $this->get_custom_post_types();
+		$custom = $this->get_custom_post_types();
+
+		return array_merge( $custom, array(
+			'post'
+		) );
 	}
 
 	public function get_post_data( array $args ): array {

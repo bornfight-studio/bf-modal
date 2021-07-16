@@ -3,6 +3,8 @@
 
 namespace wpModalPlugin\helpers;
 
+use wpModalPlugin\providers\WPBFPostDataProvider;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -15,7 +17,7 @@ class WPBFModalHelper {
 		return $this->open_popup;
 	}
 
-	public function trigger_popup( string $post_type = 'page' ): void {
+	public function trigger_popup(): void {
 		$this->current_post = false;
 
 		if ( get_query_var( 'post-slug' ) ) {
@@ -23,7 +25,18 @@ class WPBFModalHelper {
 		}
 
 		if ( ! empty( $name ) ) {
-			$this->current_post = get_page_by_path( $name, OBJECT, $post_type );
+			$wpbf_post_data_provider = new WPBFPostDataProvider();
+			$post_types              = $wpbf_post_data_provider->get_custom_post_types();
+
+			$post_types = array_merge( $post_types, array( 'page', 'post' ) );
+
+			foreach ( $post_types as $post_type ) {
+				$post_data = get_page_by_path( $name, OBJECT, $post_type );
+
+				if ( ! empty( $post_data ) ) {
+					$this->current_post = $post_data;
+				}
+			}
 		}
 
 		if ( ! empty( $this->current_post ) ) {
