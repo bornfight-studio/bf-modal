@@ -1,4 +1,4 @@
-import Dummy from "./components/Dummy";
+import SwitcherController from "./components/SwitcherController";
 
 const ready = (callbackFunc) => {
     if (document.readyState !== "loading") {
@@ -28,7 +28,7 @@ const ready = (callbackFunc) => {
  */
 
 ready(() => {
-    const dummy = new Dummy();
+    const switcherController = new SwitcherController();
 
-    dummy.init();
+    switcherController.init();
 });

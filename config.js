@@ -1,17 +1,18 @@
+let folder = 'admin';
 export const gulpConfig = {
     proxy: "www.bwp.loc/test-template-bwp",
     port: 3000,
     host: "localhost",
     paths: {
         styles: {
-            main: "static/public/scss/style.scss",
-            src: "static/public/scss/**/*.scss",
-            dest: "static/public/dist/",
+            main: "static/" + folder + "/scss/style.scss",
+            src: "static/" + folder + "/scss/**/*.scss",
+            dest: "static/" + folder + "/dist/",
         },
         scripts: {
-            main: "static/public/js/index.js",
-            src: "static/public/js/**/*.js",
-            dest: "static/public/dist/",
+            main: "static/" + folder + "/js/index.js",
+            src: "static/" + folder + "/js/**/*.js",
+            dest: "static/" + folder + "/dist/",
         },
         markup: {
             src: "**/*.{html,php}",
@@ -20,7 +21,7 @@ export const gulpConfig = {
             node_modules: ["./node_modules"],
         },
         cleanPatterns: {
-            patterns: ["static/public/dist"]
+            patterns: ["static/" + folder + "/dist"]
         }
     }
 }

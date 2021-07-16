@@ -36,12 +36,13 @@ class WPBFModalReturnUrlHelper {
 	}
 
 	public function get_page_return_url( int $post_id ): string {
-		$archive_url = get_post_meta( $post_id, WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION );
+		$archive_url    = get_post_meta( $post_id, WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION );
+		$archive_url_id = ! empty( $archive_url[0] ) ? $archive_url[0] : '';
 
-		if ( empty( $archive_url ) ) {
+		if ( empty( $archive_url_id ) ) {
 			return get_home_url();
 		}
 
-		return get_permalink( $archive_url );
+		return get_permalink( $archive_url_id );
 	}
 }

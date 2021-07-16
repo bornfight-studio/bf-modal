@@ -91,7 +91,8 @@ class WPBFRewriteRules {
 
 		if ( ! empty( $pages ) ) {
 			foreach ( $pages as $page ) {
-				$redirect_page_id = get_post_meta( $page->ID, WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION );
+				$redirect_page_meta = get_post_meta( $page->ID, WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION );
+				$redirect_page_id   = ! empty( $redirect_page_meta[0] ) ? $redirect_page_meta[0] : '';
 
 				if ( empty( $redirect_page_id ) ) {
 					$redirect_page_id = get_option( 'page_on_front' );

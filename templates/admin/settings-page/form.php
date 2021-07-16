@@ -23,18 +23,20 @@ $chosen_archive_page = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
         <table class="form-class">
             <tbody>
             <tr>
-                <th><h2>Convert to modal form</h2></th>
+                <th>
+                    <h2><?= __( 'Convert to modal', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?></h2>
+                </th>
             </tr>
 
             <tr>
                 <th>
-                    <label for="post_type">
-                        Choose Post Type
+                    <label for="wpbfml_post_type">
+						<?= __( 'Choose Post Type', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?>
                     </label>
                 </th>
                 <td>
-                    <select name="post_type" id="post_type">
-                        <option value="none">Choose</option>
+                    <select name="wpbfml_post_type" id="wpbfml_post_type">
+                        <option value="none"><?= __( 'Choose', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?></option>
 						<?php if ( ! empty( $post_types ) ) {
 							foreach ( $post_types as $post_type ) { ?>
                                 <option value="<?= $post_type ?>" <?= WPBFModalFormHelper::get_selected( $chosen_post_type, $post_type ); ?>><?= $post_type; ?></option>
@@ -46,13 +48,13 @@ $chosen_archive_page = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
 
             <tr>
                 <th>
-                    <label for="archive_page">
-                        Choose Archive Page
+                    <label for="wpbfml_archive_page">
+						<?= __( 'Choose Archive Page', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?>
                     </label>
                 </th>
                 <td>
-                    <select name="archive_page" id="archive_page">
-                        <option value="none">Choose</option>
+                    <select name="wpbfml_archive_page" id="wpbfml_archive_page">
+                        <option value="none"><?= __( 'Choose', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?></option>
 						<?php if ( ! empty( $pages ) ) {
 							foreach ( $pages as $page ) { ?>
                                 <option value="<?= $page->ID; ?>" <?= WPBFModalFormHelper::get_selected( $chosen_archive_page, $page->ID ); ?>><?= $page->post_title; ?></option>
