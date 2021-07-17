@@ -13,7 +13,7 @@
  * @wordpress-plugin
  * Plugin Name:       WP Modal Plugin
  * Plugin URI:        https://github.com/bornfight/wp-modal-plugin
- * Description:       PLUGIN DESCRIPTION
+ * Description:       Plugin for creating modals
  * Version:           1.0.2
  * Author:            Bornfight
  * License:           GPL-2.0+

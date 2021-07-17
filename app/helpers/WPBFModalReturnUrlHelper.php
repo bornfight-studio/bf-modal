@@ -18,6 +18,10 @@ class WPBFModalReturnUrlHelper {
 			return get_post_type_archive_link( $post_data->post_type );
 		}
 
+		if ( 'none' === $page_archive_option[ $post_data->post_type ] ) {
+			return get_home_url();
+		}
+
 		return get_permalink( $page_archive_option[ $post_data->post_type ] );
 	}
 

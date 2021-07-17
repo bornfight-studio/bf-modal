@@ -14,9 +14,12 @@ $pages      = $wpbf_page_data_provider->get_all_option_pages();
 $modal_form_controller = new WPBFModalFormController();
 $modal_form_controller->save_modal_form_options( $_POST );
 
-$selected_post_type     = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
-$selected_archive_page  = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
-$selected_archive_pages = array_values( $selected_archive_page );
+$selected_post_type    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
+$selected_archive_page = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
+
+if ( ! empty( $selected_archive_page ) && is_array( $selected_archive_page ) ) {
+	$selected_archive_pages = array_values( $selected_archive_page );
+}
 ?>
 <form action="" method="post">
     <div class="wrap">
@@ -44,7 +47,7 @@ $selected_archive_pages = array_values( $selected_archive_page );
                                 <option value="none"><?= __( 'Choose', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?></option>
 								<?php if ( ! empty( $pages ) ) {
 									foreach ( $pages as $page ) { ?>
-                                        <option value="<?= $page->ID; ?>" <?= $selected_archive_pages[ $i - 1 ] === (string) $page->ID ? 'selected' : ''; ?>><?= $page->post_title; ?></option>
+                                        <option value="<?= $page->ID; ?>" <?= ! empty( $selected_archive_pages ) && $selected_archive_pages[ $i - 1 ] === (string) $page->ID ? 'selected' : ''; ?>><?= $page->post_title; ?></option>
 									<?php }
 								} ?>
                             </select>
