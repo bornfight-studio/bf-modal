@@ -7,14 +7,14 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @since             1.0.1
- * @package           PLUGIN DESCRIPTION
+ * @since             1.0.2
+ * @package           WP Modal Plugin
  *
  * @wordpress-plugin
  * Plugin Name:       WP Modal Plugin
  * Plugin URI:        https://github.com/bornfight/wp-modal-plugin
  * Description:       PLUGIN DESCRIPTION
- * Version:           1.0.0
+ * Version:           1.0.2
  * Author:            Bornfight
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
