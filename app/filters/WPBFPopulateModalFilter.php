@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use WP_REST_Request;
 use WP_REST_Response;
 use wpModalPlugin\helpers\WPBFModalReturnUrlHelper;
+use wpModalPlugin\providers\WPBFPartialDataProvider;
 
 class WPBFPopulateModalFilter extends WPBFBaseFilter {
 	public function populate_modal( WP_REST_Request $request ): WP_REST_Response {
@@ -44,12 +45,18 @@ class WPBFPopulateModalFilter extends WPBFBaseFilter {
 			$return_url                   = $wpbf_modal_return_url_helper->get_return_url( $post_data_id );
 		}
 
-		$located = locate_template( 'templates/wp-modal-plugin/layout/modal-inner.php', true, false, array(
+		$wpbf_partial_data_provider = new WPBFPartialDataProvider();
+		$override_modal             = $wpbf_partial_data_provider->get_override_modal_partial_if_exists( array(
 			'post_data_id' => $post_data_id,
-			'return_url'   => $return_url
+			'return_url'   => $return_url,
 		) );
 
-		if ( empty( $located ) ) {
+		if ( ! empty( $override_modal ) ) {
+			load_template( $override_modal, true, array(
+				'post_data_id' => $post_data_id,
+				'return_url'   => $return_url,
+			) );
+		} else {
 			get_wpbf_template( 'layout/modal-inner', array(
 				'post_data_id' => $post_data_id,
 				'return_url'   => $return_url,
