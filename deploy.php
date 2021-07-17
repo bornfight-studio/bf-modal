@@ -28,6 +28,8 @@ add( 'shared_dirs', [] );
 add( 'writable_dirs', [] );
 set( 'allow_anonymous_stats', false );
 
+set( 'keep_releases', 3 );
+
 // Hosts
 
 host( 'staging' )->hostname( '18.185.224.204' )->stage( 'staging' )->set( 'branch', 'staging' )->user( 'bitnami' )->port( 22 )->identityFile( '~/.ssh/id_rsa' )->forwardAgent( true )->multiplexing( true )->set( 'deploy_path', '~/{{projects-staging}}/{{application}}' );
