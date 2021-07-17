@@ -30,6 +30,13 @@ export default class ModalController {
             return;
         }
 
+        let modalHelper = new ModalHelper();
+        modalHelper.addEvent('initModal', {
+            detail: {
+                modal: this.modal,
+            },
+        });
+
         if (onlyTriggers !== true) {
             this.hiddenModalEvent();
         }
@@ -67,14 +74,6 @@ export default class ModalController {
                         postDataId: ev.currentTarget.dataset.postDataId,
                         returnUrl: ev.currentTarget.dataset.returnUrl,
                     });
-
-                    // if (ev.currentTarget.classList.contains('js-post-type-trigger')) {
-                    //     console.log(ev.currentTarget.href);
-                    //     let popupModalFilter = new PopulateModalFilter();
-                    //     popupModalFilter.populateModal(ev.currentTarget);
-                    // } else {
-                    //     this.openModal();
-                    // }
                 });
             });
         }

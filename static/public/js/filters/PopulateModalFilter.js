@@ -41,13 +41,13 @@ export default class PopulateModalFilter extends BaseFilter {
 
         this.enableFilter();
 
+        const modalController = new ModalController();
+        modalController.init(true);
+        modalController.openModal();
+
         let modalHelper = new ModalHelper();
         modalHelper.addEvent('afterPopulateModal', {
             detail: data,
         });
-
-        const modalController = new ModalController();
-        modalController.init(true);
-        modalController.openModal();
     }
 }
