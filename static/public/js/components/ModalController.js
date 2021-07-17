@@ -1,5 +1,6 @@
 import BaseFilter from "../filters/BaseFilter";
 import PopulateModalFilter from "../filters/PopulateModalFilter";
+import ModalHelper from "./ModalHelper";
 
 
 export default class ModalController {
@@ -60,7 +61,7 @@ export default class ModalController {
 
                     this.baseFilter.disableFilter();
 
-                    console.log(ev.currentTarget.dataset.postDataId);
+                    // console.log(ev.currentTarget.dataset.postDataId);
                     let popupModalFilter = new PopulateModalFilter();
                     popupModalFilter.populateModal({
                         postDataId: ev.currentTarget.dataset.postDataId,
@@ -80,6 +81,13 @@ export default class ModalController {
     }
 
     openModal() {
+        let modalHelper = new ModalHelper();
+        modalHelper.addEvent('openModal', {
+            detail: {
+                modal: this.modal,
+            },
+        });
+
         this.modal.classList.add(this.DOM.states.isActive);
         this.setCloseEventListeners();
         setTimeout(() => {
@@ -103,6 +111,13 @@ export default class ModalController {
     }
 
     closeModal() {
+        let modalHelper = new ModalHelper();
+        modalHelper.addEvent('closeModal', {
+            detail: {
+                modal: this.modal,
+            },
+        });
+
         let url = this.modalClose.dataset.returnUrl;
 
         if (url) {

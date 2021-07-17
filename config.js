@@ -1,4 +1,4 @@
-let folder = 'admin';
+let folder = 'public';
 export const gulpConfig = {
     proxy: "www.bwp.loc/test-template-bwp",
     port: 3000,
