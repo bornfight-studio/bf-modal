@@ -14,7 +14,7 @@
  * Plugin Name:       WP Modal Plugin
  * Plugin URI:        https://github.com/bornfight/wp-modal-plugin
  * Description:       Plugin for creating modals
- * Version:           1.0.6
+ * Version:           1.0.7
  * Author:            Bornfight
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
@@ -67,13 +67,13 @@ $update_checker = Puc_v4_Factory::buildUpdateChecker( 'https://plugin-service.bw
 	WPBFMP_PLUGIN_SLUG );
 
 add_action( 'admin_enqueue_scripts', function () {
-	wp_enqueue_style( $_ENV['PLUGIN_PREFIX'] . 'admin-css', plugin_dir_url( __FILE__ ) . 'static/admin/dist/style.css' );
-	wp_enqueue_script( $_ENV['PLUGIN_PREFIX'] . 'admin-js', plugin_dir_url( __FILE__ ) . 'static/admin/dist/bundle.js', null, '1.0.0', true );
+	wp_enqueue_style( $_ENV['PLUGIN_PREFIX'] . 'admin-css', plugin_dir_url( __FILE__ ) . 'static/admin/dist/style.css', null, '1.0.1', false );
+	wp_enqueue_script( $_ENV['PLUGIN_PREFIX'] . 'admin-js', plugin_dir_url( __FILE__ ) . 'static/admin/dist/bundle.js', null, '1.0.1', true );
 } );
 
 add_action( 'wp_enqueue_scripts', function () {
-	wp_enqueue_style( $_ENV['PLUGIN_PREFIX'] . 'public-css', plugin_dir_url( __FILE__ ) . 'static/public/dist/style.css' );
-	wp_enqueue_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', plugin_dir_url( __FILE__ ) . 'static/public/dist/bundle.js', null, '1.0.0', true );
+	wp_enqueue_style( $_ENV['PLUGIN_PREFIX'] . 'public-css', plugin_dir_url( __FILE__ ) . 'static/public/dist/style.css', null, '1.0.1', false );
+	wp_enqueue_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', plugin_dir_url( __FILE__ ) . 'static/public/dist/bundle.js', null, '1.0.1', true );
 
 	wp_localize_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', 'wpbf_frontend_ajax_object', array(
 		'ajax_url'       => get_home_url() . '/wp-json/api/v1',
