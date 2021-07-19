@@ -13,6 +13,7 @@
   visibility: hidden;
   transition: 0.3s;
   background-color: rgba(0, 0, 0, 0.6);
+  overflow: scroll;
 
   &.is-active {
     opacity: 1;
