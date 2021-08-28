@@ -1,8 +1,8 @@
 <?php
 
-use wpModalPlugin\controller\WPBFModalFormController;
 use wpModalPlugin\core\WPBFConstants;
 use wpModalPlugin\helpers\WPBFIsActiveHelper;
+use wpModalPlugin\providers\WPBFAdminOptionsProvider;
 use wpModalPlugin\providers\WPBFPageDataProvider;
 use wpModalPlugin\providers\WPBFPostDataProvider;
 
@@ -12,8 +12,8 @@ $wpbf_page_data_provider = new WPBFPageDataProvider();
 $post_types = $wpbf_post_data_provider->get_post_types();
 $pages      = $wpbf_page_data_provider->get_all_option_pages();
 
-$modal_form_controller = new WPBFModalFormController();
-$modal_form_controller->save_modal_form_options( $_POST );
+$wpbf_admin_options_provider = new WPBFAdminOptionsProvider();
+$wpbf_admin_options_provider->save_modal_form_options( $_POST );
 
 $selected_post_type    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
 

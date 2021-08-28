@@ -2,6 +2,7 @@ import BaseFilter from "./BaseFilter";
 import axios from "axios";
 import ModalController from "../components/ModalController";
 import ModalHelper from "../components/ModalHelper";
+import {populateModalEvent, afterPopulateModalEvent} from "../config/CustomEventConfig";
 
 export default class PopulateModalFilter extends BaseFilter {
     /**
@@ -17,7 +18,7 @@ export default class PopulateModalFilter extends BaseFilter {
         }
 
         let modalHelper = new ModalHelper();
-        modalHelper.addEvent('populateModal', {
+        modalHelper.addEvent(populateModalEvent, {
             detail: data,
         });
 
@@ -46,7 +47,7 @@ export default class PopulateModalFilter extends BaseFilter {
         modalController.openModal();
 
         let modalHelper = new ModalHelper();
-        modalHelper.addEvent('afterPopulateModal', {
+        modalHelper.addEvent(afterPopulateModalEvent, {
             detail: data,
         });
     }

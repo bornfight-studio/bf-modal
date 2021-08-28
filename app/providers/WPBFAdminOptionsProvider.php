@@ -1,7 +1,7 @@
 <?php
 
 
-namespace wpModalPlugin\controller;
+namespace wpModalPlugin\providers;
 
 use wpModalPlugin\core\WPBFConstants;
 
@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFModalFormController {
+class WPBFAdminOptionsProvider {
 	public function save_modal_form_options( array $params ): void {
 		if ( ! empty( $params['wpbf_modal_post_types'] ) ) {
 

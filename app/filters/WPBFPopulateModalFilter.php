@@ -57,7 +57,7 @@ class WPBFPopulateModalFilter extends WPBFBaseFilter {
 				'return_url'   => $return_url,
 			) );
 		} else {
-			get_wpbf_template( 'layout/modal-inner', array(
+			get_wpbfml_template( 'layout/modal-inner', array(
 				'post_data_id' => $post_data_id,
 				'return_url'   => $return_url,
 			) );

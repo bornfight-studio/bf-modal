@@ -1,6 +1,7 @@
 import BaseFilter from "../filters/BaseFilter";
 import PopulateModalFilter from "../filters/PopulateModalFilter";
 import ModalHelper from "./ModalHelper";
+import {initModalEvent, openModalEvent, closeModalEvent} from "../config/CustomEventConfig";
 
 
 export default class ModalController {
@@ -31,7 +32,7 @@ export default class ModalController {
         }
 
         let modalHelper = new ModalHelper();
-        modalHelper.addEvent('initModal', {
+        modalHelper.addEvent(initModalEvent, {
             detail: {
                 modal: this.modal,
             },
@@ -81,7 +82,7 @@ export default class ModalController {
 
     openModal() {
         let modalHelper = new ModalHelper();
-        modalHelper.addEvent('openModal', {
+        modalHelper.addEvent(openModalEvent, {
             detail: {
                 modal: this.modal,
             },
@@ -111,7 +112,7 @@ export default class ModalController {
 
     closeModal() {
         let modalHelper = new ModalHelper();
-        modalHelper.addEvent('closeModal', {
+        modalHelper.addEvent(closeModalEvent, {
             detail: {
                 modal: this.modal,
             },

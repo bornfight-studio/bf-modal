@@ -1,15 +1,15 @@
 <?php
 
 
-namespace wpModalPlugin\controller;
-
-use wpModalPlugin\core\WPBFConstants;
+namespace wpModalPlugin\providers;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFPagesMetaBoxController {
+use wpModalPlugin\core\WPBFConstants;
+
+class WPBFPagesMetaBoxProvider {
 	public function init(): void {
 		if ( is_admin() ) {
 			add_action( 'add_meta_boxes_page', array( $this, 'add_meta_box_to_pages' ) );
@@ -40,6 +40,6 @@ class WPBFPagesMetaBoxController {
 	}
 
 	public function add_meta_box_callback() {
-		get_wpbf_template( 'admin/pages/modal-meta-box' );
+		get_wpbfml_template( 'admin/pages/modal-meta-box' );
 	}
 }

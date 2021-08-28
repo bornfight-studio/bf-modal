@@ -22,7 +22,7 @@ $archive_modal_option = ! empty( $archive_page_modal_option[0] ) ? $archive_page
 ?>
 <div class="c-meta-box">
 	<?php
-	get_wpbf_template( 'admin/component/switcher', array(
+	get_wpbfml_template( 'admin/component/switcher', array(
 		'label'       => __( 'Is modal?', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ),
 		'checkbox_id' => 'wpbfml_is_modal',
 		'is_checked'  => ! empty( $is_modal ) ? 'checked' : '',

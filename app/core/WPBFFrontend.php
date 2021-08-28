@@ -13,7 +13,12 @@ class WPBFFrontend {
 	}
 
 	public function add_popup_to_footer(): void {
-		load_template(WPBFMP_LOCAL_PLUGIN_PATH . '/templates/layout/modal.php');
-//		get_wpbf_partial( 'layout/modal', array() );
+		$template = locate_template( 'templates/wp-modal-plugin/layout/modal.php', false, false, array() );
+
+		if ( ! empty( $template ) ) {
+			load_template( $template );
+		} else {
+			load_template( WPBFMP_LOCAL_PLUGIN_PATH . '/templates/layout/modal.php' );
+		}
 	}
 }

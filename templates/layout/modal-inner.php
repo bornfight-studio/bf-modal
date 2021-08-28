@@ -15,7 +15,7 @@ if ( ! empty( $post_data_id ) ) { ?>
         <button class="c-modal__close u-b1 js-modal-close"
                 data-return-url="<?= ! empty( $args['return_url'] ) ? $args['return_url'] : ''; ?>">
             <span><?= __( 'Close', WPBFConstants::WPBFML_DOMAIN_NAME ); ?></span>
-			<?php get_wpbf_icon( 'close' ); ?>
+			<?php get_wpbfml_icon( 'close' ); ?>
         </button>
 
         <div class="c-modal__content">

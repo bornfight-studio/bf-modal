@@ -41,10 +41,6 @@ class WPBFDashboardSetup {
 			exit;
 		}
 
-//		var_dump(WPBFMP_LOCAL_PLUGIN_PATH);
-
-		load_template(WPBFMP_LOCAL_PLUGIN_PATH . 'templates/admin/main.php');
-
-//		get_wpbf_partial( 'admin/main', array() );
+		load_template( WPBFMP_LOCAL_PLUGIN_PATH . 'templates/admin/main.php' );
 	}
 }

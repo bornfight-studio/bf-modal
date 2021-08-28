@@ -3,10 +3,10 @@
 
 	<?php
 
-	get_wpbf_template( 'admin/layout/navigation', array(
+	get_wpbfml_template( 'admin/layout/navigation', array(
 		'tab' => ! empty( $_GET['tab'] ) ? $_GET['tab'] : '',
 	) );
 
-	get_wpbf_template( 'admin/settings-page/form' );
+	get_wpbfml_template( 'admin/settings-page/form' );
 	?>
 </div>

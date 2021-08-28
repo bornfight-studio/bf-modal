@@ -16,7 +16,7 @@ echo $wpbf_modal_helper->get_open_popup();
 <section class="c-modal <?= ! empty( $modifier ) ? $modifier : ''; ?> js-modal">
 	<?php
 
-	get_wpbf_template( 'layout/modal-inner', array(
+	get_wpbfml_template( 'layout/modal-inner', array(
 		'post_data_id' => ! empty( $post_data_id ) ? $post_data_id : null,
 	) );
 
