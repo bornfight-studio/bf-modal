@@ -13,7 +13,7 @@ $post_types = $wpbf_post_data_provider->get_post_types();
 $pages      = $wpbf_page_data_provider->get_all_option_pages();
 
 $wpbf_admin_options_provider = new WPBFAdminOptionsProvider();
-$wpbf_admin_options_provider->save_modal_form_options( $_POST );
+$wpbf_admin_options_provider->save_modal_admin_settings( $_POST );
 
 $selected_post_type    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
 
@@ -32,7 +32,7 @@ $selected_post_type    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
                         <td><?= $i; ?></td>
                         <td>
                             <label for="<?= $key; ?>">
-                                <input type="checkbox" name="wpbf_modal_post_types[<?= $key; ?>]"
+                                <input type="checkbox" name="wpbfml_modal_post_types[<?= $key; ?>]"
                                        id="<?= $key; ?>" <?= ! empty( $selected_post_type[ $key ] ) ? 'checked' : ''; ?>>
 
 								<?= $post_type; ?>

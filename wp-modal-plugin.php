@@ -23,6 +23,7 @@
 use Symfony\Component\Dotenv\Dotenv;
 use wpModalPlugin\api\WPBFApiHelper;
 use wpModalPlugin\api\WPBFRestApiCustomRoutes;
+use wpModalPlugin\core\WPBFConstants;
 use wpModalPlugin\core\WPBFDashboardSetup;
 use wpModalPlugin\core\WPBFFrontend;
 use wpModalPlugin\core\WPBFRewriteRules;
@@ -72,7 +73,9 @@ add_action( 'admin_enqueue_scripts', function () {
 } );
 
 add_action( 'wp_enqueue_scripts', function () {
-	wp_enqueue_style( $_ENV['PLUGIN_PREFIX'] . 'public-css', plugin_dir_url( __FILE__ ) . 'static/public/dist/style.css', null, '1.0.1', false );
+	if ( empty( get_option( WPBFConstants::WPBFML_DISABLE_FRONT_STYLES_OPTION ) ) ) {
+		wp_enqueue_style( $_ENV['PLUGIN_PREFIX'] . 'public-css', plugin_dir_url( __FILE__ ) . 'static/public/dist/style.css', null, '1.0.1', false );
+	}
 	wp_enqueue_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', plugin_dir_url( __FILE__ ) . 'static/public/dist/bundle.js', null, '1.0.1', true );
 
 	wp_localize_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', 'wpbf_frontend_ajax_object', array(

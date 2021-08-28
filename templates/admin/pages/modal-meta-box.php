@@ -32,7 +32,7 @@ $archive_modal_option = ! empty( $archive_page_modal_option[0] ) ? $archive_page
 	?>
 
     <div>
-        <label for="wpbf_modal_archive_page" class="c-switcher__select-label">
+        <label for="wpbfml_modal_archive_page" class="c-switcher__select-label">
 			<?= __( 'Choose Archive Page', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?>
         </label>
         <select name="wpbfml_modal_archive_page" id="wpbfml_modal_archive_page">
