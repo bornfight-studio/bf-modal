@@ -79,7 +79,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', plugin_dir_url( __FILE__ ) . 'static/public/dist/bundle.js', null, '1.0.1', true );
 
 	wp_localize_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', 'wpbf_frontend_ajax_object', array(
-		'ajax_url'       => get_home_url() . '/wp-json/api/v1',
+		'ajax_url'       => get_rest_url() . 'api/v1',
 		'populate_modal' => WPBFApiHelper::POPULATE_MODAL,
 		'ajax_nonce'     => wp_create_nonce( 'wp_rest' )
 	) );

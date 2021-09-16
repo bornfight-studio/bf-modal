@@ -28,7 +28,7 @@ export default class PopulateModalFilter extends BaseFilter {
     }
 
     afterPopulateModal(data, stateHistory) {
-        let modal = document.querySelector(".js-modal");
+        let modal = document.querySelector(".js-wpbfml-modal");
 
         if (data.html && modal) {
             modal.innerHTML = data.html;

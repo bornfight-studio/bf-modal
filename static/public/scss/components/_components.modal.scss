@@ -1,4 +1,4 @@
-.c-modal {
+.c-wpbfml-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +13,6 @@
   visibility: hidden;
   transition: 0.3s;
   background-color: rgba(0, 0, 0, 0.6);
-  overflow: scroll;
 
   &.is-active {
     opacity: 1;
@@ -25,16 +24,20 @@
     position: relative;
     min-width: 500px;
     max-width: 90%;
-    padding-top: 10%;
+    height: 90%;
+    overflow: scroll;
     background-color: #ffffff;
   }
 
+  &__content {
+    padding: 1em;
+  }
+
   &__close {
-    position: absolute;
-    right: percentage(1.5 / 24);
-    top: 0;
+    display: block;
+    margin-left: auto;
+    padding: 1em;
     background-color: transparent;
-    margin-top: percentage(1.5 / 24);
     border: 0;
     -webkit-appearance: none;
     transition: opacity 0.2s ease-out;

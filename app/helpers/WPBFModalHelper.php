@@ -40,9 +40,9 @@ class WPBFModalHelper {
 		}
 
 		if ( ! empty( $this->current_post ) ) {
-			$this->open_popup = '<script> var openPopupID = ' . $this->current_post->ID . '; var firstOpen = 1;</script>';
+			$this->open_popup = '<script> var openWpbfmlPopupID = ' . $this->current_post->ID . '; var firstOpen = 1;</script>';
 		} else {
-			$this->open_popup = '<script> var openPopupID = 0; var firstOpen = 0;</script>';
+			$this->open_popup = '<script> var openWpbfmlPopupID = 0; var firstOpen = 0;</script>';
 		}
 	}
 }
