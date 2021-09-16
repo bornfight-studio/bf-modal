@@ -6,7 +6,7 @@
  */
 ?>
 <div class="c-wpbfml-switcher">
-    <label for="wpbfml_is_modal">
+    <label for="<?= $args['checkbox_id']; ?>">
 		<?= ! empty( $args['label'] ) ? $args['label'] : ''; ?>
 
         <div class="c-wpbfml-switcher-box js-wpbf-switcher">
@@ -25,7 +25,5 @@
                 <div class="c-wpbfml-switcher__slider"></div>
             </div>
         </div>
-
-
     </label>
 </div>

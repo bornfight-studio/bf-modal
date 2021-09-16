@@ -19,11 +19,13 @@ class WPBFPagesMetaBoxProvider {
 	}
 
 	public function save_page_modal_meta_box_data( $post_id, $post, $update ) {
-		$is_modal           = ! empty( $_POST['wpbfml_is_modal'] );
-		$modal_archive_page = ! empty( $_POST['wpbfml_modal_archive_page'] ) ? sanitize_text_field( $_POST['wpbfml_modal_archive_page'] ) : '';
+		$is_modal              = ! empty( $_POST[ WPBFConstants::WPBFML_PAGE_IS_MODAL_OPTION ] );
+		$modal_archive_page    = ! empty( $_POST[ WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION ] ) ? sanitize_text_field( $_POST[ WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION ] ) : '';
+		$modal_template_option = ! empty( $_POST[ WPBFConstants::WPBFML_MODAL_TEMPLATES_OPTION ] ) ? sanitize_text_field( $_POST[ WPBFConstants::WPBFML_MODAL_TEMPLATES_OPTION ] ) : '';
 
 		update_post_meta( $post_id, WPBFConstants::WPBFML_PAGE_IS_MODAL_OPTION, $is_modal );
 		update_post_meta( $post_id, WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION, $modal_archive_page );
+		update_post_meta( $post_id, WPBFConstants::WPBFML_MODAL_TEMPLATES_OPTION, $modal_template_option );
 	}
 
 	public function add_meta_box_to_pages(): void {

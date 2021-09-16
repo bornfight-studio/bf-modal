@@ -1,5 +1,9 @@
 <?php
-$tab = ! empty( $_GET['tab'] ) ? $_GET['tab'] : '';
+
+use wpModalPlugin\providers\WPBFAdminOptionsProvider;
+
+$tab                         = ! empty( $_GET['tab'] ) ? $_GET['tab'] : '';
+$wpbf_admin_options_provider = new WPBFAdminOptionsProvider();
 ?>
 <div class="wrap">
     <h1>Modal Plugin</h1>
@@ -10,11 +14,6 @@ $tab = ! empty( $_GET['tab'] ) ? $_GET['tab'] : '';
 		'tab' => $tab,
 	) );
 
-	// TODO: fix this
-	if ( 'other-options' === $tab ) {
-		get_wpbfml_template( 'admin/settings-page/other-options-form' );
-	} else {
-		get_wpbfml_template( 'admin/settings-page/form' );
-	}
+	$wpbf_admin_options_provider->get_admin_screen( $tab );
 	?>
 </div>

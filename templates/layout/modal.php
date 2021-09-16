@@ -12,5 +12,4 @@ $wpbf_modal_helper = new WPBFModalHelper();
 $wpbf_modal_helper->trigger_popup();
 echo $wpbf_modal_helper->get_open_popup();
 ?>
-<section class="c-wpbfml-modal <?= ! empty( $modifier ) ? $modifier : ''; ?> js-wpbfml-modal">
-</section>
+<div class="c-wpbfml-modal <?= ! empty( $modifier ) ? $modifier : ''; ?> js-wpbfml-modal"></div>

@@ -3,6 +3,8 @@
 
 namespace wpModalPlugin\providers;
 
+use wpModalPlugin\core\WPBFConstants;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -16,6 +18,20 @@ class WPBFPartialDataProvider {
 				'post_data_id' => $data['post_data_id'],
 				'return_url'   => $data['return_url']
 			) );
+		}
+
+		$modal_template      = get_post_meta( $data['post_data_id'], WPBFConstants::WPBFML_MODAL_TEMPLATES_OPTION );
+		$modal_template_name = ! empty( $modal_template[0] ) ? $modal_template[0] : '';
+
+		if ( ! empty( $modal_template_name ) ) {
+			$modal_template = locate_template( 'templates/wp-modal-plugin/layout/modal-inner_' . $modal_template_name . '.php', false, false, array(
+				'post_data_id' => $data['post_data_id'],
+				'return_url'   => $data['return_url']
+			) );
+
+			if ( ! empty( $modal_template ) ) {
+				return $modal_template;
+			}
 		}
 
 		$post_modal = locate_template( 'templates/wp-modal-plugin/layout/modal-inner_' . $post_data->post_type . '.php', false, false, array(

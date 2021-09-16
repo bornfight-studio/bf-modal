@@ -36,4 +36,15 @@ class WPBFAdminOptionsProvider {
 			update_option( WPBFConstants::WPBFML_DISABLE_FRONT_STYLES_OPTION, false );
 		}
 	}
+
+	public function get_admin_screen( string $tab ): void {
+		switch ( $tab ) {
+			case '':
+				get_wpbfml_template( 'admin/settings-page/form' );
+				break;
+			case 'other-options':
+				get_wpbfml_template( 'admin/settings-page/other-options-form' );
+				break;
+		}
+	}
 }

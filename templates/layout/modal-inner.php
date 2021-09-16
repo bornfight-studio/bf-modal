@@ -8,7 +8,6 @@
 $post_data_id = ! empty( $args['post_data_id'] ) ? $args['post_data_id'] : null;
 
 use wpModalPlugin\core\WPBFConstants;
-use wpModalPlugin\helpers\WPBFGlobalHelper;
 
 if ( ! empty( $post_data_id ) ) { ?>
     <div class="c-wpbfml-modal__inner js-wpbfml-modal-inner">
@@ -21,7 +20,7 @@ if ( ! empty( $post_data_id ) ) { ?>
         <div class="c-wpbfml-modal__content">
             <div class="c-wpbfml-modal__row">
                 <div class="c-wpbfml-text-edit">
-					<?= WPBFGlobalHelper::bf_content( $post_data_id ); ?>
+					<?= get_wpbfml_content( $post_data_id ); ?>
                 </div>
             </div>
         </div>
