@@ -1,5 +1,5 @@
 <a href="http://www.bornfight.com">
-<img width="84px" src="https://github.com/bornfight/wp-modal-plugin/blob/master/static/icons/bf-logo-dark.svg" title="Bornfight" alt="Bornfight">
+<img width="84px" src="https://www.bornfight.com/wp-content/themes/bornfight-web-2020/static/ui/bf-logo-dark.svg" title="Bornfight" alt="Bornfight">
 </a>
 
 ## WP MODAL PLUGIN
