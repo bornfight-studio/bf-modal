@@ -18,9 +18,11 @@ class WPBFPopulateModalFilter extends WPBFBaseFilter {
 			array( 'return_url', '' ),
 		) );
 
+		$return_url = ! empty( $query_params['return_url'] ) ? $query_params['return_url'] : $_SERVER['HTTP_REFERER'];
+
 		$modal = '';
 		if ( ! empty( $query_params['page_id'] ) ) {
-			$modal = $this->get_modal( (int) $query_params['page_id'], $query_params['return_url'] );
+			$modal = $this->get_modal( (int) $query_params['page_id'], $return_url );
 		}
 
 		$url = get_permalink( $query_params['page_id'] );
@@ -57,7 +59,7 @@ class WPBFPopulateModalFilter extends WPBFBaseFilter {
 				'return_url'   => $return_url,
 			) );
 		} else {
-			get_wpbfml_template( 'layout/modal-inner', array(
+			wpbfml_get_template( 'layout/modal-inner', array(
 				'post_data_id' => $post_data_id,
 				'return_url'   => $return_url,
 			) );

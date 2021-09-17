@@ -10,7 +10,7 @@ $wpbf_admin_options_provider = new WPBFAdminOptionsProvider();
 
 	<?php
 
-	get_wpbfml_template( 'admin/layout/navigation', array(
+	wpbfml_get_template( 'admin/layout/navigation', array(
 		'tab' => $tab,
 	) );
 

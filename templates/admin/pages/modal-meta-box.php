@@ -27,7 +27,7 @@ $modal_templates = WPBFModalTemplatesProvider::get_instance()->get_templates();
 ?>
 <div class="c-meta-box">
 	<?php
-	get_wpbfml_template( 'admin/component/switcher', array(
+	wpbfml_get_template( 'admin/component/switcher', array(
 		'label'       => __( 'Is modal?', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ),
 		'checkbox_id' => WPBFConstants::WPBFML_PAGE_IS_MODAL_OPTION,
 		'is_checked'  => ! empty( $is_modal ) ? 'checked' : '',

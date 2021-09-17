@@ -40,10 +40,10 @@ class WPBFAdminOptionsProvider {
 	public function get_admin_screen( string $tab ): void {
 		switch ( $tab ) {
 			case '':
-				get_wpbfml_template( 'admin/settings-page/form' );
+				wpbfml_get_template( 'admin/settings-page/form' );
 				break;
 			case 'other-options':
-				get_wpbfml_template( 'admin/settings-page/other-options-form' );
+				wpbfml_get_template( 'admin/settings-page/other-options-form' );
 				break;
 		}
 	}

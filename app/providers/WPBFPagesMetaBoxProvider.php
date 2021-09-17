@@ -42,6 +42,6 @@ class WPBFPagesMetaBoxProvider {
 	}
 
 	public function add_meta_box_callback() {
-		get_wpbfml_template( 'admin/pages/modal-meta-box' );
+		wpbfml_get_template( 'admin/pages/modal-meta-box' );
 	}
 }
