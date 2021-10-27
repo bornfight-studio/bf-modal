@@ -57,12 +57,15 @@ If you want to convert pages to modal
 2. Modal Options for pages
 
 == Frequently Asked Questions ==
+
 = What kind of support do you provide? =
 Please post your question on plugin support forum
 
 == Upgrade Notice ==
 = 1.0.10 =
+First Release
 
 == Changelog ==
 = 1.0.10 =
 *Release Date - 27 October 2021*
+First Release
