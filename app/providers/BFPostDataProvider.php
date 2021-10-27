@@ -1,7 +1,7 @@
 <?php
 
 
-namespace wpModalPlugin\providers;
+namespace bfModalPlugin\providers;
 
 use WP_Query;
 
@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFPostDataProvider {
+class BFPostDataProvider {
 	public function get_custom_post_types(): array {
 		$args = array(
 			'public'   => true,

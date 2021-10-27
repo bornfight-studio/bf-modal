@@ -1,13 +1,12 @@
 <?php
 
-
-namespace wpModalPlugin\core;
+namespace bfModalPlugin\core;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFDashboardSetup {
+class BFDashboardSetup {
 	public $capability = 'manage_options';
 
 	public function init(): void {
@@ -27,7 +26,7 @@ class WPBFDashboardSetup {
 	 *
 	 */
 	public function register_options_page(): void {
-		add_menu_page( 'WP Modal Plugin Options', 'WP Modal Plugin Options', $this->capability, WPBFMP_PLUGIN_SLUG, array(
+		add_menu_page( 'BF Modal Plugin Options', 'BF Modal Plugin Options', $this->capability, BFML_PLUGIN_SLUG, array(
 			$this,
 			'get_options_menu_page_html'
 		) );
@@ -41,6 +40,6 @@ class WPBFDashboardSetup {
 			exit;
 		}
 
-		load_template( WPBFMP_LOCAL_PLUGIN_PATH . 'templates/admin/main.php' );
+		load_template( BFML_LOCAL_PLUGIN_PATH . 'templates/admin/main.php' );
 	}
 }

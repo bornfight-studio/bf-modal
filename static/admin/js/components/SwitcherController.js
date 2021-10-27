@@ -1,7 +1,7 @@
 export default class SwitcherController {
     constructor() {
         this.DOM = {
-            switcher: ".js-wpbf-switcher",
+            switcher: ".js-bf-switcher",
         }
 
         this.switchers = document.querySelectorAll(this.DOM.switcher);

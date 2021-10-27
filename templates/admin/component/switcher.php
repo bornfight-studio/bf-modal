@@ -5,24 +5,24 @@
  *
  */
 ?>
-<div class="c-wpbfml-switcher">
+<div class="c-bfml-switcher">
     <label for="<?= $args['checkbox_id']; ?>">
 		<?= ! empty( $args['label'] ) ? $args['label'] : ''; ?>
 
-        <div class="c-wpbfml-switcher-box js-wpbf-switcher">
+        <div class="c-bfml-switcher-box js-bf-switcher">
             <input type="checkbox" name="<?= $args['checkbox_id']; ?>"
                    id="<?= $args['checkbox_id']; ?>" <?= $args['is_checked']; ?>>
 
-            <div class="c-wpbfml-switcher__true-false">
-                <span class="c-wpbfml-switcher__on">
+            <div class="c-bfml-switcher__true-false">
+                <span class="c-bfml-switcher__on">
                     <?= $args['text_on']; ?>
                 </span>
 
-                <span class="c-wpbfml-switcher__off">
+                <span class="c-bfml-switcher__off">
                     <?= $args['text_off']; ?>
                 </span>
 
-                <div class="c-wpbfml-switcher__slider"></div>
+                <div class="c-bfml-switcher__slider"></div>
             </div>
         </div>
     </label>

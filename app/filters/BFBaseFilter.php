@@ -1,13 +1,13 @@
 <?php
 
 
-namespace wpModalPlugin\filters;
+namespace bfModalPlugin\filters;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFBaseFilter {
+class BFBaseFilter {
 	protected function get_request_params( \WP_REST_Request $request, array $params ): array {
 		$request_params = array();
 		$query_params   = $request->get_query_params();

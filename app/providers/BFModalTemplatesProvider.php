@@ -1,21 +1,21 @@
 <?php
 
-namespace wpModalPlugin\providers;
+namespace bfModalPlugin\providers;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFModalTemplatesProvider {
-	private static ?WPBFModalTemplatesProvider $instance = null;
+class BFModalTemplatesProvider {
+	private static ?BFModalTemplatesProvider $instance = null;
 	private array $templates = array();
 
 	private function __construct() {
 	}
 
-	public static function get_instance(): WPBFModalTemplatesProvider {
+	public static function get_instance(): BFModalTemplatesProvider {
 		if ( null === self::$instance ) {
-			self::$instance = new WPBFModalTemplatesProvider();
+			self::$instance = new BFModalTemplatesProvider();
 		}
 
 		return self::$instance;

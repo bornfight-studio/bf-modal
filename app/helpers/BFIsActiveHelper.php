@@ -1,17 +1,17 @@
 <?php
 
 
-namespace wpModalPlugin\helpers;
+namespace bfModalPlugin\helpers;
 
-use wpModalPlugin\core\WPBFConstants;
+use bfModalPlugin\core\BFConstants;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFIsActiveHelper {
+class BFIsActiveHelper {
 	public static function is_archive_page_selected( string $page_id, int $index ): string {
-		$selected_archive_page = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
+		$selected_archive_page = get_option( BFConstants::BFML_ARCHIVE_PAGE_OPTION );
 
 		if ( empty( $selected_archive_page ) || ! is_array( $selected_archive_page ) ) {
 			return '';

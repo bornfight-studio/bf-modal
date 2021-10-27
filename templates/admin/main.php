@@ -1,19 +1,19 @@
 <?php
 
-use wpModalPlugin\providers\WPBFAdminOptionsProvider;
+use bfModalPlugin\providers\BFAdminOptionsProvider;
 
-$tab                         = ! empty( $_GET['tab'] ) ? $_GET['tab'] : '';
-$wpbf_admin_options_provider = new WPBFAdminOptionsProvider();
+$tab                       = ! empty( $_GET['tab'] ) ? $_GET['tab'] : '';
+$bf_admin_options_provider = new BFAdminOptionsProvider();
 ?>
 <div class="wrap">
     <h1>Modal Plugin</h1>
 
 	<?php
 
-	wpbfml_get_template( 'admin/layout/navigation', array(
+	bfml_get_template( 'admin/layout/navigation', array(
 		'tab' => $tab,
 	) );
 
-	$wpbf_admin_options_provider->get_admin_screen( $tab );
+	$bf_admin_options_provider->get_admin_screen( $tab );
 	?>
 </div>

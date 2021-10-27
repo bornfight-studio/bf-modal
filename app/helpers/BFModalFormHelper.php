@@ -1,13 +1,13 @@
 <?php
 
 
-namespace wpModalPlugin\helpers;
+namespace bfModalPlugin\helpers;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFModalFormHelper {
+class BFModalFormHelper {
 	public static function get_selected( string $selected_option, string $option ): string {
 		if ( empty( $selected_option ) ) {
 			return '';

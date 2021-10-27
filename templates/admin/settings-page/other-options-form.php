@@ -1,29 +1,26 @@
 <?php
 
-use wpModalPlugin\core\WPBFConstants;
-use wpModalPlugin\helpers\WPBFIsActiveHelper;
-use wpModalPlugin\providers\WPBFAdminOptionsProvider;
-use wpModalPlugin\providers\WPBFPageDataProvider;
-use wpModalPlugin\providers\WPBFPostDataProvider;
+use bfModalPlugin\core\BFConstants;
+use bfModalPlugin\providers\BFAdminOptionsProvider;
 
-$wpbf_admin_options_provider = new WPBFAdminOptionsProvider();
-$wpbf_admin_options_provider->save_modal_admin_settings( $_POST );
+$bf_admin_options_provider = new BFAdminOptionsProvider();
+$bf_admin_options_provider->save_modal_admin_settings( $_POST );
 
-$disable_front_styles = get_option( WPBFConstants::WPBFML_DISABLE_FRONT_STYLES_OPTION );
+$disable_front_styles = get_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION );
 ?>
 <form action="" method="post">
     <div class="wrap">
 
-        <h2><?= __( 'Other Modal Options', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?></h2>
+        <h2><?= __( 'Other Modal Options', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></h2>
 
         <table>
             <tbody>
             <tr>
                 <td>
-                    <label for="wpbfml_disable_front_styles">
-                        <input type="checkbox" name="wpbfml_disable_front_styles"
-                               id="wpbfml_disable_front_styles" <?= ! empty( $disable_front_styles ) ? 'checked' : ''; ?>>
-						<?= __( 'Disable front styles', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?>
+                    <label for="bfml_disable_front_styles">
+                        <input type="checkbox" name="bfml_disable_front_styles"
+                               id="bfml_disable_front_styles" <?= ! empty( $disable_front_styles ) ? 'checked' : ''; ?>>
+						<?= __( 'Disable front styles', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?>
                     </label>
                 </td>
             </tr>

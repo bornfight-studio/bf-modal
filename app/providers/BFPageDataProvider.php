@@ -1,16 +1,16 @@
 <?php
 
 
-namespace wpModalPlugin\providers;
+namespace bfModalPlugin\providers;
 
 
-use wpModalPlugin\core\WPBFConstants;
+use bfModalPlugin\core\BFConstants;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFPageDataProvider {
+class BFPageDataProvider {
 	public function get_all_is_modal_pages(): array {
 		$args = array(
 			'post_type'      => 'page',
@@ -18,14 +18,14 @@ class WPBFPageDataProvider {
 			'post_status'    => 'publish',
 			'meta_query'     => array(
 				array(
-					'key'     => WPBFConstants::WPBFML_PAGE_IS_MODAL_OPTION,
+					'key'     => BFConstants::BFML_PAGE_IS_MODAL_OPTION,
 					'value'   => true,
 					'compare' => '==='
 				)
 			)
 		);
 
-		$wpbf_post_data_provider = new WPBFPostDataProvider();
+		$wpbf_post_data_provider = new BFPostDataProvider();
 
 		return $wpbf_post_data_provider->get_post_data( $args );
 	}
@@ -37,7 +37,7 @@ class WPBFPageDataProvider {
 			'post_status'    => 'publish',
 		);
 
-		$wpbf_post_data_provider = new WPBFPostDataProvider();
+		$wpbf_post_data_provider = new BFPostDataProvider();
 		$pages                   = $wpbf_post_data_provider->get_post_data( $args );
 
 		$pages = array_merge( $pages, array(
@@ -63,7 +63,7 @@ class WPBFPageDataProvider {
 			) );
 		}
 
-		$wpbf_post_data_provider = new WPBFPostDataProvider();
+		$wpbf_post_data_provider = new BFPostDataProvider();
 
 		return $wpbf_post_data_provider->get_post_data( $args );
 	}

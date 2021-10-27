@@ -8,26 +8,26 @@
  * that starts the plugin.
  *
  * @since             1.0.0
- * @package           WP Modal Plugin
+ * @package           BF Modal Plugin
  *
  * @wordpress-plugin
- * Plugin Name:       WP Modal Plugin
- * Plugin URI:        https://github.com/bornfight/wp-modal-plugin
+ * Plugin Name:       BF Modal Plugin
+ * Plugin URI:        https://github.com/bornfight/bf-modal-plugin
  * Description:       Plugin for creating modals
- * Version:           1.0.9
+ * Version:           1.0.10
  * Author:            Bornfight
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 use Symfony\Component\Dotenv\Dotenv;
-use wpModalPlugin\api\WPBFApiHelper;
-use wpModalPlugin\api\WPBFRestApiCustomRoutes;
-use wpModalPlugin\core\WPBFConstants;
-use wpModalPlugin\core\WPBFDashboardSetup;
-use wpModalPlugin\core\WPBFFrontend;
-use wpModalPlugin\core\WPBFRewriteRules;
-use wpModalPlugin\providers\WPBFPagesMetaBoxProvider;
+use bfModalPlugin\api\BFApiHelper;
+use bfModalPlugin\api\BFRestApiCustomRoutes;
+use bfModalPlugin\core\BFConstants;
+use bfModalPlugin\core\BFDashboardSetup;
+use bfModalPlugin\core\BFFrontend;
+use bfModalPlugin\core\BFRewriteRules;
+use bfModalPlugin\providers\BFPagesMetaBoxProvider;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -36,8 +36,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 // URL Path
 //define( 'PLUGIN_PREFIX_URL_PLUGIN_PATH', plugins_url( '/', __FILE__ ) );
 
-define( 'WPBFMP_LOCAL_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'WPBFMP_PLUGIN_SLUG', 'wp-modal-plugin' );
+define( 'BFML_LOCAL_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'BFML_PLUGIN_SLUG', 'bf-modal-plugin' );
 
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	add_action( 'admin_notices', function () {
@@ -64,38 +64,35 @@ if ( file_exists( plugin_dir_path( __FILE__ ) . '.env' ) ) {
 	( new Dotenv() )->load( plugin_dir_path( __FILE__ ) . '.env' );
 }
 
-$update_checker = Puc_v4_Factory::buildUpdateChecker( 'https://plugin-service.bwp.zone?identifier=' . WPBFMP_PLUGIN_SLUG . '&type=info', __FILE__, //Full path to the main plugin file or functions.php.
-	WPBFMP_PLUGIN_SLUG );
-
 add_action( 'admin_enqueue_scripts', function () {
-	wp_enqueue_style( $_ENV['PLUGIN_PREFIX'] . 'admin-css', plugin_dir_url( __FILE__ ) . 'static/admin/dist/style.css', null, '1.0.1', false );
-	wp_enqueue_script( $_ENV['PLUGIN_PREFIX'] . 'admin-js', plugin_dir_url( __FILE__ ) . 'static/admin/dist/bundle.js', null, '1.0.1', true );
+	wp_enqueue_style( $_ENV['PLUGIN_PREFIX'] . 'bfml_admin-css', plugin_dir_url( __FILE__ ) . 'static/admin/dist/style.css', null, '1.0.1', false );
+	wp_enqueue_script( $_ENV['PLUGIN_PREFIX'] . 'bfml_admin-js', plugin_dir_url( __FILE__ ) . 'static/admin/dist/bundle.js', null, '1.0.1', true );
 } );
 
 add_action( 'wp_enqueue_scripts', function () {
-	if ( empty( get_option( WPBFConstants::WPBFML_DISABLE_FRONT_STYLES_OPTION ) ) ) {
+	if ( empty( get_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION ) ) ) {
 		wp_enqueue_style( $_ENV['PLUGIN_PREFIX'] . 'public-css', plugin_dir_url( __FILE__ ) . 'static/public/dist/style.css', null, '1.0.1', false );
 	}
 	wp_enqueue_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', plugin_dir_url( __FILE__ ) . 'static/public/dist/bundle.js', null, '1.0.1', true );
 
-	wp_localize_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', 'wpbf_frontend_ajax_object', array(
+	wp_localize_script( $_ENV['PLUGIN_PREFIX'] . 'public-js', 'bf_frontend_ajax_object', array(
 		'ajax_url'       => get_rest_url() . 'api/v1',
-		'populate_modal' => WPBFApiHelper::POPULATE_MODAL,
+		'populate_modal' => BFApiHelper::POPULATE_MODAL,
 		'ajax_nonce'     => wp_create_nonce( 'wp_rest' )
 	) );
 } );
 
-$wpbf_dashboard_setup = new WPBFDashboardSetup();
-$wpbf_dashboard_setup->init();
+$bf_dashboard_setup = new BFDashboardSetup();
+$bf_dashboard_setup->init();
 
-$wpbf_rest_api_custom_routes = new WPBFRestApiCustomRoutes();
-$wpbf_rest_api_custom_routes->register();
+$bf_rest_api_custom_routes = new BFRestApiCustomRoutes();
+$bf_rest_api_custom_routes->register();
 
-$wpbf_frontend = new WPBFFrontend();
-$wpbf_frontend->init();
+$bf_frontend = new BFFrontend();
+$bf_frontend->init();
 
-$wpbf_rewrite_rules = new WPBFRewriteRules();
-$wpbf_rewrite_rules->register();
+$bf_rewrite_rules = new BFRewriteRules();
+$bf_rewrite_rules->register();
 
-$wpbf_pages_meta_box_provider = new WPBFPagesMetaBoxProvider();
-$wpbf_pages_meta_box_provider->init();
+$bf_pages_meta_box_provider = new BFPagesMetaBoxProvider();
+$bf_pages_meta_box_provider->init();

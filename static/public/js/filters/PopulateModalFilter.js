@@ -22,13 +22,13 @@ export default class PopulateModalFilter extends BaseFilter {
             detail: data,
         });
 
-        axios.get(wpbf_frontend_ajax_object.ajax_url + "/" + wpbf_frontend_ajax_object.populate_modal + params).then((response) => {
+        axios.get(bf_frontend_ajax_object.ajax_url + "/" + bf_frontend_ajax_object.populate_modal + params).then((response) => {
             this.afterPopulateModal(response.data, stateHistory);
         });
     }
 
     afterPopulateModal(data, stateHistory) {
-        let modal = document.querySelector(".js-wpbfml-modal");
+        let modal = document.querySelector(".js-bfml-modal");
 
         if (data.html && modal) {
             modal.innerHTML = data.html;

@@ -7,10 +7,10 @@ import {initModalEvent, openModalEvent, closeModalEvent} from "../config/CustomE
 export default class ModalController {
     constructor() {
         this.DOM = {
-            modal: ".js-wpbfml-modal",
-            modalTrigger: ".js-wpbfml-modal-trigger",
-            postTypeModalTrigger: ".js-wpbfml-post-type-trigger",
-            modalClose: ".js-wpbfml-modal-close",
+            modal: ".js-bfml-modal",
+            modalTrigger: ".js-bfml-modal-trigger",
+            postTypeModalTrigger: ".js-bfml-post-type-trigger",
+            modalClose: ".js-bfml-modal-close",
 
             states: {
                 isActive: "is-active",
@@ -45,11 +45,11 @@ export default class ModalController {
     }
 
     hiddenModalEvent() {
-        if (typeof window.openWpbfmlPopupID !== "undefined" && window.openWpbfmlPopupID !== 0) {
+        if (typeof window.openBFmlPopupID !== "undefined" && window.openBFmlPopupID !== 0) {
             if (!this.modal.classList.contains('is-active')) {
                 let populateModalFilter = new PopulateModalFilter();
                 populateModalFilter.populateModal({
-                    postDataId: window.openWpbfmlPopupID,
+                    postDataId: window.openBFmlPopupID,
                     returnUrl: '',
                 });
             }

@@ -1,16 +1,16 @@
 <?php
 
 
-namespace wpModalPlugin\core;
+namespace bfModalPlugin\core;
 
-use wpModalPlugin\providers\WPBFPageDataProvider;
-use wpModalPlugin\providers\WPBFPostDataProvider;
+use bfModalPlugin\providers\BFPageDataProvider;
+use bfModalPlugin\providers\BFPostDataProvider;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class WPBFRewriteRules {
+class BFRewriteRules {
 	public function register(): void {
 		add_action( 'init', array( $this, 'add_custom_rewrite' ) );
 		add_action( 'query_vars', array( $this, 'add_custom_query_vars' ) );
@@ -30,9 +30,9 @@ class WPBFRewriteRules {
 	}
 
 	public function add_custom_rewrite(): void {
-		$post_types    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
-		$archive_pages = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
-		$rewrite_slugs = get_option( WPBFConstants::WPBFML_POST_TYPE_REWRITE_SLUG_OPTION );
+		$post_types    = get_option( BFConstants::BFML_POST_TYPE_OPTION );
+		$archive_pages = get_option( BFConstants::BFML_ARCHIVE_PAGE_OPTION );
+		$rewrite_slugs = get_option( BFConstants::BFML_POST_TYPE_REWRITE_SLUG_OPTION );
 
 		if ( ! empty( $post_types ) ) {
 			foreach ( $post_types as $post_type => $value ) {
@@ -67,7 +67,7 @@ class WPBFRewriteRules {
 			'post_status'    => 'publish',
 		);
 
-		$wpbf_post_data_provider = new WPBFPostDataProvider();
+		$wpbf_post_data_provider = new BFPostDataProvider();
 		$all_posts               = $wpbf_post_data_provider->get_post_data( $args );
 
 		if ( ! empty( $all_posts ) ) {
@@ -85,12 +85,12 @@ class WPBFRewriteRules {
 	}
 
 	public function add_custom_rewrite_rules_for_modal_pages(): void {
-		$wpbf_page_data_provider = new WPBFPageDataProvider();
+		$wpbf_page_data_provider = new BFPageDataProvider();
 		$pages                   = $wpbf_page_data_provider->get_all_is_modal_pages();
 
 		if ( ! empty( $pages ) ) {
 			foreach ( $pages as $page ) {
-				$redirect_page_meta = get_post_meta( $page->ID, WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION );
+				$redirect_page_meta = get_post_meta( $page->ID, BFConstants::BFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION );
 				$redirect_page_id   = ! empty( $redirect_page_meta[0] ) ? $redirect_page_meta[0] : '';
 
 				if ( empty( $redirect_page_id ) ) {

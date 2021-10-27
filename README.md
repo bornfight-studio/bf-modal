@@ -2,20 +2,16 @@
 <img width="84px" src="https://www.bornfight.com/wp-content/themes/bornfight-web-2020/static/ui/bf-logo-dark.svg" title="Bornfight" alt="Bornfight">
 </a>
 
-## WP MODAL PLUGIN
+## BF MODAL PLUGIN
 
 > WordPress plugin for converting pages and post types to modals
 
 ## Table of Contents
 
-- [Installation](#installation)
 - [Features](#features)
 - [Usage](#usage)
 - [License](#license)
 
-## Installation
-
-> WordPress plugin install
 
 ## Features
 
@@ -36,17 +32,17 @@ Choose archive page (page that opens in background of modal)
 
 2. Converting Post Types to modal
 
-WP Modal Options -> Choose post type to convert
+BF Modal Options -> Choose post type to convert
 
 3. Registering modal templates
 
-Use wpbfml_register_modal_templates( array $templates ) {}
+Use bfml_register_modal_templates( array $templates ) {}
 
 ```
 $templates = array('Default Modal Template', 'Test Modal Template');
 
-if ( function_exists( 'wpbfml_register_modal_templates' ) ) {
-    wpbfml_register_modal_templates( array( 'Default Template', 'Test Modal Template' ) );
+if ( function_exists( 'bfml_register_modal_templates' ) ) {
+    bfml_register_modal_templates( array( 'Default Template', 'Test Modal Template' ) );
  }
 ```
 
@@ -55,22 +51,22 @@ Name of templates are created with WordPress function sanitize_title_with_dashes
 Example: Default Modal Template -> default-modal-template
 
 4. Opening popups
-* add class js-wpbfml-modal-trigger -> it triggers endpoint to populate modal
+* add class js-bfml-modal-trigger -> it triggers endpoint to populate modal
 * data-post-data-id (required) -> id of post/page to pull content from
 * data-return-url(optional) -> returning URL, by default returns to current URL modal is opened from
 
 ```
-<a href="<?= get_permalink( $post_id ); ?>" class="js-wpbfml-modal-trigger" data-post-data-id="12">
+<a href="<?= get_permalink( $post_id ); ?>" class="js-bfml-modal-trigger" data-post-data-id="12">
     This is a test post type Link
 </a>
 ```
 
 5Custom JS Events
-   * wpbfml:init-modal
-   * wpbfml:open-modal
-   * wpbfml:close-modal
-   * wpbfml:populate-modal
-   * wpbfml:after-populate-modal
+   * bfml:init-modal
+   * bfml:open-modal
+   * bfml:close-modal
+   * bfml:populate-modal
+   * bfml:after-populate-modal
    
 ## License
 

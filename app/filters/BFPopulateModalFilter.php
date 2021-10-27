@@ -1,6 +1,6 @@
 <?php
 
-namespace wpModalPlugin\filters;
+namespace bfModalPlugin\filters;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -8,10 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WP_REST_Request;
 use WP_REST_Response;
-use wpModalPlugin\helpers\WPBFModalReturnUrlHelper;
-use wpModalPlugin\providers\WPBFPartialDataProvider;
+use bfModalPlugin\helpers\BFModalReturnUrlHelper;
+use bfModalPlugin\providers\BFPartialDataProvider;
 
-class WPBFPopulateModalFilter extends WPBFBaseFilter {
+class BFPopulateModalFilter extends BFBaseFilter {
 	public function populate_modal( WP_REST_Request $request ): WP_REST_Response {
 		$query_params = $this->get_request_params( $request, array(
 			array( 'page_id', null ),
@@ -41,11 +41,11 @@ class WPBFPopulateModalFilter extends WPBFBaseFilter {
 		ob_implicit_flush( 0 );
 
 		if ( empty( $return_url ) ) {
-			$wpbf_modal_return_url_helper = new WPBFModalReturnUrlHelper();
+			$wpbf_modal_return_url_helper = new BFModalReturnUrlHelper();
 			$return_url                   = $wpbf_modal_return_url_helper->get_return_url( $post_data_id );
 		}
 
-		$wpbf_partial_data_provider = new WPBFPartialDataProvider();
+		$wpbf_partial_data_provider = new BFPartialDataProvider();
 		$override_modal             = $wpbf_partial_data_provider->get_override_modal_partial_if_exists( array(
 			'post_data_id' => $post_data_id,
 			'return_url'   => $return_url,
@@ -57,7 +57,7 @@ class WPBFPopulateModalFilter extends WPBFBaseFilter {
 				'return_url'   => $return_url,
 			) );
 		} else {
-			wpbfml_get_template( 'modal-inner', array(
+			bfml_get_template( 'modal-inner', array(
 				'post_data_id' => $post_data_id,
 				'return_url'   => $return_url,
 			) );

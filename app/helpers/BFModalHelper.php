@@ -1,15 +1,15 @@
 <?php
 
 
-namespace wpModalPlugin\helpers;
+namespace bfModalPlugin\helpers;
 
-use wpModalPlugin\providers\WPBFPostDataProvider;
+use bfModalPlugin\providers\BFPostDataProvider;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFModalHelper {
+class BFModalHelper {
 	public $open_popup;
 	public $current_post;
 
@@ -27,8 +27,8 @@ class WPBFModalHelper {
 		}
 
 		if ( ! empty( $name ) ) {
-			$wpbf_post_data_provider = new WPBFPostDataProvider();
-			$post_types              = $wpbf_post_data_provider->get_custom_post_types();
+			$bf_post_data_provider = new BFPostDataProvider();
+			$post_types              = $bf_post_data_provider->get_custom_post_types();
 
 			$post_types = array_merge( $post_types, array( 'page', 'post' ) );
 
@@ -42,9 +42,9 @@ class WPBFModalHelper {
 		}
 
 		if ( ! empty( $this->current_post ) ) {
-			$this->open_popup = '<script> var openWpbfmlPopupID = ' . $this->current_post->ID . '; var firstOpen = 1;</script>';
+			$this->open_popup = '<script> var openBFmlPopupID = ' . $this->current_post->ID . '; var firstOpen = 1;</script>';
 		} else {
-			$this->open_popup = '<script> var openWpbfmlPopupID = 0; var firstOpen = 0;</script>';
+			$this->open_popup = '<script> var openBFmlPopupID = 0; var firstOpen = 0;</script>';
 		}
 	}
 }

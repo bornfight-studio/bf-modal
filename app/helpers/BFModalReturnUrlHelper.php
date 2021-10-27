@@ -1,18 +1,18 @@
 <?php
 
 
-namespace wpModalPlugin\helpers;
+namespace bfModalPlugin\helpers;
 
 use WP_Post;
-use wpModalPlugin\core\WPBFConstants;
+use bfModalPlugin\core\BFConstants;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WPBFModalReturnUrlHelper {
+class BFModalReturnUrlHelper {
 	public function get_post_type_return_url( WP_Post $post_data ): string {
-		$page_archive_option = get_option( WPBFConstants::WPBFML_ARCHIVE_PAGE_OPTION );
+		$page_archive_option = get_option( BFConstants::BFML_ARCHIVE_PAGE_OPTION );
 
 		if ( 'archive' === $page_archive_option[ $post_data->post_type ] ) {
 			return get_post_type_archive_link( $post_data->post_type );
@@ -40,7 +40,7 @@ class WPBFModalReturnUrlHelper {
 	}
 
 	public function get_page_return_url( int $post_id ): string {
-		$archive_url    = get_post_meta( $post_id, WPBFConstants::WPBFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION );
+		$archive_url    = get_post_meta( $post_id, BFConstants::BFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION );
 		$archive_url_id = ! empty( $archive_url[0] ) ? $archive_url[0] : '';
 
 		if ( empty( $archive_url_id ) ) {

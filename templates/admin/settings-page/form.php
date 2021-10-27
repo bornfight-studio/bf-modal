@@ -1,27 +1,27 @@
 <?php
 
-use wpModalPlugin\core\WPBFConstants;
-use wpModalPlugin\helpers\WPBFIsActiveHelper;
-use wpModalPlugin\providers\WPBFAdminOptionsProvider;
-use wpModalPlugin\providers\WPBFPageDataProvider;
-use wpModalPlugin\providers\WPBFPostDataProvider;
+use bfModalPlugin\core\BFConstants;
+use bfModalPlugin\helpers\BFIsActiveHelper;
+use bfModalPlugin\providers\BFAdminOptionsProvider;
+use bfModalPlugin\providers\BFPageDataProvider;
+use bfModalPlugin\providers\BFPostDataProvider;
 
-$wpbf_post_data_provider = new WPBFPostDataProvider();
-$wpbf_page_data_provider = new WPBFPageDataProvider();
+$bf_post_data_provider = new BFPostDataProvider();
+$bf_page_data_provider = new BFPageDataProvider();
 
-$post_types = $wpbf_post_data_provider->get_post_types();
-$pages      = $wpbf_page_data_provider->get_all_option_pages();
+$post_types = $bf_post_data_provider->get_post_types();
+$pages      = $bf_page_data_provider->get_all_option_pages();
 
-$wpbf_admin_options_provider = new WPBFAdminOptionsProvider();
-$wpbf_admin_options_provider->save_modal_admin_settings( $_POST );
+$bf_admin_options_provider = new BFAdminOptionsProvider();
+$bf_admin_options_provider->save_modal_admin_settings( $_POST );
 
-$selected_post_type    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
+$selected_post_type    = get_option( BFConstants::BFML_POST_TYPE_OPTION );
 
 ?>
 <form action="" method="post">
     <div class="wrap">
 
-        <h2><?= __( 'Convert to modal', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?></h2>
+        <h2><?= __( 'Convert to modal', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></h2>
 
         <table>
             <tbody>
@@ -32,7 +32,7 @@ $selected_post_type    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
                         <td><?= $i; ?></td>
                         <td>
                             <label for="<?= $key; ?>">
-                                <input type="checkbox" name="wpbfml_modal_post_types[<?= $key; ?>]"
+                                <input type="checkbox" name="bfml_modal_post_types[<?= $key; ?>]"
                                        id="<?= $key; ?>" <?= ! empty( $selected_post_type[ $key ] ) ? 'checked' : ''; ?>>
 
 								<?= $post_type; ?>
@@ -40,11 +40,11 @@ $selected_post_type    = get_option( WPBFConstants::WPBFML_POST_TYPE_OPTION );
                         </td>
 
                         <td>
-                            <select name="wpbfml_archive_page[<?= $key; ?>]" id="wpbfml_archive_page">
-                                <option value="none"><?= __( 'Choose', WPBFConstants::WPBFML_ADMIN_DOMAIN_NAME ); ?></option>
+                            <select name="bfml_archive_page[<?= $key; ?>]" id="bfml_archive_page">
+                                <option value="none"><?= __( 'Choose', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></option>
 								<?php if ( ! empty( $pages ) ) {
 									foreach ( $pages as $page ) { ?>
-                                        <option value="<?= $page->ID; ?>" <?= WPBFIsActiveHelper::is_archive_page_selected((string)$page->ID, $i); ?>><?= $page->post_title; ?></option>
+                                        <option value="<?= $page->ID; ?>" <?= BFIsActiveHelper::is_archive_page_selected((string)$page->ID, $i); ?>><?= $page->post_title; ?></option>
 									<?php }
 								} ?>
                             </select>
