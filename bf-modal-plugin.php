@@ -33,9 +33,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// URL Path
-//define( 'PLUGIN_PREFIX_URL_PLUGIN_PATH', plugins_url( '/', __FILE__ ) );
-
 define( 'BFML_LOCAL_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BFML_PLUGIN_SLUG', 'bf-modal-plugin' );
 

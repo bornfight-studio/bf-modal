@@ -1,5 +1,6 @@
 === BF Modal Plugin ===
 Contributors: jmucak
+Donate link: /
 Tags: modal, custom modal, popup, custom popup
 Requires at least: 4.7
 Tested up to: 5.8
@@ -49,3 +50,19 @@ If you want to convert pages to modal
 2. Set Is Modal to true and set your archive page
 3. Settings -> Permalinks and save permalinks
 4. Open your page and it will open as modal
+
+== Screenshots ==
+
+1. The BF Modal Options Page
+2. Modal Options for pages
+
+== Frequently Asked Questions ==
+= What kind of support do you provide? =
+Please post your question on plugin support forum
+
+== Upgrade Notice ==
+= 1.0.10 =
+
+== Changelog ==
+= 1.0.10 =
+*Release Date - 27 October 2021*
