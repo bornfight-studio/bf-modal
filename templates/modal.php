@@ -2,7 +2,7 @@
 /**
  * The Template for displaying modal wrapper
  *
- * This template can be overridden by copying it to your-theme/wp-modal-plugin/templates/modal.php.
+ * This template can be overridden by copying it to your-theme/bf-modal-plugin/templates/modal.php.
  */
 
 use bfModalPlugin\config\BFModalConfig;
