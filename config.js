@@ -1,6 +1,6 @@
 let folder = 'public';
 export const gulpConfig = {
-    proxy: "www.bwp.loc/example-bwp",
+    proxy: "",
     port: 3000,
     host: "localhost",
     paths: {
