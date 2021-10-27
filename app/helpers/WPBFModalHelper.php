@@ -14,6 +14,8 @@ class WPBFModalHelper {
 	public $current_post;
 
 	public function get_open_popup(): string {
+		$this->trigger_popup();
+
 		return $this->open_popup;
 	}
 

@@ -18,13 +18,4 @@ class WPBFBaseFilter {
 
 		return $request_params;
 	}
-
-	protected function create_new_url( string $base_url, int $page ): string {
-
-		if ( $page > 1 ) {
-			$base_url .= 'page/' . $page;
-		}
-
-		return $base_url;
-	}
 }

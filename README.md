@@ -11,8 +11,6 @@
 - [Installation](#installation)
 - [Features](#features)
 - [Usage](#usage)
-- [FAQ](#faq)
-- [Support](#support)
 - [License](#license)
 
 ## Installation
@@ -25,7 +23,6 @@
 - converting default post type to modal
 - converting custom post types to modal
 - registering custom modal templates
-- overriding modal templates
 - custom js events
 
 ## Usage
@@ -57,22 +54,7 @@ Name of templates are created with WordPress function sanitize_title_with_dashes
 
 Example: Default Modal Template -> default-modal-template
 
-4. Overriding templates
-
-All templates can be found in templates folder
-To override for example modal content template
-Create folder templates/wp-modal-plugin/layout/ and inside modal-inner.php file
-
-Overrides can be also for post types.
-
-Example: modal-inner_{post_type}
-
-Plugin also provides possibility to add custom modal templates
-So to override modal content file you can register and use modal templates
-
-To override with templates example: modal-inner_{template-name}
-
-5. Opening popups
+4Opening popups
 * add class js-wpbfml-modal-trigger -> it triggers endpoint to populate modal
 * data-post-data-id (required) -> id of post/page to pull content from
 * data-return-url(optional) -> returning URL, by default returns to current URL modal is opened from
@@ -83,21 +65,16 @@ To override with templates example: modal-inner_{template-name}
 </a>
 ```
 
-6. Custom JS Events
+5Custom JS Events
    * wpbfml:init-modal
    * wpbfml:open-modal
    * wpbfml:close-modal
    * wpbfml:populate-modal
    * wpbfml:after-populate-modal
-
-## Support
-Reach out to us:
-
-- email <a href="mailto: wpadmin@bornfight.com" target="_blank">`wpadmin@bornfight.com`</a>
-
+   
 ## License
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2020 © <a href="https://www.bornfight.com" target="_blank">Bornfight</a>.
+- Copyright 2021 © <a href="https://www.bornfight.com" target="_blank">Bornfight</a>.

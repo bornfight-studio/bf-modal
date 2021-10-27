@@ -3,6 +3,8 @@
 
 namespace wpModalPlugin\core;
 
+use wpModalPlugin\helpers\WPBFModalHelper;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -13,12 +15,14 @@ class WPBFFrontend {
 	}
 
 	public function add_popup_to_footer(): void {
-		$template = locate_template( 'templates/wp-modal-plugin/layout/modal.php', false, false, array() );
+		$wpbf_modal_helper = new WPBFModalHelper();
+		echo $wpbf_modal_helper->get_open_popup();
+		$template = locate_template( 'wp-modal-plugin/templates/modal.php', false, false, array() );
 
 		if ( ! empty( $template ) ) {
 			load_template( $template );
 		} else {
-			load_template( WPBFMP_LOCAL_PLUGIN_PATH . '/templates/layout/modal.php' );
+			load_template( WPBFMP_LOCAL_PLUGIN_PATH . '/templates/modal.php' );
 		}
 	}
 }
