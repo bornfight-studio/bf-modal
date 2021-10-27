@@ -1,6 +1,6 @@
 === WP Modal Plugin ===
 Contributors: jmucak
-Tags: modal, custom modal
+Tags: modal, custom modal, popup, custom popup
 Requires at least: 4.7
 Tested up to: 5.8
 Stable tag: 1.0.9
@@ -12,7 +12,8 @@ Convert pages, posts and custom post types to plugin
 
 == Description ==
 
-WP Modal Plugin is made to convert any custom post type, page or post to modal.
+WP Modal Plugin is made to convert any custom post type, page or post to modal. Plugin
+automatically adds rewrite rules so you can still have nice and relevant URL when popup is opened.
 Take full control of modal and override modal templates. You can create custom modal
 templates so each page can have different template. You can also override based on
 post type.
