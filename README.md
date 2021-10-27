@@ -54,14 +54,14 @@ Name of templates are created with WordPress function sanitize_title_with_dashes
 
 Example: Default Modal Template -> default-modal-template
 
-4Opening popups
+4. Opening popups
 * add class js-wpbfml-modal-trigger -> it triggers endpoint to populate modal
 * data-post-data-id (required) -> id of post/page to pull content from
 * data-return-url(optional) -> returning URL, by default returns to current URL modal is opened from
 
 ```
-<a href="<?= get_permalink( $post_id ); ?>" class="js-wpbfml-modal-trigger" data-post-data-id="<?= 42; ?>">
-    This is a test page Link
+<a href="<?= get_permalink( $post_id ); ?>" class="js-wpbfml-modal-trigger" data-post-data-id="12">
+    This is a test post type Link
 </a>
 ```
 
