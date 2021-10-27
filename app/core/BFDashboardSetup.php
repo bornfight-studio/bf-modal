@@ -26,7 +26,7 @@ class BFDashboardSetup {
 	 *
 	 */
 	public function register_options_page(): void {
-		add_menu_page( 'BF Modal Plugin Options', 'BF Modal Plugin Options', $this->capability, BFML_PLUGIN_SLUG, array(
+		add_menu_page( 'BF Modal Options', 'BF Modal Options', $this->capability, BFML_PLUGIN_SLUG, array(
 			$this,
 			'get_options_menu_page_html'
 		) );

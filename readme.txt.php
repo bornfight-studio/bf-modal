@@ -18,6 +18,14 @@ Take full control of modal and override modal templates. You can create custom m
 templates so each page can have different template. You can also override based on
 post type.
 
+== Installation ==
+
+Upload 'bf-modal-plugin' to the '/wp-content/plugins/' directory
+
+Activate the plugin through the 'Plugins' menu in WordPress
+
+Convert pages and post types to modal
+
 = How this plugin works =
 
 1. Simply go to BF Modal Options page and choose post type you want to convert to modal
