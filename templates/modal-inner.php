@@ -2,8 +2,8 @@
 /**
  * The Template for displaying modal content
  *
- * This template can be overridden by copying it to your-theme/bf-modal-plugin/templates/modal-inner.php.
- * Other template overrides your-theme/bf-modal-plugin/templates/modal-inner_{template-name}|{post_type}.php
+ * This template can be overridden by copying it to your-theme/bf-modal/templates/modal-inner.php.
+ * Other template overrides your-theme/bf-modal/templates/modal-inner_{template-name}|{post_type}.php
  */
 
 /**
