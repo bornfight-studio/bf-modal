@@ -11,7 +11,7 @@ $disable_front_styles = get_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTIO
 <form action="" method="post">
     <div class="wrap">
 
-        <h2><?= __( 'Other Modal Options', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></h2>
+        <h2><?php echo __( 'Other Modal Options', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></h2>
 
         <table>
             <tbody>
@@ -19,8 +19,8 @@ $disable_front_styles = get_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTIO
                 <td>
                     <label for="bfml_disable_front_styles">
                         <input type="checkbox" name="bfml_disable_front_styles"
-                               id="bfml_disable_front_styles" <?= ! empty( $disable_front_styles ) ? 'checked' : ''; ?>>
-						<?= __( 'Disable front styles', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?>
+                               id="bfml_disable_front_styles" <?php echo ! empty( $disable_front_styles ) ? 'checked' : ''; ?>>
+						<?php echo __( 'Disable front styles', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?>
                     </label>
                 </td>
             </tr>

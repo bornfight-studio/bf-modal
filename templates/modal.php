@@ -7,4 +7,4 @@
 
 use bfModalPlugin\config\BFModalConfig;
 ?>
-<div class="c-bfml-modal <?= BFModalConfig::get_modal_js_class(); ?>"></div>
+<div class="c-bfml-modal <?php echo BFModalConfig::get_modal_js_class(); ?>"></div>

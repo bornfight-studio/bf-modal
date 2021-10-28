@@ -41,12 +41,12 @@ class BFPopulateModalFilter extends BFBaseFilter {
 		ob_implicit_flush( 0 );
 
 		if ( empty( $return_url ) ) {
-			$wpbf_modal_return_url_helper = new BFModalReturnUrlHelper();
-			$return_url                   = $wpbf_modal_return_url_helper->get_return_url( $post_data_id );
+			$bf_modal_return_url_helper = new BFModalReturnUrlHelper();
+			$return_url                 = $bf_modal_return_url_helper->get_return_url( $post_data_id );
 		}
 
-		$wpbf_partial_data_provider = new BFPartialDataProvider();
-		$override_modal             = $wpbf_partial_data_provider->get_override_modal_partial_if_exists( array(
+		$bf_partial_data_provider = new BFPartialDataProvider();
+		$override_modal           = $bf_partial_data_provider->get_override_modal_partial_if_exists( array(
 			'post_data_id' => $post_data_id,
 			'return_url'   => $return_url,
 		) );

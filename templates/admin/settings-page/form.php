@@ -21,7 +21,7 @@ $selected_post_type    = get_option( BFConstants::BFML_POST_TYPE_OPTION );
 <form action="" method="post">
     <div class="wrap">
 
-        <h2><?= __( 'Convert to modal', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></h2>
+        <h2><?php echo __( 'Convert to modal', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></h2>
 
         <table>
             <tbody>
@@ -29,22 +29,22 @@ $selected_post_type    = get_option( BFConstants::BFML_POST_TYPE_OPTION );
 				$i = 1;
 				foreach ( $post_types as $key => $post_type ) { ?>
                     <tr>
-                        <td><?= $i; ?></td>
+                        <td><?php echo $i; ?></td>
                         <td>
-                            <label for="<?= $key; ?>">
-                                <input type="checkbox" name="bfml_modal_post_types[<?= $key; ?>]"
-                                       id="<?= $key; ?>" <?= ! empty( $selected_post_type[ $key ] ) ? 'checked' : ''; ?>>
+                            <label for="<?php echo $key; ?>">
+                                <input type="checkbox" name="bfml_modal_post_types[<?php echo $key; ?>]"
+                                       id="<?php echo $key; ?>" <?php echo ! empty( $selected_post_type[ $key ] ) ? 'checked' : ''; ?>>
 
-								<?= $post_type; ?>
+								<?php echo $post_type; ?>
                             </label>
                         </td>
 
                         <td>
-                            <select name="bfml_archive_page[<?= $key; ?>]" id="bfml_archive_page">
-                                <option value="none"><?= __( 'Choose', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></option>
+                            <select name="bfml_archive_page[<?php echo $key; ?>]" id="bfml_archive_page">
+                                <option value="none"><?php echo __( 'Choose', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></option>
 								<?php if ( ! empty( $pages ) ) {
 									foreach ( $pages as $page ) { ?>
-                                        <option value="<?= $page->ID; ?>" <?= BFIsActiveHelper::is_archive_page_selected((string)$page->ID, $i); ?>><?= $page->post_title; ?></option>
+                                        <option value="<?php echo $page->ID; ?>" <?php echo BFIsActiveHelper::is_archive_page_selected((string)$page->ID, $i); ?>><?php echo $page->post_title; ?></option>
 									<?php }
 								} ?>
                             </select>

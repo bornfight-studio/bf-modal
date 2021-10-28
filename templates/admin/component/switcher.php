@@ -6,20 +6,20 @@
  */
 ?>
 <div class="c-bfml-switcher">
-    <label for="<?= $args['checkbox_id']; ?>">
-		<?= ! empty( $args['label'] ) ? $args['label'] : ''; ?>
+    <label for="<?php echo $args['checkbox_id']; ?>">
+		<?php echo ! empty( $args['label'] ) ? $args['label'] : ''; ?>
 
         <div class="c-bfml-switcher-box js-bf-switcher">
-            <input type="checkbox" name="<?= $args['checkbox_id']; ?>"
-                   id="<?= $args['checkbox_id']; ?>" <?= $args['is_checked']; ?>>
+            <input type="checkbox" name="<?php echo $args['checkbox_id']; ?>"
+                   id="<?php echo $args['checkbox_id']; ?>" <?php echo $args['is_checked']; ?>>
 
             <div class="c-bfml-switcher__true-false">
                 <span class="c-bfml-switcher__on">
-                    <?= $args['text_on']; ?>
+                    <?php echo $args['text_on']; ?>
                 </span>
 
                 <span class="c-bfml-switcher__off">
-                    <?= $args['text_off']; ?>
+                    <?php echo $args['text_off']; ?>
                 </span>
 
                 <div class="c-bfml-switcher__slider"></div>

@@ -4,11 +4,10 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitacbca19b2db04c7dcaf3fb7dffa13f0b
+class ComposerStaticInitec6ce2107fe881570aeaceefcc288f34
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        '49a1299791c25c6fd83542c6fedacddd' => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/load-v4p11.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -45,9 +44,9 @@ class ComposerStaticInitacbca19b2db04c7dcaf3fb7dffa13f0b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitacbca19b2db04c7dcaf3fb7dffa13f0b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitacbca19b2db04c7dcaf3fb7dffa13f0b::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitacbca19b2db04c7dcaf3fb7dffa13f0b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitec6ce2107fe881570aeaceefcc288f34::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitec6ce2107fe881570aeaceefcc288f34::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitec6ce2107fe881570aeaceefcc288f34::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     '6e3fae29631ef280660b3cdad06f25a8' => $vendorDir . '/symfony/deprecation-contracts/function.php',
-    '49a1299791c25c6fd83542c6fedacddd' => $vendorDir . '/yahnis-elsts/plugin-update-checker/load-v4p11.php',
 );

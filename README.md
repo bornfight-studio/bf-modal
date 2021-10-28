@@ -2,7 +2,7 @@
 <img width="84px" src="https://www.bornfight.com/wp-content/themes/bornfight-web-2020/static/ui/bf-logo-dark.svg" title="Bornfight" alt="Bornfight">
 </a>
 
-## BF MODAL PLUGIN
+## BF MODAL
 
 > WordPress plugin for converting pages and post types to modals
 
@@ -56,7 +56,7 @@ Example: Default Modal Template -> default-modal-template
 * data-return-url(optional) -> returning URL, by default returns to current URL modal is opened from
 
 ```
-<a href="<?= get_permalink( $post_id ); ?>" class="js-bfml-modal-trigger" data-post-data-id="12">
+<a href="<?php echo get_permalink( $post_id ); ?>" class="js-bfml-modal-trigger" data-post-data-id="12">
     This is a test post type Link
 </a>
 ```

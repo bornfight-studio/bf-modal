@@ -3,7 +3,6 @@
     "bornfight/wp-helpers-bf": "*",
     "ext-curl": "*",
     "ext-json": "*",
-    "yahnis-elsts/plugin-update-checker": "^4.11",
     "symfony/dotenv": "^5.0"
   },
   "repositories": [

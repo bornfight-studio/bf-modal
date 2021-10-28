@@ -1,10 +1,10 @@
-=== BF Modal Plugin ===
+=== BF Modal ===
 Contributors: jmucak
 Donate link: /
 Tags: modal, custom modal, popup, custom popup
 Requires at least: 4.7
 Tested up to: 5.8
-Stable tag: 1.0.9
+Stable tag: 1.0.11
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,7 +13,7 @@ Convert pages, posts and custom post types to plugin
 
 == Description ==
 
-BF Modal Plugin is made to convert any custom post type, page or post to modal. Plugin
+BF Modal is made to convert any custom post type, page or post to modal. Plugin
 automatically adds rewrite rules so you can still have nice and relevant URL when popup is opened.
 Take full control of modal and override modal templates. You can create custom modal
 templates so each page can have different template. You can also override based on
@@ -21,7 +21,7 @@ post type.
 
 == Installation ==
 
-Upload 'bf-modal-plugin' to the '/wp-content/plugins/' directory
+Upload 'bf-modal' to the '/wp-content/plugins/' directory
 
 Activate the plugin through the 'Plugins' menu in WordPress
 
@@ -62,10 +62,10 @@ If you want to convert pages to modal
 Please post your question on plugin support forum
 
 == Upgrade Notice ==
-= 1.0.10 =
+= 1.0.11 =
 First Release
 
 == Changelog ==
-= 1.0.10 =
+= 1.0.11 =
 *Release Date - 27 October 2021*
 First Release

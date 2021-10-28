@@ -8,13 +8,13 @@
  * that starts the plugin.
  *
  * @since             1.0.0
- * @package           BF Modal Plugin
+ * @package           BF Modal
  *
  * @wordpress-plugin
- * Plugin Name:       BF Modal Plugin
- * Plugin URI:        https://github.com/bornfight/bf-modal-plugin
+ * Plugin Name:       BF Modal
+ * Plugin URI:        https://github.com/bornfight/bf-modal
  * Description:       Plugin for creating modals
- * Version:           1.0.10
+ * Version:           1.0.11
  * Author:            Bornfight
  * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'BFML_LOCAL_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'BFML_PLUGIN_SLUG', 'bf-modal-plugin' );
+define( 'BFML_PLUGIN_SLUG', 'bf-modal' );
 
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	add_action( 'admin_notices', function () {
