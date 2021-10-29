@@ -28,25 +28,26 @@ $modal_templates = BFModalTemplatesProvider::get_instance()->get_templates();
 <div class="c-meta-box">
 	<?php
 	bfml_get_template( 'admin/component/switcher', array(
-		'label'       => __( 'Is modal?', BFConstants::BFML_ADMIN_DOMAIN_NAME ),
 		'checkbox_id' => BFConstants::BFML_PAGE_IS_MODAL_OPTION,
 		'is_checked'  => ! empty( $is_modal ) ? 'checked' : '',
-		'text_on'     => __( 'Yes', BFConstants::BFML_ADMIN_DOMAIN_NAME ),
-		'text_off'    => __( 'No', BFConstants::BFML_ADMIN_DOMAIN_NAME ),
 	) );
 	?>
 
     <div>
         <label for="bfml_modal_archive_page" class="c-bfml-switcher__select-label">
-			<?php echo __( 'Choose Archive Page', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?>
+			<?php esc_html_e( 'Choose Archive Page', BFConstants::BFML_ADMIN_DOMAIN_NAME ) ?>
         </label>
-        <select name="<?php echo BFConstants::BFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION; ?>"
-                id="<?php echo BFConstants::BFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION; ?>">
-            <option value=""><?php echo __( 'Choose', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></option>
+        <select name="<?php echo esc_attr( BFConstants::BFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION ); ?>"
+                id="<?php echo esc_attr( BFConstants::BFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION ); ?>">
+            <option value="">
+				<?php esc_html_e( 'Choose', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?>
+            </option>
 
 			<?php if ( ! empty( $pages ) ) {
 				foreach ( $pages as $page ) { ?>
-                    <option value="<?php echo $page->ID; ?>" <?php echo BFModalFormHelper::get_selected( (string) $archive_modal_option, (string) $page->ID ); ?>><?php echo $page->post_title; ?></option>
+                    <option value="<?php echo esc_attr( $page->ID ); ?>" <?php echo esc_attr( BFModalFormHelper::get_selected( (string) $archive_modal_option, (string) $page->ID ) ); ?>>
+						<?php echo esc_html( $page->post_title ); ?>
+                    </option>
 				<?php }
 			} ?>
         </select>
@@ -55,15 +56,19 @@ $modal_templates = BFModalTemplatesProvider::get_instance()->get_templates();
 	<?php if ( ! empty( $modal_templates ) ) { ?>
         <div>
             <label for="bfml_modal_template" class="c-bfml-switcher__select-label">
-				<?php echo __( 'Choose Modal Template', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?>
+				<?php esc_html_e( 'Choose Modal Template', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?>
             </label>
 
-            <select name="<?php echo BFConstants::BFML_MODAL_TEMPLATES_OPTION; ?>"
-                    id="<?php echo BFConstants::BFML_MODAL_TEMPLATES_OPTION; ?>">
-                <option value=""><?php echo __( 'Choose', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></option>
+            <select name="<?php echo esc_attr( BFConstants::BFML_MODAL_TEMPLATES_OPTION ); ?>"
+                    id="<?php echo esc_attr( BFConstants::BFML_MODAL_TEMPLATES_OPTION ); ?>">
+                <option value="">
+					<?php esc_html_e( 'Choose', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?>
+                </option>
 
 				<?php foreach ( $modal_templates as $key => $modal_template ) { ?>
-                    <option value="<?php echo $key; ?>" <?php echo BFModalFormHelper::get_selected( (string) $chosen_modal_template, $key ); ?>><?php echo $modal_template; ?></option>
+                    <option value="<?php echo esc_attr( $key ); ?>" <?php echo esc_attr( BFModalFormHelper::get_selected( (string) $chosen_modal_template, $key ) ); ?>>
+						<?php echo esc_html( $modal_template ); ?>
+                    </option>
 				<?php } ?>
             </select>
         </div>

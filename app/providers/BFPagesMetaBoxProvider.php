@@ -33,7 +33,7 @@ class BFPagesMetaBoxProvider {
 		$front_page = get_option( 'page_on_front' );
 
 		if ( $post->ID !== (int) $front_page ) {
-			add_meta_box( 'bfml_modal_pages_option', __( 'Modal Page', BFConstants::BFML_ADMIN_DOMAIN_NAME ), array(
+			add_meta_box( 'bfml_modal_pages_option', esc_html__( 'Modal Page', BFConstants::BFML_ADMIN_DOMAIN_NAME ), array(
 				$this,
 				'add_meta_box_callback'
 			), 'page', 'side', 'low' );

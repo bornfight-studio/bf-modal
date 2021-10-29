@@ -18,17 +18,19 @@ use bfModalPlugin\config\BFModalConfig;
 use bfModalPlugin\core\BFConstants;
 
 if ( ! empty( $post_data_id ) ) { ?>
-    <div class="c-bfml-modal__inner <?php echo BFModalConfig::get_modal_inner_js_class(); ?>">
-        <button class="c-bfml-modal__close u-b1 <?php echo BFModalConfig::get_modal_close_btn_js_class(); ?>"
-                data-return-url="<?php echo ! empty( $args['return_url'] ) ? $args['return_url'] : ''; ?>">
-            <span><?php echo __( 'Close', BFConstants::BFML_DOMAIN_NAME ); ?></span>
+    <div class="c-bfml-modal__inner <?php echo esc_attr( BFModalConfig::get_modal_inner_js_class() ); ?>">
+        <button class="c-bfml-modal__close u-b1 <?php echo esc_attr( BFModalConfig::get_modal_close_btn_js_class() ); ?>"
+                data-return-url="<?php echo ! empty( $args['return_url'] ) ? esc_url( $args['return_url'] ) : ''; ?>">
+            <span>
+                <?php esc_html_e( 'Close', BFConstants::BFML_DOMAIN_NAME ); ?>
+            </span>
 			<?php bfml_get_icon( 'close' ); ?>
         </button>
 
         <div class="c-bfml-modal__content">
             <div class="c-bfml-modal__row">
                 <div class="c-bfml-text-edit">
-                    <?php echo apply_filters( 'the_content', get_post_field( 'post_content', $post_data_id ) ) ?>
+					<?php echo wp_kses_post( apply_filters( 'the_content', get_post_field( 'post_content', $post_data_id ) ) ) ?>
                 </div>
             </div>
         </div>

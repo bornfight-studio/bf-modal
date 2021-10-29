@@ -19,14 +19,23 @@ class BFAdminOptionsProvider {
 				$post_object = get_post_type_object( $post_type );
 
 				if ( ! empty( $post_object ) && ! empty( $post_object->rewrite['slug'] ) ) {
-					$rewrite_slugs[ $post_type ] = $post_object->rewrite['slug'];
+					$rewrite_slugs[ $post_type ] = sanitize_text_field( $post_object->rewrite['slug'] );
 				}
 			}
+
+			array_walk( $params['bfml_modal_post_types'], function ( &$value, &$key ) {
+				$value = sanitize_text_field( $value );
+			} );
+
 			update_option( BFConstants::BFML_POST_TYPE_REWRITE_SLUG_OPTION, $rewrite_slugs );
 			update_option( BFConstants::BFML_POST_TYPE_OPTION, $params['bfml_modal_post_types'] );
 		}
 
 		if ( ! empty( $params['bfml_archive_page'] ) ) {
+			array_walk( $params['bfml_archive_page'], function ( &$value, &$key ) {
+				$value = sanitize_text_field( $value );
+			} );
+
 			update_option( BFConstants::BFML_ARCHIVE_PAGE_OPTION, $params['bfml_archive_page'] );
 		}
 

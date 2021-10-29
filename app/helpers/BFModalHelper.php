@@ -28,7 +28,7 @@ class BFModalHelper {
 
 		if ( ! empty( $name ) ) {
 			$bf_post_data_provider = new BFPostDataProvider();
-			$post_types              = $bf_post_data_provider->get_custom_post_types();
+			$post_types            = $bf_post_data_provider->get_custom_post_types();
 
 			$post_types = array_merge( $post_types, array( 'page', 'post' ) );
 
@@ -42,9 +42,9 @@ class BFModalHelper {
 		}
 
 		if ( ! empty( $this->current_post ) ) {
-			$this->open_popup = '<script> var openBFmlPopupID = ' . $this->current_post->ID . '; var firstOpen = 1;</script>';
+			$this->open_popup = '<script> var openBFmlPopupID = ' . $this->current_post->ID . ';</script>';
 		} else {
-			$this->open_popup = '<script> var openBFmlPopupID = 0; var firstOpen = 0;</script>';
+			$this->open_popup = '<script> var openBFmlPopupID = 0;</script>';
 		}
 	}
 }
