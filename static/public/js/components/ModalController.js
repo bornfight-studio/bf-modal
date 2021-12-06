@@ -90,8 +90,6 @@ export default class ModalController {
 
         this.modal.classList.add(this.DOM.states.isActive);
         this.setCloseEventListeners();
-        setTimeout(() => {
-        }, 300)
 
         this.baseFilter.enableFilter();
     }
