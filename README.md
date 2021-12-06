@@ -1,7 +1,3 @@
-<a href="http://www.bornfight.com">
-<img width="84px" src="https://www.bornfight.com/wp-content/themes/bornfight-web-2020/static/ui/bf-logo-dark.svg" title="Bornfight" alt="Bornfight">
-</a>
-
 ## BF MODAL
 
 > WordPress plugin for converting pages and post types to modals
@@ -61,7 +57,7 @@ Example: Default Modal Template -> default-modal-template
 </a>
 ```
 
-5Custom JS Events
+5. Custom JS Events
    * bfml:init-modal
    * bfml:open-modal
    * bfml:close-modal
@@ -69,8 +65,6 @@ Example: Default Modal Template -> default-modal-template
    * bfml:after-populate-modal
    
 ## License
-
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
 - Copyright 2021 © <a href="https://www.bornfight.com" target="_blank">Bornfight</a>.
