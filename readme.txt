@@ -4,7 +4,7 @@ Donate link: /
 Tags: modal, custom modal, popup, custom popup
 Requires at least: 4.7
 Tested up to: 5.8.2
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -76,3 +76,10 @@ First Release
 * New - added remove options on uninstall plugin
 * New - added flush rewrite rules when setting rewrite rules
 * New - added link to settings page
+
+= 1.1.1 =
+*Release Date - 07 December 2021*
+
+* Fix - updated npm packages
+* Fix - updated saving post types options
+* Update - refactored code
