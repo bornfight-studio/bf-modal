@@ -20,14 +20,10 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  */
 
+use bfModalPlugin\core\BFCore;
 use Symfony\Component\Dotenv\Dotenv;
 use bfModalPlugin\api\BFApiHelper;
-use bfModalPlugin\api\BFRestApiCustomRoutes;
 use bfModalPlugin\core\BFConstants;
-use bfModalPlugin\core\BFDashboardSetup;
-use bfModalPlugin\core\BFFrontend;
-use bfModalPlugin\core\BFRewriteRules;
-use bfModalPlugin\providers\BFPagesMetaBoxProvider;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -79,17 +75,5 @@ add_action( 'wp_enqueue_scripts', function () {
 	) );
 } );
 
-$bf_dashboard_setup = new BFDashboardSetup();
-$bf_dashboard_setup->init();
-
-$bf_rest_api_custom_routes = new BFRestApiCustomRoutes();
-$bf_rest_api_custom_routes->register();
-
-$bf_frontend = new BFFrontend();
-$bf_frontend->init();
-
-$bf_rewrite_rules = new BFRewriteRules();
-$bf_rewrite_rules->register();
-
-$bf_pages_meta_box_provider = new BFPagesMetaBoxProvider();
-$bf_pages_meta_box_provider->init();
+$bf_core = new BFCore();
+$bf_core->init();

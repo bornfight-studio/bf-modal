@@ -39,13 +39,15 @@ class BFRewriteRules {
 				if ( 'post' === $post_type ) {
 					$this->add_custom_rewrite_for_defaults_post_type( $archive_pages[ $post_type ] );
 				} else {
-					$this->add_custom_rewrite_for_custom_post_types( $post_type, $archive_pages[ $post_type ], $rewrite_slugs[$post_type] );
+					$this->add_custom_rewrite_for_custom_post_types( $post_type, $archive_pages[ $post_type ], $rewrite_slugs[ $post_type ] );
 				}
 			}
 		}
 
 
 		$this->add_custom_rewrite_rules_for_modal_pages();
+
+		flush_rewrite_rules();
 	}
 
 	public function add_custom_rewrite_for_custom_post_types( string $post_type, string $archive_page, string $rewrite_slug ): void {
@@ -60,7 +62,7 @@ class BFRewriteRules {
 		$this->add_rewrite_rule( $regex, $query );
 	}
 
-	public function add_custom_rewrite_for_defaults_post_type(string $archive_page_id): void {
+	public function add_custom_rewrite_for_defaults_post_type( string $archive_page_id ): void {
 		$args = array(
 			'post_type'      => 'post',
 			'posts_per_page' => - 1,
