@@ -2,8 +2,7 @@
   "require": {
     "bornfight/wp-helpers-bf": "*",
     "ext-curl": "*",
-    "ext-json": "*",
-    "symfony/dotenv": "^5.0"
+    "ext-json": "*"
   },
   "repositories": [
     {

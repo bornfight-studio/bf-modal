@@ -6,19 +6,11 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitec6ce2107fe881570aeaceefcc288f34
 {
-    public static $files = array (
-        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         'b' => 
         array (
             'bornfight\\wpHelpers\\' => 20,
             'bfModalPlugin\\' => 14,
-        ),
-        'S' => 
-        array (
-            'Symfony\\Component\\Dotenv\\' => 25,
         ),
     );
 
@@ -30,10 +22,6 @@ class ComposerStaticInitec6ce2107fe881570aeaceefcc288f34
         'bfModalPlugin\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
-        ),
-        'Symfony\\Component\\Dotenv\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/dotenv',
         ),
     );
 

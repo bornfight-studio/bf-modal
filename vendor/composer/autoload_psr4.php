@@ -8,5 +8,4 @@ $baseDir = dirname($vendorDir);
 return array(
     'bornfight\\wpHelpers\\' => array($vendorDir . '/bornfight/wp-helpers-bf/src'),
     'bfModalPlugin\\' => array($baseDir . '/app'),
-    'Symfony\\Component\\Dotenv\\' => array($vendorDir . '/symfony/dotenv'),
 );
