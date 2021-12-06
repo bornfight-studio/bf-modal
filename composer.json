@@ -1,6 +1,5 @@
 {
   "require": {
-    "bornfight/wp-helpers-bf": "*",
     "ext-curl": "*",
     "ext-json": "*"
   },

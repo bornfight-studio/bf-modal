@@ -9,16 +9,11 @@ class ComposerStaticInitec6ce2107fe881570aeaceefcc288f34
     public static $prefixLengthsPsr4 = array (
         'b' => 
         array (
-            'bornfight\\wpHelpers\\' => 20,
             'bfModalPlugin\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'bornfight\\wpHelpers\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/bornfight/wp-helpers-bf/src',
-        ),
         'bfModalPlugin\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
