@@ -11,6 +11,7 @@ class BFDashboardSetup {
 
 	public function init(): void {
 		add_action( 'admin_menu', array( $this, 'register_options_page' ) );
+		add_filter( 'plugin_action_links_' . BFML_PLUGIN_BASENAME, array( $this, 'add_settings_link' ), 10, 1 );
 	}
 
 	/**
@@ -41,5 +42,12 @@ class BFDashboardSetup {
 		}
 
 		load_template( BFML_LOCAL_PLUGIN_PATH . 'templates/admin/main.php' );
+	}
+
+	public function add_settings_link( array $links ): array {
+		$settings_link = 'admin.php?page=' . BFML_PLUGIN_SLUG;
+		$links[]       = sprintf( '<a href="%s">Settings</a>', $settings_link );
+
+		return $links;
 	}
 }

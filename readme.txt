@@ -75,3 +75,4 @@ First Release
 
 * New - added remove options on uninstall plugin
 * New - added flush rewrite rules when setting rewrite rules
+* New - added link to settings page

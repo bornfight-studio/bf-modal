@@ -28,6 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'BFML_LOCAL_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BFML_LOCAL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'BFML_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'BFML_PLUGIN_SLUG', 'bf-modal' );
 
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
