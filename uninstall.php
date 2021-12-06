@@ -10,7 +10,8 @@ $options = array(
 	'bfml_post_type_option',
 	'bfml_archive_page_option',
 	'bfml_disable_front_styles_option',
-	'bfml_archive_page'
+	'bfml_archive_page',
+	'bfml_modal_post_types'
 );
 
 foreach ( $options as $option ) {
