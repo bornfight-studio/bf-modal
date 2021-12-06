@@ -13,7 +13,7 @@ $post_types = $bf_post_data_provider->get_post_types();
 $pages      = $bf_page_data_provider->get_all_option_pages();
 
 $bf_admin_options_provider = new BFAdminOptionsProvider();
-$bf_admin_options_provider->save_modal_admin_settings( $_POST );
+$bf_admin_options_provider->save_modal_settings( $_POST );
 
 $selected_post_type = get_option( BFConstants::BFML_POST_TYPE_OPTION );
 
@@ -33,14 +33,16 @@ $selected_post_type = get_option( BFConstants::BFML_POST_TYPE_OPTION );
                         <td><?php echo esc_html( $i ); ?></td>
                         <td>
                             <label for="<?php echo esc_attr( $key ); ?>">
-                                <input type="checkbox" name="bfml_modal_post_types[<?php echo esc_attr( $key ); ?>]"
+                                <input type="checkbox"
+                                       name="<?php echo esc_attr( BFConstants::BFML_MODAL_POST_TYPES_OPTION ); ?>[<?php echo esc_attr( $key ); ?>]"
                                        id="<?php echo esc_attr( $key ); ?>" <?php echo ! empty( $selected_post_type[ esc_attr( $key ) ] ) ? esc_attr( 'checked' ) : ''; ?>>
 								<?php echo esc_html( $post_type ); ?>
                             </label>
                         </td>
 
                         <td>
-                            <select name="bfml_archive_page[<?php echo esc_attr( $key ); ?>]" id="bfml_archive_page">
+                            <select name="<?php echo esc_attr( BFConstants::BFML_ARCHIVE_PAGE_POST_TYPE_OPTION ); ?>[<?php echo esc_attr( $key ); ?>]"
+                                    id="<?php echo esc_attr( BFConstants::BFML_ARCHIVE_PAGE_POST_TYPE_OPTION ); ?>">
                                 <option value="none"><?php esc_html_e( 'Choose', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></option>
 								<?php if ( ! empty( $pages ) ) {
 									foreach ( $pages as $page ) { ?>
@@ -59,6 +61,7 @@ $selected_post_type = get_option( BFConstants::BFML_POST_TYPE_OPTION );
             </tbody>
         </table>
 
-        <input type="submit" value="Update" name="submit" class="button button-primary button-large">
+        <input type="submit" value="Update" name="<?php echo esc_attr( BFConstants::BFML_SUBMIT_MAIN_OPTION ); ?>"
+               class="button button-primary button-large">
     </div>
 </form>

@@ -1,10 +1,10 @@
 <?php
 
 use bfModalPlugin\core\BFConstants;
-use bfModalPlugin\providers\BFAdminOptionsProvider;
+use bfModalPlugin\providers\BFAdminOtherOptionsProvider;
 
-$bf_admin_options_provider = new BFAdminOptionsProvider();
-$bf_admin_options_provider->save_modal_admin_settings( $_POST );
+$bf_admin_other_options_provider = new BFAdminOtherOptionsProvider();
+$bf_admin_other_options_provider->save_modal_settings( $_POST );
 
 $disable_front_styles = get_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION );
 ?>
@@ -19,9 +19,10 @@ $disable_front_styles = get_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTIO
             <tbody>
             <tr>
                 <td>
-                    <label for="bfml_disable_front_styles">
-                        <input type="checkbox" name="bfml_disable_front_styles"
-                               id="bfml_disable_front_styles" <?php echo ! empty( $disable_front_styles ) ? esc_attr( 'checked' ) : ''; ?>>
+                    <label for="<?php echo esc_attr( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION ); ?>">
+                        <input type="checkbox"
+                               name="<?php echo esc_attr( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION ); ?>"
+                               id="<?php echo esc_attr( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION ); ?>" <?php echo ! empty( $disable_front_styles ) ? esc_attr( 'checked' ) : ''; ?>>
 						<?php esc_html_e( 'Disable front styles', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?>
                     </label>
                 </td>
@@ -29,6 +30,7 @@ $disable_front_styles = get_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTIO
             </tbody>
         </table>
 
-        <input type="submit" value="Update" name="submit" class="button button-primary button-large">
+        <input type="submit" value="Update" name="<?php echo esc_attr( BFConstants::BFML_SUBMIT_OTHER_OPTION ); ?>"
+               class="button button-primary button-large">
     </div>
 </form>
