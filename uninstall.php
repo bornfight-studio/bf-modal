@@ -9,7 +9,8 @@ $options = array(
 	'bfml_post_type_rewrite_slug_option',
 	'bfml_post_type_option',
 	'bfml_archive_page_option',
-	'bfml_disable_front_styles_option'
+	'bfml_disable_front_styles_option',
+	'bfml_archive_page'
 );
 
 foreach ( $options as $option ) {
