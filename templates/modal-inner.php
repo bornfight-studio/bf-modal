@@ -30,9 +30,9 @@ if ( ! empty( $post_data_id ) ) { ?>
         <div class="c-bfml-modal__content">
             <div class="c-bfml-modal__row">
                 <div class="c-bfml-text-edit">
-					<?php echo wp_kses_post( apply_filters( 'the_content', get_post_field( 'post_content', $post_data_id ) ) ) ?>
+					<?php echo apply_filters( 'the_content', get_post_field( 'post_content', $post_data_id ) ) ?>
                 </div>
             </div>
         </div>
     </div>
-<?php } ?>
+<?php }
