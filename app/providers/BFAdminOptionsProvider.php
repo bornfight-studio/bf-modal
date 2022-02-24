@@ -33,7 +33,7 @@ class BFAdminOptionsProvider implements IBFAdminOptions {
 			}
 		}
 
-		array_walk( $post_data[ BFConstants::BFML_MODAL_POST_TYPES_OPTION ], function ( &$value, &$key ) {
+		array_walk( $post_data[ BFConstants::BFML_MODAL_POST_TYPES_OPTION ], function ( &$value, $key ) {
 			$value = sanitize_text_field( $value );
 		} );
 
@@ -42,7 +42,7 @@ class BFAdminOptionsProvider implements IBFAdminOptions {
 
 
 		// set archive pages
-		array_walk( $post_data[ BFConstants::BFML_ARCHIVE_PAGE_POST_TYPE_OPTION ], function ( &$value, &$key ) {
+		array_walk( $post_data[ BFConstants::BFML_ARCHIVE_PAGE_POST_TYPE_OPTION ], function ( &$value, $key ) {
 			$value = sanitize_text_field( $value );
 		} );
 
