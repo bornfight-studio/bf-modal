@@ -60,24 +60,31 @@ export default class ModalController {
         if (this.modalTriggers.length > 0) {
             this.modalTriggers.forEach((trigger) => {
                 trigger.addEventListener("click", (ev) => {
-                    ev.preventDefault();
-                    ev.stopPropagation();
-
-                    if (this.baseFilter.isFilterInProgress()) {
-                        return;
-                    }
-
-                    this.baseFilter.disableFilter();
-
-                    // console.log(ev.currentTarget.dataset.postDataId);
-                    let popupModalFilter = new PopulateModalFilter();
-                    popupModalFilter.populateModal({
-                        postDataId: ev.currentTarget.dataset.postDataId,
-                        returnUrl: ev.currentTarget.dataset.returnUrl,
-                    });
+                    this.onClick(ev);
+                });
+                trigger.addEventListener("touchstart", (ev) => {
+                    this.onClick(ev);
                 });
             });
         }
+    }
+
+    onClick(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        if (this.baseFilter.isFilterInProgress()) {
+            return;
+        }
+
+        this.baseFilter.disableFilter();
+
+        // console.log(ev.currentTarget.dataset.postDataId);
+        let popupModalFilter = new PopulateModalFilter();
+        popupModalFilter.populateModal({
+            postDataId: ev.currentTarget.dataset.postDataId,
+            returnUrl: ev.currentTarget.dataset.returnUrl,
+        });
     }
 
     openModal() {

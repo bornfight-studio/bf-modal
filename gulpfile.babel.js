@@ -6,12 +6,19 @@ import buffer from "vinyl-buffer";
 import cleanCSS from "gulp-clean-css";
 import del from "del";
 import gulp from "gulp";
-import sass from "gulp-sass";
+import dartSass from "sass";
+import gulpSass from "gulp-sass";
 import sourcemaps from "gulp-sourcemaps";
 import source from "vinyl-source-stream";
 import uglify from "gulp-uglify";
 
 import {gulpConfig} from "./config";
+
+
+/**
+ * Set default Sass compiler
+ */
+const sass = gulpSass(dartSass);
 
 /**
  * browserSync create
