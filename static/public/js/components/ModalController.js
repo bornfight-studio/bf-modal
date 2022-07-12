@@ -1,7 +1,7 @@
 import BaseFilter from "../filters/BaseFilter";
 import PopulateModalFilter from "../filters/PopulateModalFilter";
 import ModalHelper from "./ModalHelper";
-import {initModalEvent, openModalEvent, closeModalEvent} from "../config/CustomEventConfig";
+import {initModalEvent, onCLickEvent, openModalEvent, closeModalEvent} from "../config/CustomEventConfig";
 
 
 export default class ModalController {
@@ -78,6 +78,13 @@ export default class ModalController {
         }
 
         this.baseFilter.disableFilter();
+
+        let modalHelper = new ModalHelper();
+        modalHelper.addEvent(onCLickEvent, {
+            detail: {
+                modal: this.modal,
+            },
+        });
 
         // console.log(ev.currentTarget.dataset.postDataId);
         let popupModalFilter = new PopulateModalFilter();
