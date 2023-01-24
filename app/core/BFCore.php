@@ -2,7 +2,6 @@
 
 namespace bfModalPlugin\core;
 
-use bfModalPlugin\api\BFApiHelper;
 use bfModalPlugin\api\BFRestApiCustomRoutes;
 use bfModalPlugin\providers\BFPagesMetaBoxProvider;
 
@@ -25,7 +24,7 @@ class BFCore {
 
 		wp_localize_script( 'bfml_public-js', 'bf_frontend_ajax_object', array(
 			'ajax_url'       => get_rest_url() . 'api/v1',
-			'populate_modal' => BFApiHelper::POPULATE_MODAL,
+			'populate_modal' => BFRestApiCustomRoutes::POPULATE_MODAL,
 			'ajax_nonce'     => wp_create_nonce( 'wp_rest' )
 		) );
 	}

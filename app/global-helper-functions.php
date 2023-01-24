@@ -27,12 +27,22 @@ function bfml_get_post_types(): array {
 	) );
 }
 
-function bfml_get_pages(): array {
-	$pages = get_posts( array(
+function bfml_get_pages( array $params = array() ): array {
+	$args = array(
 		'post_type'      => 'page',
 		'posts_per_page' => - 1,
 		'post_status'    => 'publish',
-	) );
+	);
+
+	if ( ! empty( $params['post__not_in'] ) ) {
+		$args = array_merge( $args, array(
+			'post__not_in' => $params['post__not_in'],
+		) );
+
+		return get_posts( $args );
+	}
+
+	$pages = get_posts( $args );
 
 	return array_merge( $pages, array(
 		(object) array(

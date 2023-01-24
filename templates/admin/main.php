@@ -23,7 +23,7 @@ $links                     = array(
     <h1><?php echo esc_html( 'Modal Plugin' ); ?></h1>
 
 	<?php
-	bfml_get_template( 'admin/component/navigation', $links );
+	bfml_get_template( 'admin/components/navigation', $links );
 
 	if ( 'other-options' === $tab ) {
 		$bf_admin_options_provider->save_other_form_modal_settings( $_POST );
