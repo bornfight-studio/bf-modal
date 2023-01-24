@@ -15,12 +15,10 @@ function bfml_register_modal_templates( array $templates ): void {
 }
 
 function bfml_get_post_types(): array {
-	$post_types = get_post_types( array(
-		array(
-			'public'   => true,
-			'_builtin' => false,
-		)
-	) );
+	$post_types = get_post_types(array(
+		'public'   => true,
+		'_builtin' => false,
+	));
 
 	return array_merge( $post_types, array(
 		'post' => 'post',
