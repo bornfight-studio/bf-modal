@@ -3,11 +3,10 @@
 use bfModalPlugin\core\BFConstants;
 use bfModalPlugin\helpers\BFNavigationHelper;
 use bfModalPlugin\providers\BFAdminOptionsProvider;
-use bfModalPlugin\providers\BFAdminOtherOptionsProvider;
 
-$tab = ! empty( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : '';
-
-$links = array(
+$tab                       = ! empty( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : '';
+$bf_admin_options_provider = new BFAdminOptionsProvider();
+$links                     = array(
 	array(
 		'url'             => BFNavigationHelper::get_main_url_params(),
 		'title'           => 'BF Modal Settings',
@@ -27,42 +26,15 @@ $links = array(
 	bfml_get_template( 'admin/component/navigation', $links );
 
 	if ( 'other-options' === $tab ) {
-		$bf_admin_other_options_provider = new BFAdminOtherOptionsProvider();
-		$bf_admin_other_options_provider->save_modal_settings( $_POST );
+		$bf_admin_options_provider->save_other_form_modal_settings( $_POST );
 		bfml_get_template( 'admin/components/other-options-form', array(
 			'disable_front_styles' => get_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION )
 		) );
 	} else {
-		$post_types = get_post_types( array(
-			array(
-				'public'   => true,
-				'_builtin' => false,
-			)
-		) );
-
-		$post_types = array_merge( $post_types, array(
-			'post' => 'post',
-		) );
-
-		$pages = get_posts( array(
-			'post_type'      => 'page',
-			'posts_per_page' => - 1,
-			'post_status'    => 'publish',
-		) );
-
-		$pages = array_merge( $pages, array(
-			(object) array(
-				'ID'         => 'archive',
-				'post_title' => 'Archive',
-			),
-		) );
-
-		$bf_admin_options_provider = new BFAdminOptionsProvider();
-		$bf_admin_options_provider->save_modal_settings( $_POST );
-
+		$bf_admin_options_provider->save_main_modal_settings( $_POST );
 		bfml_get_template( 'admin/components/main-form', array(
-			'post_types'          => $post_types,
-			'pages'               => $pages,
+			'post_types'          => bfml_get_post_types(),
+			'pages'               => bfml_get_pages(),
 			'selected_post_types' => get_option( BFConstants::BFML_POST_TYPE_OPTION )
 		) );
 	}

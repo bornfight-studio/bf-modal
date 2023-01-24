@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class BFAdminOptionsProvider implements IBFAdminOptions {
-	public function save_modal_settings( array $post_data ): bool {
+class BFAdminOptionsProvider {
+	public function save_main_modal_settings( array $post_data ): bool {
 		if ( empty( $post_data[ BFConstants::BFML_SUBMIT_MAIN_OPTION ] ) ) {
 			return false;
 		}
@@ -47,6 +47,22 @@ class BFAdminOptionsProvider implements IBFAdminOptions {
 		} );
 
 		update_option( BFConstants::BFML_ARCHIVE_PAGE_OPTION, $post_data[ BFConstants::BFML_ARCHIVE_PAGE_POST_TYPE_OPTION ] );
+
+		return true;
+	}
+
+	public function save_other_form_modal_settings( array $post_data ): bool {
+		if ( empty( $post_data[ BFConstants::BFML_SUBMIT_OTHER_OPTION ] ) ) {
+			return false;
+		}
+
+		if ( empty( $post_data[ BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION ] ) ) {
+			update_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION, false );
+
+			return true;
+		}
+
+		update_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION, true );
 
 		return true;
 	}
