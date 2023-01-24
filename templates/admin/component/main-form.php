@@ -1,41 +1,32 @@
 <?php
+/**
+ *
+ * @var array $args (array|post_types, array|pages, array|selected_post_types)
+ *
+ */
 
 use bfModalPlugin\core\BFConstants;
 use bfModalPlugin\helpers\BFIsActiveHelper;
-use bfModalPlugin\providers\BFAdminOptionsProvider;
-use bfModalPlugin\providers\BFPageDataProvider;
-use bfModalPlugin\providers\BFPostDataProvider;
-
-$bf_post_data_provider = new BFPostDataProvider();
-$bf_page_data_provider = new BFPageDataProvider();
-
-$post_types = $bf_post_data_provider->get_post_types();
-$pages      = $bf_page_data_provider->get_all_option_pages();
-
-$bf_admin_options_provider = new BFAdminOptionsProvider();
-$bf_admin_options_provider->save_modal_settings( $_POST );
-
-$selected_post_type = get_option( BFConstants::BFML_POST_TYPE_OPTION );
 
 ?>
 <form action="" method="post">
     <div class="wrap">
         <h2>
-			<?php esc_html_e( 'Convert to modal', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?>
+			<?php echo esc_html( 'Convert to modal' ); ?>
         </h2>
 
         <table>
             <tbody>
-			<?php if ( ! empty( $post_types ) ) {
+			<?php if ( ! empty( $args['post_types'] ) ) {
 				$i = 1;
-				foreach ( $post_types as $key => $post_type ) { ?>
+				foreach ( $args['post_types'] as $key => $post_type ) { ?>
                     <tr>
                         <td><?php echo esc_html( $i ); ?></td>
                         <td>
                             <label for="<?php echo esc_attr( $key ); ?>">
                                 <input type="checkbox"
                                        name="<?php echo esc_attr( BFConstants::BFML_MODAL_POST_TYPES_OPTION ); ?>[<?php echo esc_attr( $key ); ?>]"
-                                       id="<?php echo esc_attr( $key ); ?>" <?php echo ! empty( $selected_post_type[ esc_attr( $key ) ] ) ? esc_attr( 'checked' ) : ''; ?>>
+                                       id="<?php echo esc_attr( $key ); ?>" <?php echo ! empty( $args['selected_post_types'][ esc_attr( $key ) ] ) ? esc_attr( 'checked' ) : ''; ?>>
 								<?php echo esc_html( $post_type ); ?>
                             </label>
                         </td>
@@ -44,8 +35,8 @@ $selected_post_type = get_option( BFConstants::BFML_POST_TYPE_OPTION );
                             <select name="<?php echo esc_attr( BFConstants::BFML_ARCHIVE_PAGE_POST_TYPE_OPTION ); ?>[<?php echo esc_attr( $key ); ?>]"
                                     id="<?php echo esc_attr( BFConstants::BFML_ARCHIVE_PAGE_POST_TYPE_OPTION ); ?>">
                                 <option value="none"><?php esc_html_e( 'Choose', BFConstants::BFML_ADMIN_DOMAIN_NAME ); ?></option>
-								<?php if ( ! empty( $pages ) ) {
-									foreach ( $pages as $page ) { ?>
+								<?php if ( ! empty( $args['pages'] ) ) {
+									foreach ( $args['pages'] as $page ) { ?>
                                         <option value="<?php echo esc_attr( $page->ID ); ?>" <?php echo esc_attr( BFIsActiveHelper::is_archive_page_selected( (string) $page->ID, $i ) ); ?>>
 											<?php echo esc_html( $page->post_title ); ?>
                                         </option>

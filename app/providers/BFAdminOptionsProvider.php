@@ -50,15 +50,4 @@ class BFAdminOptionsProvider implements IBFAdminOptions {
 
 		return true;
 	}
-
-	public function get_admin_screen( string $tab ): void {
-		switch ( $tab ) {
-			case '':
-				bfml_get_template( 'admin/settings-page/form' );
-				break;
-			case 'other-options':
-				bfml_get_template( 'admin/settings-page/other-options-form' );
-				break;
-		}
-	}
 }
