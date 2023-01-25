@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class BFAdminOptionsProvider implements IBFAdminOptions {
-	public function save_modal_settings( array $post_data ): bool {
+class BFAdminOptionsProvider {
+	public function save_main_modal_settings( array $post_data ): bool {
 		if ( empty( $post_data[ BFConstants::BFML_SUBMIT_MAIN_OPTION ] ) ) {
 			return false;
 		}
@@ -51,14 +51,19 @@ class BFAdminOptionsProvider implements IBFAdminOptions {
 		return true;
 	}
 
-	public function get_admin_screen( string $tab ): void {
-		switch ( $tab ) {
-			case '':
-				bfml_get_template( 'admin/settings-page/form' );
-				break;
-			case 'other-options':
-				bfml_get_template( 'admin/settings-page/other-options-form' );
-				break;
+	public function save_other_form_modal_settings( array $post_data ): bool {
+		if ( empty( $post_data[ BFConstants::BFML_SUBMIT_OTHER_OPTION ] ) ) {
+			return false;
 		}
+
+		if ( empty( $post_data[ BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION ] ) ) {
+			update_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION, false );
+
+			return true;
+		}
+
+		update_option( BFConstants::BFML_DISABLE_FRONT_STYLES_OPTION, true );
+
+		return true;
 	}
 }

@@ -20,7 +20,7 @@ class BFPopulateModalFilter extends BFBaseFilter {
 
 		$modal = '';
 		if ( ! empty( $query_params['page_id'] ) ) {
-			$modal = $this->get_modal( (int) $query_params['page_id'] );
+			$modal = $this->get_modal( (int) $query_params['page_id'], (string) $query_params['return_url'] );
 		}
 
 		$url = get_permalink( $query_params['page_id'] );
