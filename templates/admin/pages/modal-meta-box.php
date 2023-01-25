@@ -1,23 +1,18 @@
 <?php
-/**
- *
- * @var int $id
- *
- */
 
 use bfModalPlugin\core\BFConstants;
 use bfModalPlugin\helpers\BFModalFormHelper;
 use bfModalPlugin\providers\BFModalTemplatesProvider;
 
+$id    = get_the_ID();
 $pages = bfml_get_pages( array(
 	'post__not_in' => array( $id ),
 ) );
 
-$is_modal_option           = get_post_meta( $id, BFConstants::BFML_PAGE_IS_MODAL_OPTION );
+$is_modal_option           = get_post_meta( $id, BFConstants::BFML_PAGE_IS_MODAL_OPTION, true );
 $archive_page_modal_option = get_post_meta( $id, BFConstants::BFML_PAGE_MODAL_ARCHIVE_PAGE_OPTION );
 $modal_template_option     = get_post_meta( $id, BFConstants::BFML_MODAL_TEMPLATES_OPTION );
 
-$is_modal              = ! empty( $is_modal_option[0] ) ? $is_modal_option[0] : '';
 $archive_modal_option  = ! empty( $archive_page_modal_option[0] ) ? $archive_page_modal_option[0] : '';
 $chosen_modal_template = ! empty( $modal_template_option[0] ) ? $modal_template_option[0] : '';
 
@@ -27,7 +22,7 @@ $modal_templates = BFModalTemplatesProvider::get_instance()->get_templates();
 	<?php
 	bfml_get_template( 'admin/components/switcher', array(
 		'checkbox_id' => BFConstants::BFML_PAGE_IS_MODAL_OPTION,
-		'is_checked'  => ! empty( $is_modal ) ? 'checked' : '',
+		'is_checked'  => ! empty( $is_modal_option ) && '1' === $is_modal_option ? 'checked' : '',
 	) );
 	?>
 
