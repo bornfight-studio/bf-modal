@@ -3,8 +3,8 @@ Contributors: jmucak
 Donate link: /
 Tags: modal, custom modal, popup, custom popup
 Requires at least: 4.7
-Tested up to: 5.8.2
-Stable tag: 1.1.1
+Tested up to: 6.1.1
+Stable tag: 1.1.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -83,3 +83,8 @@ First Release
 * Fix - updated npm packages
 * Fix - updated saving post types options
 * Update - refactored code
+
+= 1.1.2 =
+*Release Date - 07 March 2023*
+
+*Fix - Modal admin page settings
