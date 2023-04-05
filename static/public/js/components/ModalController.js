@@ -62,9 +62,6 @@ export default class ModalController {
                 trigger.addEventListener("click", (ev) => {
                     this.onClick(ev);
                 });
-                trigger.addEventListener("touchstart", (ev) => {
-                    this.onClick(ev);
-                });
             });
         }
     }
