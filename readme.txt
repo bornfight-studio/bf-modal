@@ -3,8 +3,8 @@ Contributors: jmucak
 Donate link: /
 Tags: modal, custom modal, popup, custom popup
 Requires at least: 4.7
-Tested up to: 6.1.1
-Stable tag: 1.1.2
+Tested up to: 6.2
+Stable tag: 1.1.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -88,3 +88,9 @@ First Release
 *Release Date - 07 March 2023*
 
 *Fix - Modal admin page settings
+
+= 1.1.3 =
+*Release Date - 20 April 2023*
+
+*Fix - Modal scroll on mobile
+*Test - new WP version
